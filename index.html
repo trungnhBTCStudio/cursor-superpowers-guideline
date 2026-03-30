@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cursor × Superpowers — Complete Guide</title>
+<meta name="description" content="Complete guide for Cursor Superpowers — 14 Skills, 1 Agent, 1 Hook, 3 Commands. Available in English and Vietnamese.">
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
+
+:root {
+  --bg: #080a10;
+  --surface: #0d1017;
+  --card: #121620;
+  --border: #1e2535;
+  --accent: #4f8eff;
+  --accent2: #7c3aed;
+  --green: #22d3a5;
+  --text: #dde4f0;
+  --muted: #6b7a99;
+  --muted2: #8892a4;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body {
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  display: flex; align-items: center; justify-content: center;
+  overflow: hidden;
+}
+
+.container {
+  text-align: center;
+  padding: 40px 24px;
+  max-width: 560px;
+  position: relative;
+  z-index: 1;
+}
+
+/* Background */
+.bg-glow {
+  position: fixed; inset: 0; pointer-events: none; z-index: 0;
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 30%, rgba(79,142,255,.08) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 30% 70%, rgba(124,58,237,.06) 0%, transparent 70%),
+    radial-gradient(ellipse 40% 40% at 70% 80%, rgba(34,211,165,.04) 0%, transparent 70%);
+}
+
+.eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(79,142,255,.08); border: 1px solid rgba(79,142,255,.2);
+  border-radius: 20px; padding: 5px 14px;
+  font-size: 10.5px; font-weight: 700; letter-spacing: .1em;
+  color: var(--accent); text-transform: uppercase; margin-bottom: 28px;
+}
+
+h1 {
+  font-size: clamp(32px, 6vw, 52px); font-weight: 800; letter-spacing: -.03em;
+  line-height: 1.1; margin-bottom: 16px;
+  background: linear-gradient(140deg, #fff 20%, #4f8eff 55%, #7c3aed 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+}
+
+.desc {
+  font-size: 15px; color: var(--muted2); max-width: 440px;
+  margin: 0 auto 44px; line-height: 1.75;
+}
+
+.lang-grid {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 16px;
+  margin-bottom: 36px;
+}
+
+.lang-card {
+  display: flex; flex-direction: column; align-items: center; gap: 12px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 16px; padding: 32px 20px;
+  cursor: pointer; text-decoration: none; color: var(--text);
+  transition: all .25s ease; position: relative; overflow: hidden;
+}
+.lang-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+  transition: opacity .25s; opacity: 0;
+}
+.lang-card:nth-child(1)::before { background: linear-gradient(90deg, #4f8eff, #7c3aed); }
+.lang-card:nth-child(2)::before { background: linear-gradient(90deg, #22d3a5, #4f8eff); }
+
+.lang-card:hover {
+  border-color: rgba(79,142,255,.3);
+  transform: translateY(-4px);
+  box-shadow: 0 12px 40px rgba(79,142,255,.08);
+}
+.lang-card:hover::before { opacity: 1; }
+
+.lang-flag {
+  font-size: 48px; line-height: 1;
+}
+
+.lang-name {
+  font-size: 18px; font-weight: 700; letter-spacing: -.01em;
+}
+
+.lang-native {
+  font-size: 13px; color: var(--muted2); margin-top: -4px;
+}
+
+.lang-badge {
+  font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  padding: 3px 10px; border-radius: 20px; margin-top: 4px;
+}
+.badge-en { background: rgba(79,142,255,.12); color: var(--accent); }
+.badge-vi { background: rgba(34,211,165,.1); color: var(--green); }
+
+.auto-note {
+  font-size: 12px; color: var(--muted); line-height: 1.6;
+}
+.auto-note a {
+  color: var(--accent); text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
+.pills {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: 8px;
+  margin-bottom: 32px;
+}
+.pill {
+  display: flex; align-items: center; gap: 6px;
+  background: rgba(255,255,255,.03); border: 1px solid var(--border);
+  border-radius: 8px; padding: 6px 12px;
+  font-size: 11px; font-weight: 600; color: var(--muted2);
+}
+.pill .dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+
+@media (max-width: 500px) {
+  .lang-grid { grid-template-columns: 1fr; }
+}
+</style>
+<script>
+// Auto-redirect based on browser language (with 2s delay for landing)
+(function() {
+  const params = new URLSearchParams(window.location.search);
+  if (params.get('noredirect') === '1') return;
+  
+  const lang = (navigator.language || navigator.userLanguage || '').toLowerCase();
+  const isVi = lang.startsWith('vi');
+  
+  // Auto redirect after 2 seconds
+  setTimeout(function() {
+    if (document.hidden) return; // Don't redirect if tab not active
+    window.location.href = isVi ? './vi/' : './en/';
+  }, 2500);
+})();
+</script>
+</head>
+<body>
+<div class="bg-glow"></div>
+
+<div class="container">
+  <div class="eyebrow">📘 Complete Guide · v5.0 · 2026</div>
+  <h1>Cursor × Superpowers</h1>
+  <p class="desc">Agentic skills framework for Cursor IDE — from brainstorm to merged PR with real workflows and prompts.</p>
+
+  <div class="pills">
+    <div class="pill"><div class="dot" style="background:#4f8eff"></div>14 Skills</div>
+    <div class="pill"><div class="dot" style="background:#ec4899"></div>1 Agent</div>
+    <div class="pill"><div class="dot" style="background:#22d3ee"></div>1 Hook</div>
+    <div class="pill"><div class="dot" style="background:#fb923c"></div>3 Commands</div>
+    <div class="pill"><div class="dot" style="background:#22d3a5"></div>⭐ <span id="stars-count">...</span> GitHub stars</div>
+  </div>
+
+  <div class="lang-grid">
+    <a href="./en/" class="lang-card" id="card-en">
+      <div class="lang-flag">🇬🇧</div>
+      <div class="lang-name">English</div>
+      <div class="lang-native">Complete Guide</div>
+      <span class="lang-badge badge-en">English</span>
+    </a>
+    <a href="./vi/" class="lang-card" id="card-vi">
+      <div class="lang-flag">🇻🇳</div>
+      <div class="lang-name">Tiếng Việt</div>
+      <div class="lang-native">Hướng dẫn đầy đủ</div>
+      <span class="lang-badge badge-vi">Vietnamese</span>
+    </a>
+  </div>
+
+  <p class="auto-note">
+    🔄 Auto-redirecting based on your browser language...<br>
+    <a href="?noredirect=1">Stay on this page</a>
+  </p>
+</div>
+
+<script>
+// Highlight the card that matches browser lang
+const lang = (navigator.language || '').toLowerCase();
+const target = lang.startsWith('vi') ? 'card-vi' : 'card-en';
+const card = document.getElementById(target);
+if (card) {
+  card.style.borderColor = 'rgba(79,142,255,.4)';
+  card.style.background = '#161c28';
+}
+
+// ─── Fetch GitHub stars realtime ───
+(async function fetchGitHubStars() {
+  function formatStars(count) {
+    if (count >= 1000) {
+      const k = count / 1000;
+      return k % 1 === 0 ? k + 'k' : k.toFixed(1) + 'k';
+    }
+    return count.toString();
+  }
+  try {
+    const res = await fetch('https://api.github.com/repos/obra/superpowers');
+    if (!res.ok) throw new Error('GitHub API error');
+    const data = await res.json();
+    const count = document.getElementById('stars-count');
+    if (count) count.textContent = formatStars(data.stargazers_count);
+  } catch (e) {
+    const count = document.getElementById('stars-count');
+    if (count) count.textContent = '124k';
+  }
+})();
+</script>
+</body>
+</html>

@@ -1,0 +1,2234 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cursor × Superpowers — Complete Guide</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --bg: #080a10;
+  --surface: #0d1017;
+  --card: #121620;
+  --card2: #161c28;
+  --border: #1e2535;
+  --border2: #252d40;
+  --accent: #4f8eff;
+  --accent2: #7c3aed;
+  --green: #22d3a5;
+  --yellow: #f5c542;
+  --red: #f87171;
+  --orange: #fb923c;
+  --pink: #ec4899;
+  --cyan: #22d3ee;
+  --text: #dde4f0;
+  --muted: #6b7a99;
+  --muted2: #8892a4;
+  --code-bg: #06080d;
+  --nav-h: 52px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+code { font-family: 'JetBrains Mono', monospace; font-size: .85em; background: rgba(79,142,255,.1); color: var(--accent); padding: 2px 6px; border-radius: 5px; }
+
+/* ─── SIDEBAR NAV ─── */
+#sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0; width: 240px;
+  background: var(--surface); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  z-index: 100; overflow-y: auto; overflow-x: hidden;
+  transition: transform .25s ease;
+}
+#sidebar-logo {
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+#sidebar-logo .brand {
+  font-size: 13px; font-weight: 800; letter-spacing: -.01em;
+  background: linear-gradient(135deg,#fff 30%,var(--accent));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  display: block; margin-bottom: 2px;
+}
+#sidebar-logo .sub { font-size: 10px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+
+.nav-section { padding: 14px 12px 4px; }
+.nav-section-label {
+  font-size: 9.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted); padding: 0 8px; margin-bottom: 4px; display: block;
+}
+.nav-link {
+  display: flex; align-items: center; gap: 9px;
+  padding: 7px 10px; border-radius: 8px;
+  font-size: 12.5px; font-weight: 500; color: var(--muted2);
+  cursor: pointer; transition: all .15s; margin-bottom: 1px;
+  border: 1px solid transparent;
+}
+.nav-link:hover { background: var(--card); color: var(--text); }
+.nav-link.active {
+  background: rgba(79,142,255,.1); color: var(--accent);
+  border-color: rgba(79,142,255,.2);
+}
+.nav-link .icon { font-size: 14px; flex-shrink: 0; width: 18px; text-align: center; }
+.nav-link .badge {
+  margin-left: auto; font-size: 9px; font-weight: 700;
+  padding: 1px 6px; border-radius: 20px;
+}
+.badge-new { background: rgba(251,146,60,.2); color: var(--orange); }
+.badge-tip { background: rgba(34,211,165,.15); color: var(--green); }
+
+/* ─── MOBILE TOGGLE ─── */
+#menu-toggle {
+  display: none; position: fixed; top: 12px; left: 12px; z-index: 200;
+  width: 38px; height: 38px; border-radius: 10px;
+  background: var(--card); border: 1px solid var(--border);
+  align-items: center; justify-content: center;
+  cursor: pointer; font-size: 16px;
+}
+#overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.6); z-index: 90;
+}
+
+/* ─── MAIN CONTENT ─── */
+#main { margin-left: 240px; min-height: 100vh; }
+
+/* ─── HERO ─── */
+.hero {
+  padding: 64px 60px 56px;
+  background: radial-gradient(ellipse 70% 60% at 80% 20%, rgba(79,142,255,.06) 0%, transparent 70%),
+              radial-gradient(ellipse 50% 50% at 10% 80%, rgba(124,58,237,.05) 0%, transparent 70%);
+  border-bottom: 1px solid var(--border);
+  position: relative; overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 60L60 0' stroke='%23ffffff' stroke-width='.3' stroke-opacity='.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(79,142,255,.08); border: 1px solid rgba(79,142,255,.2);
+  border-radius: 20px; padding: 5px 14px;
+  font-size: 10.5px; font-weight: 700; letter-spacing: .1em;
+  color: var(--accent); text-transform: uppercase; margin-bottom: 22px;
+}
+.hero h1 {
+  font-size: clamp(28px, 4vw, 54px); font-weight: 800; letter-spacing: -.03em;
+  line-height: 1.08; margin-bottom: 18px;
+  background: linear-gradient(140deg, #fff 20%, #4f8eff 55%, #7c3aed 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  max-width: 680px;
+}
+.hero-desc { font-size: 16px; color: var(--muted2); max-width: 560px; margin-bottom: 36px; line-height: 1.75; }
+.hero-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+.pill {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 8px 16px;
+  font-size: 12px; font-weight: 600; color: var(--muted2);
+}
+.pill .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+/* ─── SECTION WRAPPER ─── */
+.section { max-width: 860px; padding: 0 60px 80px; }
+
+/* ─── SECTION HEADER ─── */
+.section-head {
+  padding-top: 56px; padding-bottom: 32px;
+  border-bottom: 1px solid var(--border); margin-bottom: 40px;
+}
+.section-head .tag {
+  font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  padding: 4px 12px; border-radius: 20px; display: inline-block; margin-bottom: 14px;
+}
+.tag-blue   { background: rgba(79,142,255,.12); color: var(--accent); border: 1px solid rgba(79,142,255,.25); }
+.tag-green  { background: rgba(34,211,165,.1);  color: var(--green);  border: 1px solid rgba(34,211,165,.25); }
+.tag-yellow { background: rgba(245,197,66,.1);  color: var(--yellow); border: 1px solid rgba(245,197,66,.25); }
+.tag-pink   { background: rgba(236,72,153,.1);  color: var(--pink);   border: 1px solid rgba(236,72,153,.25); }
+.tag-orange { background: rgba(251,146,60,.1);  color: var(--orange); border: 1px solid rgba(251,146,60,.25); }
+.tag-cyan   { background: rgba(34,211,238,.1);  color: var(--cyan);   border: 1px solid rgba(34,211,238,.25); }
+
+.section-head h2 {
+  font-size: clamp(22px, 3vw, 32px); font-weight: 800; letter-spacing: -.02em;
+  margin-bottom: 10px; line-height: 1.2;
+}
+.section-head p { color: var(--muted2); font-size: 14.5px; max-width: 600px; }
+
+/* ─── CARDS ─── */
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 22px 24px; margin-bottom: 14px;
+}
+.card-label {
+  font-size: 9.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 14px; display: flex; align-items: center; gap: 7px;
+}
+.card-label .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+
+/* ─── CODE BLOCKS ─── */
+.code-wrap {
+  background: var(--code-bg); border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden; margin-bottom: 12px;
+  position: relative;
+}
+.code-top {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 16px; border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,.02);
+}
+.traffic-lights { display: flex; gap: 5px; }
+.traffic-lights span { width: 9px; height: 9px; border-radius: 50%; }
+.tl-r { background: #f87171; } .tl-y { background: #fbbf24; } .tl-g { background: #34d399; }
+.code-lang { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--muted); }
+.code-body {
+  padding: 16px 20px; font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; line-height: 1.85; color: #c9d1d9; white-space: pre-wrap; word-break: break-word;
+}
+.cm { color: #8892a4; } .kw { color: #79c0ff; } .hl { color: var(--green); }
+.str { color: #f0a070; } .fn { color: #dbb8ff; }
+
+/* ─── COPY BUTTON ─── */
+.copy-btn {
+  display: flex; align-items: center; gap: 5px;
+  background: rgba(255,255,255,.05); border: 1px solid var(--border);
+  border-radius: 6px; padding: 4px 10px;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+  color: var(--muted); cursor: pointer;
+  transition: all .2s ease; position: relative;
+}
+.copy-btn:hover {
+  background: rgba(79,142,255,.12); color: var(--accent);
+  border-color: rgba(79,142,255,.3);
+}
+.copy-btn:active { transform: scale(.95); }
+.copy-btn.copied {
+  background: rgba(34,211,165,.12); color: var(--green);
+  border-color: rgba(34,211,165,.3);
+}
+.copy-btn svg { width: 12px; height: 12px; flex-shrink: 0; }
+
+/* ─── PROMPTS ─── */
+.prompt {
+  background: linear-gradient(135deg, rgba(79,142,255,.04), rgba(124,58,237,.04));
+  border: 1px solid rgba(79,142,255,.18); border-left: 3px solid var(--accent);
+  border-radius: 10px; padding: 16px 18px; margin-bottom: 12px;
+  position: relative;
+}
+.prompt-label {
+  font-size: 9.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+}
+.prompt-label::before { content: '▶'; font-size: 9px; }
+.prompt-body {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.85;
+  color: #c9d1d9; white-space: pre-wrap;
+}
+
+/* ─── OUTPUT ─── */
+.output {
+  background: var(--code-bg); border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden; margin-bottom: 12px;
+}
+.output-top {
+  background: rgba(34,211,165,.06); border-bottom: 1px solid rgba(34,211,165,.15);
+  padding: 8px 16px; font-size: 10px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--green); display: flex; align-items: center; gap: 7px;
+}
+.output-top::before { content: '●'; font-size: 8px; }
+.output-body {
+  padding: 14px 18px; font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px; line-height: 1.9; color: #9aaccc; white-space: pre-wrap;
+}
+
+/* ─── CALLOUTS ─── */
+.callout {
+  display: flex; gap: 12px; align-items: flex-start;
+  border-radius: 10px; padding: 13px 16px; margin-bottom: 14px; font-size: 13px; line-height: 1.65;
+}
+.callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.callout-warn  { background: rgba(245,197,66,.06);  border: 1px solid rgba(245,197,66,.2);  color: #d4c07a; }
+.callout-tip   { background: rgba(34,211,165,.06);  border: 1px solid rgba(34,211,165,.2);  color: #86e8cc; }
+.callout-info  { background: rgba(79,142,255,.06);  border: 1px solid rgba(79,142,255,.2);  color: #93b4e8; }
+.callout-new   { background: rgba(251,146,60,.06);  border: 1px solid rgba(251,146,60,.2);  color: #fbd08a; }
+.callout strong { font-weight: 700; }
+.callout-warn strong  { color: var(--yellow); }
+.callout-tip strong   { color: var(--green); }
+.callout-info strong  { color: var(--accent); }
+.callout-new strong   { color: var(--orange); }
+
+/* ─── STEP LIST ─── */
+.steps { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+.steps li {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 14px; background: var(--card2);
+  border: 1px solid var(--border); border-radius: 9px; font-size: 13px;
+}
+.steps li .n {
+  min-width: 24px; height: 24px; border-radius: 6px;
+  background: rgba(79,142,255,.15); color: var(--accent);
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.steps li .txt strong { color: var(--text); display: block; font-size: 13px; margin-bottom: 2px; }
+.steps li .txt span   { color: var(--muted2); font-size: 12px; }
+
+/* ─── GRID ─── */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* ─── SKILL CARD HEADER ─── */
+.skill-head {
+  display: flex; align-items: flex-start; gap: 16px;
+  margin-bottom: 26px; padding-bottom: 20px; border-bottom: 1px solid var(--border);
+}
+.skill-icon {
+  width: 50px; height: 50px; border-radius: 13px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 20px;
+}
+.ic-blue   { background: rgba(79,142,255,.1);  border: 1px solid rgba(79,142,255,.3); }
+.ic-purple { background: rgba(124,58,237,.1);  border: 1px solid rgba(124,58,237,.3); }
+.ic-green  { background: rgba(34,211,165,.08); border: 1px solid rgba(34,211,165,.3); }
+.ic-yellow { background: rgba(245,197,66,.08); border: 1px solid rgba(245,197,66,.3); }
+.ic-red    { background: rgba(248,113,113,.08);border: 1px solid rgba(248,113,113,.3); }
+.ic-orange { background: rgba(251,146,60,.08); border: 1px solid rgba(251,146,60,.3); }
+.ic-pink   { background: rgba(236,72,153,.08); border: 1px solid rgba(236,72,153,.3); }
+.ic-cyan   { background: rgba(34,211,238,.08); border: 1px solid rgba(34,211,238,.3); }
+
+.skill-meta h3 { font-size: 18px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 4px; }
+.skill-meta .skill-file {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); margin-bottom: 6px;
+}
+.skill-meta .desc { color: var(--muted2); font-size: 13.5px; }
+
+/* ─── INLINE TAGS ─── */
+.tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.itag {
+  font-size: 10px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+  padding: 3px 10px; border-radius: 20px;
+}
+.it-blue   { background: rgba(79,142,255,.12);  color: var(--accent); }
+.it-green  { background: rgba(34,211,165,.1);   color: var(--green); }
+.it-yellow { background: rgba(245,197,66,.1);   color: var(--yellow); }
+.it-orange { background: rgba(251,146,60,.12);  color: var(--orange); border: 1px solid rgba(251,146,60,.3); }
+.it-red    { background: rgba(248,113,113,.1);  color: var(--red); }
+.it-pink   { background: rgba(236,72,153,.1);   color: var(--pink); }
+.it-cyan   { background: rgba(34,211,238,.1);   color: var(--cyan); }
+
+/* ─── DIVIDER ─── */
+.divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+/* ─── SUMMARY TABLE ─── */
+.summary-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.summary-table th {
+  text-align: left; padding: 10px 14px;
+  background: var(--card2); color: var(--muted);
+  font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+}
+.summary-table th:first-child { border-radius: 10px 0 0 0; }
+.summary-table th:last-child  { border-radius: 0 10px 0 0; }
+.summary-table td {
+  padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: middle;
+}
+.summary-table tr:hover td { background: rgba(255,255,255,.015); }
+.file-mono { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); display: block; margin-top: 2px; }
+
+/* ─── WORKFLOW DIAGRAM ─── */
+.workflow {
+  display: flex; flex-direction: column; gap: 0; margin-bottom: 14px;
+}
+.wf-step {
+  display: flex; align-items: stretch; gap: 0;
+}
+.wf-left {
+  display: flex; flex-direction: column; align-items: center; width: 42px; flex-shrink: 0;
+}
+.wf-circle {
+  width: 36px; height: 36px; border-radius: 50%; border: 2px solid;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800; flex-shrink: 0;
+}
+.wf-line { width: 2px; flex: 1; min-height: 16px; }
+.wf-content {
+  flex: 1; padding: 4px 0 20px 14px;
+}
+.wf-title { font-size: 13.5px; font-weight: 700; margin-bottom: 3px; }
+.wf-desc  { font-size: 12px; color: var(--muted2); }
+.wf-skill { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+
+/* color variants for workflow */
+.wf-c1 .wf-circle { color: var(--accent); border-color: var(--accent); background: rgba(79,142,255,.1); }
+.wf-c1 .wf-line   { background: linear-gradient(var(--accent), var(--green)); }
+.wf-c2 .wf-circle { color: var(--green); border-color: var(--green); background: rgba(34,211,165,.1); }
+.wf-c2 .wf-line   { background: linear-gradient(var(--green), var(--green)); }
+.wf-c3 .wf-circle { color: var(--purple,#a78bfa); border-color: #a78bfa; background: rgba(167,139,250,.1); }
+.wf-c3 .wf-line   { background: linear-gradient(#a78bfa, var(--orange)); }
+.wf-c4 .wf-circle { color: var(--orange); border-color: var(--orange); background: rgba(251,146,60,.1); }
+.wf-c4 .wf-line   { background: linear-gradient(var(--orange), var(--yellow)); }
+.wf-c5 .wf-circle { color: var(--yellow); border-color: var(--yellow); background: rgba(245,197,66,.1); }
+.wf-c5 .wf-line   { background: linear-gradient(var(--yellow), var(--red)); }
+.wf-c6 .wf-circle { color: var(--red); border-color: var(--red); background: rgba(248,113,113,.1); }
+.wf-c6 .wf-line   { background: linear-gradient(var(--red), var(--pink)); }
+.wf-c7 .wf-circle { color: var(--pink); border-color: var(--pink); background: rgba(236,72,153,.1); }
+.wf-c7 .wf-line   { background: linear-gradient(var(--pink), var(--cyan)); }
+.wf-c8 .wf-circle { color: var(--cyan); border-color: var(--cyan); background: rgba(34,211,238,.1); }
+.wf-c8 .wf-line   { background: linear-gradient(var(--cyan), var(--accent)); }
+.wf-last .wf-left  { align-items: center; }
+
+/* ─── AGENT / HOOK CARD ─── */
+.special-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 20px 22px; margin-bottom: 14px;
+  position: relative; overflow: hidden;
+}
+.special-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+}
+.special-card.agent-card::before { background: linear-gradient(90deg, var(--pink), var(--accent2)); }
+.special-card.hook-card::before  { background: linear-gradient(90deg, var(--cyan), var(--green)); }
+.special-card.cmd-card::before   { background: linear-gradient(90deg, var(--orange), var(--yellow)); }
+
+.special-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; letter-spacing: -.01em; }
+.special-card .desc { font-size: 13px; color: var(--muted2); line-height: 1.6; margin-bottom: 14px; }
+.special-card .trigger-label {
+  font-size: 9.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 6px;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  #sidebar { transform: translateX(-100%); }
+  #sidebar.open { transform: translateX(0); }
+  #menu-toggle { display: flex; }
+  #overlay.open { display: block; }
+  #main { margin-left: 0; }
+  .hero { padding: 56px 24px 40px; }
+  .section { padding: 0 24px 60px; }
+  .g2 { grid-template-columns: 1fr; }
+}
+
+/* ─── BACK TO TOP ─── */
+#backtop {
+  position: fixed; bottom: 24px; right: 24px; width: 40px; height: 40px;
+  border-radius: 10px; background: var(--card); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 16px; z-index: 50;
+  opacity: 0; pointer-events: none; transition: opacity .2s;
+}
+#backtop.visible { opacity: 1; pointer-events: all; }
+#backtop:hover { background: var(--card2); }
+</style>
+</head>
+<body>
+
+<!-- ─── SIDEBAR ─── -->
+<nav id="sidebar">
+  <div id="sidebar-logo">
+    <span class="brand">Cursor × Superpowers</span>
+    <span class="sub">Complete Guide · 2026</span>
+  </div>
+
+  <div class="nav-section">
+    <span class="nav-section-label">Getting Started</span>
+    <a class="nav-link active" href="#overview" onclick="setActive(this)">
+      <span class="icon">🏠</span> Overview
+    </a>
+    <a class="nav-link" href="#install" onclick="setActive(this)">
+      <span class="icon">⚙️</span> Install
+    </a>
+    <a class="nav-link" href="#workflow" onclick="setActive(this)">
+      <span class="icon">🗺️</span> Basic Workflow
+    </a>
+  </div>
+
+  <div class="nav-section">
+    <span class="nav-section-label">Components</span>
+    <a class="nav-link" href="#skills" onclick="setActive(this)">
+      <span class="icon">⚡</span> Skills
+      <span class="badge badge-tip">14</span>
+    </a>
+    <a class="nav-link" href="#hooks" onclick="setActive(this)">
+      <span class="icon">🪝</span> Hooks
+    </a>
+    <a class="nav-link" href="#agents" onclick="setActive(this)">
+      <span class="icon">🤖</span> Agents
+    </a>
+    <a class="nav-link" href="#commands" onclick="setActive(this)">
+      <span class="icon">🛠️</span> Commands
+    </a>
+  </div>
+
+  <div class="nav-section">
+    <span class="nav-section-label">Skills — Core</span>
+    <a class="nav-link" href="#s-brainstorming" onclick="setActive(this)">
+      <span class="icon">💡</span> Brainstorming
+    </a>
+    <a class="nav-link" href="#s-worktrees" onclick="setActive(this)">
+      <span class="icon">🌿</span> Git Worktrees
+    </a>
+    <a class="nav-link" href="#s-plans" onclick="setActive(this)">
+      <span class="icon">📋</span> Writing Plans
+    </a>
+    <a class="nav-link" href="#s-executing" onclick="setActive(this)">
+      <span class="icon">▶️</span> Executing Plans
+    </a>
+    <a class="nav-link" href="#s-subagent" onclick="setActive(this)">
+      <span class="icon">🤖</span> Subagent-Driven
+    </a>
+    <a class="nav-link" href="#s-parallel" onclick="setActive(this)">
+      <span class="icon">⚡</span> Parallel Agents
+      <span class="badge badge-new">NEW</span>
+    </a>
+    <a class="nav-link" href="#s-tdd" onclick="setActive(this)">
+      <span class="icon">🧪</span> TDD
+    </a>
+    <a class="nav-link" href="#s-debug" onclick="setActive(this)">
+      <span class="icon">🐛</span> Debugging
+    </a>
+    <a class="nav-link" href="#s-verify" onclick="setActive(this)">
+      <span class="icon">✅</span> Verification
+    </a>
+  </div>
+
+  <div class="nav-section">
+    <span class="nav-section-label">Skills — Git & Review</span>
+    <a class="nav-link" href="#s-request-review" onclick="setActive(this)">
+      <span class="icon">👀</span> Request Review
+      <span class="badge badge-new">NEW</span>
+    </a>
+    <a class="nav-link" href="#s-receive-review" onclick="setActive(this)">
+      <span class="icon">💬</span> Receive Review
+      <span class="badge badge-new">NEW</span>
+    </a>
+    <a class="nav-link" href="#s-finish" onclick="setActive(this)">
+      <span class="icon">🏁</span> Finish Branch
+      <span class="badge badge-new">NEW</span>
+    </a>
+  </div>
+
+  <div class="nav-section">
+    <span class="nav-section-label">Skills — Meta</span>
+    <a class="nav-link" href="#s-using-superpowers" onclick="setActive(this)">
+      <span class="icon">🧠</span> Using Superpowers
+    </a>
+    <a class="nav-link" href="#s-writing-skills" onclick="setActive(this)">
+      <span class="icon">✍️</span> Writing Skills
+    </a>
+  </div>
+
+  <div class="nav-section" style="padding-bottom:20px;">
+    <span class="nav-section-label">Reference</span>
+    <a class="nav-link" href="#summary" onclick="setActive(this)">
+      <span class="icon">📊</span> Summary Table
+    </a>
+  </div>
+
+  <div class="nav-section" style="padding-bottom:20px; margin-top:auto; border-top:1px solid var(--border); padding-top:12px;">
+    <span class="nav-section-label">🌐 Language</span>
+    <a class="nav-link active" style="pointer-events:none">
+      <span class="icon">🇬🇧</span> English
+      <span class="badge badge-tip">✓</span>
+    </a>
+    <a class="nav-link" href="../vi/" style="color:var(--muted2)">
+      <span class="icon">🇻🇳</span> Tiếng Việt
+    </a>
+  </div>
+</nav>
+
+<!-- Mobile toggle -->
+<button id="menu-toggle" onclick="toggleSidebar()">☰</button>
+<div id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- ─── MAIN ─── -->
+<div id="main">
+
+<!-- ══ HERO ══ -->
+<div class="hero" id="overview">
+  <div class="hero-eyebrow">📘 Complete Guide · v5.0 · 2026</div>
+  <h1>Cursor × Superpowers<br>Complete Guide</h1>
+  <p class="hero-desc">Agentic skills framework for Cursor IDE — 14 Skills, 1 Agent, 1 Hook, 3 Commands. From brainstorm to merged PR, all with standard workflows and real prompts.</p>
+  <div class="hero-pills">
+    <div class="pill"><div class="dot" style="background:var(--accent)"></div>14 Skills</div>
+    <div class="pill"><div class="dot" style="background:var(--pink)"></div>1 Auto-review Agent</div>
+    <div class="pill"><div class="dot" style="background:var(--cyan)"></div>1 Hook SessionStart</div>
+    <div class="pill"><div class="dot" style="background:var(--orange)"></div>3 Quick Commands</div>
+    <div class="pill" id="github-stars-pill"><div class="dot" style="background:var(--green)"></div>⭐ <span id="stars-count-pill">...</span> GitHub stars</div>
+  </div>
+</div>
+
+<!-- ── TỔNG QUAN ── -->
+<div class="section">
+  <div class="section-head">
+    <span class="tag tag-blue">🏠 Overview</span>
+    <h2>What is Superpowers?</h2>
+    <p>A collection of skills, hooks, agents and commands that turn Cursor IDE into a real AI developer with proper workflow — instead of just smart autocomplete.</p>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-icon">ℹ️</div>
+    <div><strong>Origin:</strong> Superpowers was created by Jesse Vincent (obra), with over <span id="stars-count-text">...</span> GitHub stars. Distributed via Cursor Marketplace and installable with <code>/add-plugin superpowers</code> in Agent mode.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>4 Core Components of Superpowers</div>
+    <ul class="steps">
+      <li><div class="n">⚡</div><div class="txt"><strong>Skills (14 skills)</strong><span>Rules in <code>.cursor/rules/*.mdc</code> — tells AI how to handle each task. Invoke with <code>@skill-name</code> or auto-triggers.</span></div></li>
+      <li><div class="n">🪝</div><div class="txt"><strong>Hooks (1 hook: SessionStart)</strong><span>Runs automatically when starting a new session — injects context, checks project status.</span></div></li>
+      <li><div class="n">🤖</div><div class="txt"><strong>Agents (1 agent: code-reviewer)</strong><span>Specialized subagent that automatically reviews code after each important step completion.</span></div></li>
+      <li><div class="n">🛠️</div><div class="txt"><strong>Commands (3 commands)</strong><span>Slash commands <code>/brainstorm</code>, <code>/write-plan</code>, <code>/execute-plan</code> — shortcuts for the 3 most common workflows.</span></div></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Repository structure obra/superpowers</div>
+    <div class="code-wrap">
+      <div class="code-top"><div class="traffic-lights"><span class="tl-r"></span><span class="tl-y"></span><span class="tl-g"></span></div><div class="code-lang">file tree</div></div>
+      <div class="code-body"><span class="hl">superpowers/</span>
+├── <span class="kw">skills/</span>          <span class="cm"># 14 skill folders, each with SKILL.md</span>
+│   ├── brainstorming/
+│   ├── writing-plans/
+│   ├── executing-plans/
+│   ├── ... (11 more skills)
+├── <span class="kw">agents/</span>          <span class="cm"># code-reviewer.md</span>
+├── <span class="kw">hooks/</span>           <span class="cm"># hooks.json (SessionStart)</span>
+├── <span class="kw">commands/</span>        <span class="cm"># brainstorm.md, write-plan.md, execute-plan.md</span>
+├── <span class="kw">.cursor-plugin/</span>  <span class="cm"># Plugin manifest for Cursor</span>
+├── <span class="kw">.claude-plugin/</span>  <span class="cm"># Claude Code support</span>
+└── <span class="kw">.codex/</span>          <span class="cm"># OpenAI Codex support</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ INSTALLATION ══ -->
+<div class="section" id="install">
+  <div class="section-head">
+    <span class="tag tag-blue">⚙️ Installation</span>
+    <h2>Install Superpowers</h2>
+    <p>Two methods, each with <strong>Global</strong> (all projects) or <strong>Per-project</strong> (single project). Source code: <a href="https://github.com/obra/superpowers" target="_blank" style="color:var(--accent)">github.com/obra/superpowers</a></p>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-icon">ℹ️</div>
+    <div><strong>Global vs Per-project:</strong><br>• <strong>🌐 Global:</strong> Install once, applies to <em>all</em> projects you open in Cursor. Files stored in <code>~/.cursor/</code><br>• <strong>📁 Per-project:</strong> Only applies to <em>1 project</em> specifically. Files stored in <code>&lt;project&gt;/.cursor/</code>. Ideal when you want per-project config or share via Git.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Method 1 — Cursor Marketplace (Recommended) · 🌐 Global or 📁 Per-project</div>
+    <div class="callout callout-info" style="margin-bottom:8px">
+      <div class="callout-icon">💡</div>
+      <div><strong>When installing from Marketplace, Cursor will ask you to choose:</strong><br>• <strong>🌐 Add to Account:</strong> Install for your logged-in account → applies to <em>all projects</em><br>• <strong>📁 Add to Project:</strong> Only install for the currently open project → applies to <em>1 project</em> specifically</div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-top"><div class="traffic-lights"><span class="tl-r"></span><span class="tl-y"></span><span class="tl-g"></span></div><div class="code-lang">Cursor Agent Chat</div></div>
+      <div class="code-body"><span class="cm"># Method A: Open Cursor → Ctrl+L (or Cmd+L) → select "Agent" mode → type:</span>
+/add-plugin superpowers
+<span class="cm"># → Choose "Add to Account" (🌐 Global) or "Add to Project" (📁 Per-project)</span>
+
+<span class="cm"># Method B: Search in Marketplace</span>
+<span class="cm"># Open Cursor → search "superpowers" in plugin marketplace</span>
+<span class="cm"># → Click Install → choose Account or Project</span>
+
+<span class="cm"># Method C: Install from web browser</span>
+<span class="kw">https://cursor.com/marketplace/superpowers</span>
+<span class="cm"># → Log in → Click "Install"</span></div>
+    </div>
+    <div class="callout callout-tip" style="margin-top:4px">
+      <div class="callout-icon">✅</div>
+      <div><strong>Verify after install:</strong> Close and reopen Cursor. Open Agent chat, type <code>/</code> — you should see 2 groups:<br>• <strong>Skills:</strong> <code>/brainstorming</code>, <code>/writing-plans</code>, <code>/executing-plans</code>,… (14 skills)<br>• <strong>Commands:</strong> <code>/brainstorm</code>, <code>/write-plan</code>, <code>/execute-plan</code> (3 commands)</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Method 2 — Manual (clone from GitHub) · 🌐 Global or 📁 Per-project</div>
+    <div class="callout callout-warn" style="margin-bottom:12px">
+      <div class="callout-icon">⚠️</div>
+      <div><strong>Note:</strong> This method requires copying all <strong>4 components</strong> (Skills, Agents, Hooks, Commands). If you only copy skills, you will miss the agent review, auto hook, and slash commands.</div>
+    </div>
+
+    <div class="card-label"><div class="dot"></div>Step 1 — Clone repo (shared for both methods)</div>
+    <div class="code-wrap">
+      <div class="code-top"><div class="traffic-lights"><span class="tl-r"></span><span class="tl-y"></span><span class="tl-g"></span></div><div class="code-lang">bash</div></div>
+      <div class="code-body"><span class="cm"># Clone repo (only need to do this once)</span>
+git clone https://github.com/obra/superpowers.git ~/superpowers
+
+<span class="cm"># If already cloned, pull latest:</span>
+<span class="cm"># git -C ~/superpowers pull</span></div>
+    </div>
+
+    <div class="card-label" style="margin-top:16px"><div class="dot" style="background:var(--cyan)"></div>Step 2A — Install 🌐 Global (all projects)</div>
+    <div class="callout callout-info" style="margin-bottom:8px">
+      <div class="callout-icon">🌐</div>
+      <div>Copy to <code>~/.cursor/</code> — Superpowers will be available in <strong>all projects</strong> you open with Cursor.</div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-top"><div class="traffic-lights"><span class="tl-r"></span><span class="tl-y"></span><span class="tl-g"></span></div><div class="code-lang">bash — Global install</div></div>
+      <div class="code-body"><span class="cm"># Create global directories</span>
+mkdir -p ~/.cursor/rules
+mkdir -p ~/.cursor/agents
+mkdir -p ~/.cursor/hooks
+mkdir -p ~/.cursor/commands
+
+<span class="cm"># Copy 14 skills</span>
+<span class="kw">for</span> dir <span class="kw">in</span> ~/superpowers/skills/*/; <span class="kw">do</span>
+  skill=$(<span class="hl">basename</span> "$dir")
+  <span class="kw">if</span> [ -f "$dir/SKILL.md" ]; <span class="kw">then</span>
+    cp "$dir/SKILL.md" "$HOME/.cursor/rules/$skill.mdc"
+  <span class="kw">fi</span>
+<span class="kw">done</span>
+
+<span class="cm"># Copy agent, hooks, commands</span>
+cp ~/superpowers/agents/*.md ~/.cursor/agents/
+cp ~/superpowers/hooks/hooks.json ~/.cursor/hooks/
+cp ~/superpowers/commands/*.md ~/.cursor/commands/
+
+<span class="cm"># Verify</span>
+<span class="kw">echo</span> "Skills: $(ls ~/.cursor/rules/*.mdc 2>/dev/null | wc -l) files"
+<span class="kw">echo</span> "Agents: $(ls ~/.cursor/agents/*.md 2>/dev/null | wc -l) files"
+<span class="kw">echo</span> "Commands: $(ls ~/.cursor/commands/*.md 2>/dev/null | wc -l) files"</div>
+    </div>
+
+    <div class="card-label" style="margin-top:16px"><div class="dot" style="background:var(--orange)"></div>Step 2B — Install 📁 Per-project (single project)</div>
+    <div class="callout callout-new" style="margin-bottom:8px">
+      <div class="callout-icon">📁</div>
+      <div>Copy to <code>&lt;project&gt;/.cursor/</code> — Superpowers only applies to <strong>this project</strong>. Great for committing config to Git so the whole team can use it.</div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-top"><div class="traffic-lights"><span class="tl-r"></span><span class="tl-y"></span><span class="tl-g"></span></div><div class="code-lang">bash — Per-project install</div></div>
+      <div class="code-body"><span class="cm"># Change ~/your-project to your actual project path</span>
+<span class="kw">PROJECT</span>=~/your-project
+
+<span class="cm"># Create directories in project</span>
+mkdir -p $PROJECT/.cursor/rules
+mkdir -p $PROJECT/.cursor/agents
+mkdir -p $PROJECT/.cursor/hooks
+mkdir -p $PROJECT/.cursor/commands
+
+<span class="cm"># Copy 14 skills</span>
+<span class="kw">for</span> dir <span class="kw">in</span> ~/superpowers/skills/*/; <span class="kw">do</span>
+  skill=$(<span class="hl">basename</span> "$dir")
+  <span class="kw">if</span> [ -f "$dir/SKILL.md" ]; <span class="kw">then</span>
+    cp "$dir/SKILL.md" "$PROJECT/.cursor/rules/$skill.mdc"
+  <span class="kw">fi</span>
+<span class="kw">done</span>
+
+<span class="cm"># Copy agent, hooks, commands</span>
+cp ~/superpowers/agents/*.md $PROJECT/.cursor/agents/
+cp ~/superpowers/hooks/hooks.json $PROJECT/.cursor/hooks/
+cp ~/superpowers/commands/*.md $PROJECT/.cursor/commands/
+
+<span class="cm"># Verify</span>
+<span class="kw">echo</span> "Skills: $(ls $PROJECT/.cursor/rules/*.mdc 2>/dev/null | wc -l) files"
+<span class="kw">echo</span> "Agents: $(ls $PROJECT/.cursor/agents/*.md 2>/dev/null | wc -l) files"
+<span class="kw">echo</span> "Commands: $(ls $PROJECT/.cursor/commands/*.md 2>/dev/null | wc -l) files"</div>
+    </div>
+
+    <div class="card-label" style="margin-top:16px"><div class="dot"></div>.cursor/ structure after correct setup (all 4 components)</div>
+    <div class="code-wrap">
+      <div class="code-top"><div class="traffic-lights"><span class="tl-r"></span><span class="tl-y"></span><span class="tl-g"></span></div><div class="code-lang">file tree</div></div>
+      <div class="code-body"><span class="cm"># 🌐 Global:  ~/.cursor/         (all projects)</span>
+<span class="cm"># 📁 Project: &lt;project&gt;/.cursor/  (this project only)</span>
+
+<span class="hl">.cursor/</span>
+├── <span class="kw">rules/</span>                              <span class="cm"># 14 Skills</span>
+│   ├── <span class="hl">brainstorming.mdc</span>
+│   ├── <span class="hl">writing-plans.mdc</span>
+│   ├── <span class="hl">executing-plans.mdc</span>
+│   ├── <span class="hl">subagent-driven-development.mdc</span>
+│   ├── <span class="hl">dispatching-parallel-agents.mdc</span>
+│   ├── <span class="hl">test-driven-development.mdc</span>
+│   ├── <span class="hl">systematic-debugging.mdc</span>
+│   ├── <span class="hl">verification-before-completion.mdc</span>
+│   ├── <span class="hl">using-git-worktrees.mdc</span>
+│   ├── <span class="hl">requesting-code-review.mdc</span>
+│   ├── <span class="hl">receiving-code-review.mdc</span>
+│   ├── <span class="hl">finishing-a-development-branch.mdc</span>
+│   ├── <span class="hl">using-superpowers.mdc</span>
+│   └── <span class="hl">writing-skills.mdc</span>
+├── <span class="kw">agents/</span>                             <span class="cm"># 1 Agent</span>
+│   └── <span class="hl">code-reviewer.md</span>
+├── <span class="kw">hooks/</span>                              <span class="cm"># 1 Hook</span>
+│   └── <span class="hl">hooks.json</span>
+└── <span class="kw">commands/</span>                           <span class="cm"># 3 Commands</span>
+    ├── <span class="hl">brainstorm.md</span>
+    ├── <span class="hl">write-plan.md</span>
+    └── <span class="hl">execute-plan.md</span></div>
+    </div>
+    <div class="callout callout-tip" style="margin-top:4px">
+      <div class="callout-icon">✅</div>
+      <div><strong>Verify after copying:</strong> Close and reopen Cursor. Open Agent chat, type <code>/</code> — you should see 2 groups:<br>• <strong>Skills:</strong> <code>/brainstorming</code>, <code>/writing-plans</code>, <code>/executing-plans</code>,… (14 skills)<br>• <strong>Commands:</strong> <code>/brainstorm</code>, <code>/write-plan</code>, <code>/execute-plan</code> (3 commands)<br>If not visible, check the directory path of <code>.cursor/</code>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BASIC WORKFLOW ══ -->
+<div class="section" id="workflow">
+  <div class="section-head">
+    <span class="tag tag-green">🗺️ Basic Workflow</span>
+    <h2>Standard Development Workflow</h2>
+    <p>Superpowers defines a clear development loop from start to finish. Each step uses the right skill, agent, or command.</p>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-icon">💡</div>
+    <div><strong>At each session start:</strong> Hook <code>SessionStart</code> auto-runs — injects project context and checks status before your first command.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Complete loop from idea → merged PR</div>
+    <div class="workflow">
+      <div class="wf-step wf-c1">
+        <div class="wf-left"><div class="wf-circle">1</div><div class="wf-line"></div></div>
+        <div class="wf-content">
+          <div class="wf-title">💡 Brainstorm — Refine your idea</div>
+          <div class="wf-desc">Describe feature → AI asks Socratic questions → approve design doc</div>
+          <div class="wf-skill" style="color:var(--accent)">@brainstorming · or /brainstorm</div>
+        </div>
+      </div>
+      <div class="wf-step wf-c2">
+        <div class="wf-left"><div class="wf-circle">2</div><div class="wf-line"></div></div>
+        <div class="wf-content">
+          <div class="wf-title">🌿 Git Worktree — Create isolated workspace</div>
+          <div class="wf-desc">New branch + isolated worktree + verify clean test baseline</div>
+          <div class="wf-skill" style="color:var(--green)">@using-git-worktrees</div>
+        </div>
+      </div>
+      <div class="wf-step wf-c3">
+        <div class="wf-left"><div class="wf-circle">3</div><div class="wf-line"></div></div>
+        <div class="wf-content">
+          <div class="wf-title">📋 Write Plan — Detailed blueprint</div>
+          <div class="wf-desc">Decompose design → 2–5 min tasks with exact paths + tests</div>
+          <div class="wf-skill" style="color:#a78bfa">@writing-plans · or /write-plan</div>
+        </div>
+      </div>
+      <div class="wf-step wf-c4">
+        <div class="wf-left"><div class="wf-circle">4</div><div class="wf-line"></div></div>
+        <div class="wf-content">
+          <div class="wf-title">⚡ Execute — Run plan (pick 1 of 2)</div>
+          <div class="wf-desc"><strong>With control:</strong> @executing-plans — review each batch · <strong>Automatic:</strong> @subagent-driven-development — 2-stage review</div>
+          <div class="wf-skill" style="color:var(--orange)">@executing-plans · /execute-plan · or @subagent-driven-development</div>
+        </div>
+      </div>
+      <div class="wf-step wf-c5">
+        <div class="wf-left"><div class="wf-circle">5</div><div class="wf-line"></div></div>
+        <div class="wf-content">
+          <div class="wf-title">🧪 TDD — Throughout implementation</div>
+          <div class="wf-desc">RED (test fail) → GREEN (minimal code) → REFACTOR — auto-triggers</div>
+          <div class="wf-skill" style="color:var(--yellow)">@test-driven-development · auto-trigger</div>
+        </div>
+      </div>
+      <div class="wf-step wf-c6">
+        <div class="wf-left"><div class="wf-circle">6</div><div class="wf-line"></div></div>
+        <div class="wf-content">
+          <div class="wf-title">👀 Code Review — After each task completion</div>
+          <div class="wf-desc">Dispatch code-reviewer agent → receive feedback → handle structured</div>
+          <div class="wf-skill" style="color:var(--red)">@requesting-code-review → agent: code-reviewer → @receiving-code-review</div>
+        </div>
+      </div>
+      <div class="wf-step wf-c7">
+        <div class="wf-left"><div class="wf-circle">7</div><div class="wf-line"></div></div>
+        <div class="wf-content">
+          <div class="wf-title">✅ Verification — Before claiming "done"</div>
+          <div class="wf-desc">Check all requirements, tests, security — no skipping</div>
+          <div class="wf-skill" style="color:var(--pink)">@verification-before-completion · auto-trigger</div>
+        </div>
+      </div>
+      <div class="wf-step wf-c8 wf-last">
+        <div class="wf-left"><div class="wf-circle">8</div></div>
+        <div class="wf-content">
+          <div class="wf-title">🏁 Finish Branch — Merge / PR / Discard</div>
+          <div class="wf-desc">Pre-flight check → choose option → clean up worktree</div>
+          <div class="wf-skill" style="color:var(--cyan)">@finishing-a-development-branch</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-new">
+    <div class="callout-icon">🔀</div>
+    <div><strong>Parallel mode:</strong> If the plan has independent tasks, add a step after #3: use <code>@dispatching-parallel-agents</code> to run multiple tasks simultaneously — 3–5x speedup.</div>
+  </div>
+</div>
+
+<!-- ══ HOOKS ══ -->
+<div class="section" id="hooks">
+  <div class="section-head">
+    <span class="tag tag-cyan">🪝 Hooks</span>
+    <h2>Hooks — Auto-run at session start</h2>
+    <p>Hooks are code that runs automatically on trigger events in Cursor — no manual invocation needed. Superpowers currently has 1 hook: <strong>SessionStart</strong>.</p>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-icon">ℹ️</div>
+    <div><strong>Hooks differ from Skills:</strong> Skills need you to invoke (<code>@skill-name</code>) or auto-trigger by pattern. Hooks run automatically on system events — like middleware in a web framework.</div>
+  </div>
+
+  <div class="special-card hook-card">
+    <div class="tag-row" style="margin-bottom:10px"><span class="itag it-cyan">SessionStart</span><span class="itag it-green">Auto-trigger</span></div>
+    <h4>🪝 SessionStart Hook</h4>
+    <p class="desc">Runs immediately when you open a new Cursor Agent session. This hook injects project context at the start of the conversation — AI knows your project before you ask anything.</p>
+    <div class="trigger-label">Defined in</div>
+    <div class="code-wrap">
+      <div class="code-top"><div class="traffic-lights"><span class="tl-r"></span><span class="tl-y"></span><span class="tl-g"></span></div><div class="code-lang">hooks/hooks.json</div></div>
+      <div class="code-body">{
+  "<span class="hl">hooks</span>": [
+    {
+      "<span class="kw">name</span>": "SessionStart",
+      "<span class="kw">trigger</span>": "onSessionStart",
+      "<span class="kw">description</span>": "Hook: SessionStart",
+      "<span class="kw">action</span>": "injectProjectContext"
+    }
+  ]
+}</div>
+    </div>
+    <div class="card-label"><div class="dot"></div>What does SessionStart Hook do?</div>
+    <ul class="steps">
+      <li><div class="n">1</div><div class="txt"><strong>Read project context</strong><span>Find README, package.json, .cursorrules to understand the project</span></div></li>
+      <li><div class="n">2</div><div class="txt"><strong>Inject into conversation</strong><span>AI "remembers" tech stack, conventions and coding standards from the start</span></div></li>
+      <li><div class="n">3</div><div class="txt"><strong>Verify available skills</strong><span>Reports which skills are currently active in <code>.cursor/rules/</code></span></div></li>
+    </ul>
+    <div class="callout callout-tip" style="margin-top:4px">
+      <div class="callout-icon">💡</div>
+      <div><strong>Optimize hook:</strong> Add a <code>.cursorrules</code> or <code>docs/project-context.md</code> file to the project root — SessionStart will automatically inject it at the start of every conversation.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ AGENTS ══ -->
+<div class="section" id="agents">
+  <div class="section-head">
+    <span class="tag tag-pink">🤖 Agents</span>
+    <h2>Agents — Specialized Subagents</h2>
+    <p>Agents are pre-defined AI subagents with specific roles. Superpowers has 1 agent: <strong>code-reviewer</strong> — automatically invoked when an important step is completed.</p>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-icon">ℹ️</div>
+    <div><strong>Agent vs Skill:</strong> A Skill guides the current AI on what to do. An Agent spawns a new independent AI with a specialized role — this reviewer is not biased by the implementer's conversation history.</div>
+  </div>
+
+  <div class="special-card agent-card">
+    <div class="tag-row" style="margin-bottom:10px"><span class="itag it-pink">code-reviewer</span><span class="itag it-pink">Auto-triggered</span></div>
+    <h4>🤖 Agent: code-reviewer</h4>
+    <p class="desc">This agent is automatically invoked when a major step in the project is completed. It reviews written code against the original plan and coding standards — not a rubber-stamp, but a genuine review.</p>
+    <div class="trigger-label">When is this agent invoked?</div>
+    <ul class="steps">
+      <li><div class="n">▶</div><div class="txt"><strong>After completing a major step</strong><span>"I've finished implementing the user authentication system as outlined in step 3 of our plan"</span></div></li>
+      <li><div class="n">▶</div><div class="txt"><strong>After completing a feature implementation</strong><span>"The API endpoints for the task management system are now complete — that covers step 2 from our architecture document"</span></div></li>
+    </ul>
+    <div class="trigger-label" style="margin-top:14px">Sample prompt to trigger code-reviewer agent</div>
+    <div class="prompt">
+      <div class="prompt-label">Use together with @requesting-code-review</div>
+      <div class="prompt-body">@requesting-code-review
+
+I've finished implementing the auth feature — Task 3 from docs/plans/auth-plan.md
+
+WHAT_WAS_IMPLEMENTED:
+  Login controller with JWT auth and bcrypt + rate limiting
+
+GIT_RANGE:
+  BASE_SHA: abc123  (before Task 3)
+  HEAD_SHA: HEAD
+
+Please dispatch code-reviewer agent to review against:
+- Original plan requirements
+- Coding standards in .cursorrules
+- Security best practices</div>
+    </div>
+    <div class="callout callout-tip">
+      <div class="callout-icon">💡</div>
+      <div><strong>Why use a separate agent?</strong> The reviewer agent has a clean context window — not influenced by the implementer's "I just wrote this code" history. Significantly more objective review.</div>
+    </div>
+    <div class="card-label"><div class="dot"></div>Sample output from code-reviewer agent</div>
+    <div class="output">
+      <div class="output-top">code-reviewer agent output</div>
+      <div class="output-body">Reviewing: Task 3 — Login Controller
+Against: docs/plans/auth-plan.md + .cursorrules
+
+✓ Strengths:
+  - Clean separation: controller → service → utils
+  - Real tests (not just mocks) — 8 tests covering all edge cases
+  - bcrypt timing-safe comparison implemented correctly
+
+⚠ Issues Found:
+  🔴 CRITICAL [auth/login.controller.js:47]
+     SQL string interpolation — use parameterized queries
+     Fix: db.query('SELECT * FROM users WHERE email = $1', [email])
+
+  🟡 IMPORTANT [auth/login.controller.js:89]
+     Missing Retry-After header on 429 response
+     Add: res.set('Retry-After', 900)
+
+  ⚪ MINOR: Magic number 5 (max attempts) — move to config
+
+Assessment: BLOCKED — fix CRITICAL before proceeding</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ COMMANDS ══ -->
+<div class="section" id="commands">
+  <div class="section-head">
+    <span class="tag tag-orange">🛠️ Commands</span>
+    <h2>Commands — Quick Slash Commands</h2>
+    <p>3 slash commands are shortcuts for the 3 most common workflows. Use in Cursor Agent Chat with <code>/</code>.</p>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-icon">ℹ️</div>
+    <div><strong>Commands vs Skills:</strong> <code>/brainstorm</code> is equivalent to <code>@brainstorming</code>. Commands are shorter, Skills may have extra context. Either choice works — same result.</div>
+  </div>
+
+  <div class="g2">
+    <div class="special-card cmd-card">
+      <div class="tag-row" style="margin-bottom:8px"><span class="itag it-orange">/brainstorm</span></div>
+      <h4>💡 /brainstorm</h4>
+      <p class="desc">Equivalent to <code>@brainstorming</code>. Explore requirements and design before implementation. <strong>MANDATORY</strong> before any creative work.</p>
+      <div class="prompt">
+        <div class="prompt-label">Usage</div>
+        <div class="prompt-body">/brainstorm
+I want to build a notification system
+with email + push + in-app channels.</div>
+      </div>
+    </div>
+
+    <div class="special-card cmd-card">
+      <div class="tag-row" style="margin-bottom:8px"><span class="itag it-orange">/write-plan</span></div>
+      <h4>📋 /write-plan</h4>
+      <p class="desc">Equivalent to <code>@writing-plans</code>. Create a detailed implementation plan from an approved design doc — tasks 2–5 minutes with exact file paths.</p>
+      <div class="prompt">
+        <div class="prompt-label">Usage</div>
+        <div class="prompt-body">/write-plan
+[paste approved design doc]
+
+Stack: Node.js + PostgreSQL + Jest</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="special-card cmd-card">
+    <div class="tag-row" style="margin-bottom:8px"><span class="itag it-orange">/execute-plan</span></div>
+    <h4>▶️ /execute-plan</h4>
+    <p class="desc">Equivalent to <code>@executing-plans</code>. Execute plan in batches with review checkpoints. Use when you want to keep control — manual review after each batch.</p>
+    <div class="prompt">
+      <div class="prompt-label">Usage</div>
+      <div class="prompt-body">/execute-plan
+[read: docs/plans/auth-plan.md]
+
+Execute Tasks 1-3 first.
+Wait for my approval before continuing.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SKILLS SECTION ══ -->
+<div class="section" id="skills">
+  <div class="section-head">
+    <span class="tag tag-blue">⚡ Skills</span>
+    <h2>14 Skills — Overview</h2>
+    <p>Each skill is a <code>.mdc</code> file in <code>.cursor/rules/</code>. Skills tell Cursor AI how to handle each type of task. Invoke with <code>@skill-name</code> or some skills auto-trigger.</p>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-icon">💡</div>
+    <div><strong>Two ways to activate skills:</strong> (1) <strong>Auto-trigger:</strong> Skill recognizes context and self-injects — e.g. <code>brainstorming</code> activates when you describe a new feature. (2) <strong>Manual:</strong> Manually invoke <code>@skill-name</code> at the start of your prompt.</div>
+  </div>
+
+  <div style="overflow-x:auto; margin-bottom:14px;">
+    <table class="summary-table">
+      <thead>
+        <tr><th>Skill</th><th>File</th><th>Trigger</th><th>When to use</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>brainstorming</strong></td><td><span class="file-mono">brainstorming.mdc</span></td><td><span class="itag it-blue">Auto / @</span></td><td style="color:var(--muted2);font-size:12px">Before any new feature</td></tr>
+        <tr><td><strong>using-git-worktrees</strong></td><td><span class="file-mono">using-git-worktrees.mdc</span></td><td><span class="itag it-blue">Auto / @</span></td><td style="color:var(--muted2);font-size:12px">After design is approved</td></tr>
+        <tr><td><strong>writing-plans</strong></td><td><span class="file-mono">writing-plans.mdc</span></td><td><span class="itag it-blue">Auto / @</span></td><td style="color:var(--muted2);font-size:12px">After design doc is ready</td></tr>
+        <tr><td><strong>executing-plans</strong></td><td><span class="file-mono">executing-plans.mdc</span></td><td><span class="itag it-blue">@</span></td><td style="color:var(--muted2);font-size:12px">Execute plan manually with control</td></tr>
+        <tr><td><strong>subagent-driven-development</strong></td><td><span class="file-mono">subagent-driven-development.mdc</span></td><td><span class="itag it-blue">Auto / @</span></td><td style="color:var(--muted2);font-size:12px">Fast plan execution, auto-review</td></tr>
+        <tr><td><strong>dispatching-parallel-agents</strong></td><td><span class="file-mono">dispatching-parallel-agents.mdc</span></td><td><span class="itag it-blue">@</span></td><td style="color:var(--muted2);font-size:12px">Independent tasks, run in parallel</td></tr>
+        <tr><td><strong>test-driven-development</strong></td><td><span class="file-mono">test-driven-development.mdc</span></td><td><span class="itag it-green">Auto</span></td><td style="color:var(--muted2);font-size:12px">Throughout implementation</td></tr>
+        <tr><td><strong>systematic-debugging</strong></td><td><span class="file-mono">systematic-debugging.mdc</span></td><td><span class="itag it-blue">@</span></td><td style="color:var(--muted2);font-size:12px">When there's a bug to debug</td></tr>
+        <tr><td><strong>verification-before-completion</strong></td><td><span class="file-mono">verification-before-completion.mdc</span></td><td><span class="itag it-green">Auto</span></td><td style="color:var(--muted2);font-size:12px">End of each task, before commit</td></tr>
+        <tr><td><strong>requesting-code-review</strong></td><td><span class="file-mono">requesting-code-review.mdc</span></td><td><span class="itag it-blue">@</span></td><td style="color:var(--muted2);font-size:12px">After each task, before merge</td></tr>
+        <tr><td><strong>receiving-code-review</strong></td><td><span class="file-mono">receiving-code-review.mdc</span></td><td><span class="itag it-blue">@</span></td><td style="color:var(--muted2);font-size:12px">When receiving review feedback</td></tr>
+        <tr><td><strong>finishing-a-development-branch</strong></td><td><span class="file-mono">finishing-a-development-branch.mdc</span></td><td><span class="itag it-blue">Auto / @</span></td><td style="color:var(--muted2);font-size:12px">When all tasks are done</td></tr>
+        <tr><td><strong>writing-skills</strong></td><td><span class="file-mono">writing-skills.mdc</span></td><td><span class="itag it-blue">@</span></td><td style="color:var(--muted2);font-size:12px">When you want to create a custom skill</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══ SKILL 1: BRAINSTORMING ══ -->
+<div class="section" id="s-brainstorming">
+  <div class="section-head">
+    <span class="tag tag-blue">Skill 1 — Core</span>
+    <h2>💡 Brainstorming — Refine ideas into specs</h2>
+    <p>The first and mandatory skill. Activates before any creative work. AI asks Socratic questions in chunks to clarify requirements and create a design document.</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-blue">💡</div>
+    <div class="skill-meta">
+      <div class="skill-file">@brainstorming · brainstorming.mdc · /brainstorm</div>
+      <div class="desc">Explores user intent, requirements and design before implementation. MUST USE before any creative work.</div>
+      <div class="tag-row">
+        <span class="itag it-blue">Auto-trigger</span>
+        <span class="itag it-green">Saves design doc</span>
+        <span class="itag it-blue">Socratic questions</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-warn">
+    <div class="callout-icon">⚠️</div>
+    <div><strong>Auto-trigger:</strong> This skill activates as soon as you describe a feature you want to build. Just say "I want to build X" and Superpowers starts asking questions — no manual invocation needed.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Sample prompt</div>
+    <div class="prompt">
+      <div class="prompt-label">Start brainstorm with DOCX</div>
+      <div class="prompt-body">@brainstorming
+
+I have a DOCX with requirements for a user authentication system.
+[attach file / paste content]
+
+Help me refine this into a clear design. Ask me questions about:
+- What I'm NOT sure about
+- Edge cases I might have missed
+- Alternative approaches worth considering
+
+Present the design in small chunks for me to validate.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Sample output — AI asks questions per chunk</div>
+    <div class="output">
+      <div class="output-top">Brainstorm session</div>
+      <div class="output-body">== CHUNK 1: Core Authentication ==
+
+I understand you want email/password login returning JWT.
+Before I continue, let me clarify:
+
+Q1: Should users be able to have multiple active sessions
+    (e.g., logged in on phone + laptop simultaneously)?
+    → Option A: Yes, multiple sessions
+    → Option B: Single session (new login invalidates old token)
+
+Q2: Do you need "Remember me" functionality (extended token expiry)?
+
+Q3: Is social login (Google/GitHub) in scope now or future?
+
+[Waiting for your answers before proceeding to Chunk 2...]</div>
+    </div>
+    <div class="callout callout-tip" style="margin-top:4px">
+      <div class="callout-icon">💡</div>
+      <div><strong>After answering all questions:</strong> AI saves the design document to <code>docs/design/feature-name.md</code>. This file is the input for <code>@writing-plans</code> in the next step.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ SKILL 2: GIT WORKTREES ══ -->
+<div class="section" id="s-worktrees">
+  <div class="section-head">
+    <span class="tag tag-green">Skill 2 — Core</span>
+    <h2>🌿 Git Worktrees — Isolated workspace per feature</h2>
+    <p>Activates right after design is approved. Creates an isolated workspace on a new branch, runs project setup, verifies clean test baseline before coding begins.</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-green">🌿</div>
+    <div class="skill-meta">
+      <div class="skill-file">@using-git-worktrees · using-git-worktrees.mdc</div>
+      <div class="desc">Creates an isolated workspace on a new branch. Run after design approval, before writing any code.</div>
+      <div class="tag-row">
+        <span class="itag it-orange">After design approval</span>
+        <span class="itag it-green">Isolated workspace</span>
+        <span class="itag it-green">Baseline verify</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-new">
+    <div class="callout-icon">🆕</div>
+    <div><strong>Why use git worktrees?</strong> Worktrees allow working on multiple features in parallel on the same repo without clobbering each other. Subagents also run in their own worktree to avoid conflicts when using parallel agents.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Prompt — Setup worktree after design approval</div>
+    <div class="prompt">
+      <div class="prompt-label">Prompt</div>
+      <div class="prompt-body">@using-git-worktrees
+
+Design for auth feature has been approved.
+Create an isolated workspace for implementation.
+
+Branch name: feature/user-auth
+Base branch: main
+
+After setup:
+1. Run npm install (or yarn)
+2. Run npm test to verify baseline is clean
+3. Report what tests exist and their current status</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Sample output</div>
+    <div class="output">
+      <div class="output-top">Worktree setup complete</div>
+      <div class="output-body">✓ Created worktree at: ../your-project-auth/
+✓ Branch: feature/user-auth (from main @ a3f821c)
+✓ npm install — 847 packages installed
+✓ npm test baseline:
+  - 23 tests passing ✓
+  - 0 failing
+  - 0 skipped
+
+Clean baseline confirmed. Ready to implement.</div>
+    </div>
+    <div class="callout callout-tip" style="margin-top:4px">
+      <div class="callout-icon">💡</div>
+      <div><strong>Benefit:</strong> If implementation fails, you can discard the worktree without affecting the main branch. Use together with <code>@finishing-a-development-branch</code> at the end.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ SKILL 3: WRITING PLANS ══ -->
+<div class="section" id="s-plans">
+  <div class="section-head">
+    <span class="tag tag-blue">Skill 3 — Core</span>
+    <h2>📋 Writing Plans — Detailed implementation blueprint</h2>
+    <p>Decomposes design into 2–5 minute tasks. Each task has exact file paths, code to write, and verification steps. Clear enough that "a junior engineer without context can still execute it".</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-purple">📋</div>
+    <div class="skill-meta">
+      <div class="skill-file">@writing-plans · writing-plans.mdc · /write-plan</div>
+      <div class="desc">Decomposes design into 2–5 minute tasks with exact file paths, complete code, and verification steps.</div>
+      <div class="tag-row">
+        <span class="itag it-blue">2-5 min per task</span>
+        <span class="itag it-blue">Exact file paths</span>
+        <span class="itag it-green">Verification per step</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Prompt — Create plan from design doc</div>
+    <div class="prompt">
+      <div class="prompt-label">Prompt</div>
+      <div class="prompt-body">@writing-plans
+
+Create implementation plan from this approved design:
+[paste content of docs/design/auth.md]
+
+Requirements for each task:
+- Max 2-5 minutes to implement
+- Exact file path to create/modify
+- What tests to write (RED phase)
+- What code to write (GREEN phase)
+- How to verify it works
+
+Tech stack: Node.js + Express + PostgreSQL + Jest</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Sample output — Standard plan</div>
+    <div class="output">
+      <div class="output-top">docs/plans/auth-plan.md</div>
+      <div class="output-body">## Task 1: Password hashing utility [5 min]
+File: src/utils/password.js
+RED:  Test hash() returns different string from input
+      Test verify() returns true for matching pair
+GREEN: Implement using bcrypt, saltRounds=12
+VERIFY: npm test src/utils/password.test.js → 2 passing
+
+## Task 2: JWT service [5 min]
+File: src/utils/jwt.js
+RED:  Test generateToken() returns string
+      Test verifyToken() returns payload or null
+GREEN: Implement using jsonwebtoken, 24h expiry
+VERIFY: npm test src/utils/jwt.test.js → 3 passing
+
+## Task 3: Login controller [5 min]
+File: src/auth/login.controller.js
+RED:  Test 200 on valid credentials
+      Test 401 on wrong password
+GREEN: Implement controller using password.verify + jwt.generate
+VERIFY: npm test src/auth/ → 5 passing</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ SKILL 4: EXECUTING PLANS ══ -->
+<div class="section" id="s-executing">
+  <div class="section-head">
+    <span class="tag tag-blue">Skill 4 — Core</span>
+    <h2>▶️ Executing Plans — Execute plan in batches</h2>
+    <p>Run plan in batches with human checkpoints. Use when you want to keep control — review each task group before continuing. Best for small–medium projects.</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-blue">▶️</div>
+    <div class="skill-meta">
+      <div class="skill-file">@executing-plans · executing-plans.mdc · /execute-plan</div>
+      <div class="desc">Executes implementation plan in batches with human review checkpoints between each batch.</div>
+      <div class="tag-row">
+        <span class="itag it-blue">Human checkpoints</span>
+        <span class="itag it-blue">Batch execution</span>
+        <span class="itag it-yellow">Control > Speed</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-icon">ℹ️</div>
+    <div><strong>executing-plans vs subagent-driven-development:</strong> Use <code>executing-plans</code> when you want manual review after each batch. Use <code>subagent-driven-development</code> when you want AI to continuously self-review — faster but less control.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Prompt — Execute each batch</div>
+    <div class="g2">
+      <div class="prompt">
+        <div class="prompt-label">Step 1 — Start execution</div>
+        <div class="prompt-body">@executing-plans
+
+Execute Tasks 1 and 2 from:
+docs/plans/auth-plan.md
+
+After each task:
+- Run its tests
+- Show me the result
+- Wait for my approval
+before moving to next task.</div>
+      </div>
+      <div class="prompt">
+        <div class="prompt-label">Step 2 — Approve and continue</div>
+        <div class="prompt-body">Task 1 ✓ looks good.
+Task 2 ✓ approved.
+
+Continue to Task 3.
+Remember: write failing
+test first (RED phase),
+then implement (GREEN).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ SKILL 5: SUBAGENT-DRIVEN ══ -->
+<div class="section" id="s-subagent">
+  <div class="section-head">
+    <span class="tag tag-blue">Skill 5 — Core</span>
+    <h2>🤖 Subagent-Driven Development — 2-stage auto review</h2>
+    <p>Each task is dispatched to a fresh subagent. After completion, 2 independent reviewers are auto-dispatched: spec compliance and code quality. Extremely fast for large projects.</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-purple">🤖</div>
+    <div class="skill-meta">
+      <div class="skill-file">@subagent-driven-development · subagent-driven-development.mdc</div>
+      <div class="desc">Each task gets a fresh implementer subagent. Two reviewer subagents auto-review each completed task.</div>
+      <div class="tag-row">
+        <span class="itag it-blue">Fresh subagent per task</span>
+        <span class="itag it-green">2-stage auto review</span>
+        <span class="itag it-green">Best for large projects</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>How it works — 4 steps per task</div>
+    <ul class="steps">
+      <li><div class="n">1</div><div class="txt"><strong>Dispatch implementer subagent</strong><span>Subagent receives task text + context, implements + self-reviews, commits</span></div></li>
+      <li><div class="n">2</div><div class="txt"><strong>Dispatch spec-compliance reviewer</strong><span>Separate reviewer checks: does code match spec? Missing requirements?</span></div></li>
+      <li><div class="n">3</div><div class="txt"><strong>Dispatch code-quality reviewer</strong><span>Second reviewer checks: DRY, error handling, security, performance</span></div></li>
+      <li><div class="n">4</div><div class="txt"><strong>Continue or fix</strong><span>If issues found → implementer fixes. If passed → move to next task</span></div></li>
+    </ul>
+    <div class="prompt">
+      <div class="prompt-label">Prompt — Start subagent-driven execution</div>
+      <div class="prompt-body">@subagent-driven-development
+
+Execute this implementation plan using subagent-driven development:
+[read file: docs/plans/auth-plan.md]
+
+For each task:
+1. Dispatch fresh implementer subagent with task text + context
+2. After implementation: dispatch spec-compliance reviewer
+3. After spec review: dispatch code-quality reviewer
+4. Only proceed to next task when both reviewers approve
+
+Report status after each task completes.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Status codes — Understanding return values</div>
+    <div class="output">
+      <div class="output-top">Subagent status protocol</div>
+      <div class="output-body">DONE              → Task completed, both reviewers approved ✓
+DONE_WITH_CONCERNS → Done but has minor issues — you decide to continue or fix
+BLOCKED           → Subagent needs more context from you
+NEEDS_CONTEXT     → Missing info (API key, config, spec clarification)</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ SKILL 6: PARALLEL AGENTS ══ -->
+<div class="section" id="s-parallel">
+  <div class="section-head">
+    <span class="tag tag-orange">Skill 6 — Core</span>
+    <h2>⚡ Dispatching Parallel Agents — Run multiple tasks simultaneously</h2>
+    <p>Dispatch multiple subagents to work on independent tasks in parallel. 3–5x speedup when there are many modules with no dependencies. Requires git worktrees to avoid conflicts.</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-orange">⚡</div>
+    <div class="skill-meta">
+      <div class="skill-file">@dispatching-parallel-agents · dispatching-parallel-agents.mdc</div>
+      <div class="desc">Use when facing 2+ independent tasks that can be worked on without shared state or sequential dependencies.</div>
+      <div class="tag-row">
+        <span class="itag it-orange">3-5x faster</span>
+        <span class="itag it-yellow">Independent tasks only</span>
+        <span class="itag it-green">Each in own worktree</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-warn">
+    <div class="callout-icon">⚠️</div>
+    <div><strong>Mandatory requirement:</strong> Tasks must be <strong>independent</strong> — no dependencies. Example: writing <code>password.js</code> and <code>jwt.js</code> can be parallel. But <code>login.controller.js</code> depends on both → must run after.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Prompt — Dispatch parallel agents</div>
+    <div class="prompt">
+      <div class="prompt-label">Prompt</div>
+      <div class="prompt-body">@dispatching-parallel-agents
+
+These tasks are independent — dispatch them in parallel:
+
+Agent 1 — Password utility:
+  Task: Implement src/utils/password.js
+  Tests: src/utils/password.test.js
+  Spec: [paste task 1 from plan]
+
+Agent 2 — JWT service:
+  Task: Implement src/utils/jwt.js
+  Tests: src/utils/jwt.test.js
+  Spec: [paste task 2 from plan]
+
+Agent 3 — DB schema:
+  Task: Create migrations/001_users.sql
+  Spec: [paste task 3 from plan]
+
+Each agent works in its own git worktree.
+Report when ALL agents complete.</div>
+    </div>
+    <div class="callout callout-info" style="margin-top:4px">
+      <div class="callout-icon">ℹ️</div>
+      <div><strong>Context isolation:</strong> Each subagent only receives the exact context it needs — no shared session history. Prevents context pollution and keeps subagents more focused.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ SKILL 7: TDD ══ -->
+<div class="section" id="s-tdd">
+  <div class="section-head">
+    <span class="tag tag-green">Skill 7 — Core</span>
+    <h2>🧪 Test-Driven Development — RED → GREEN → REFACTOR</h2>
+    <p>You must write a failing test first. Watch it fail. Write minimal code to pass. Watch it pass. Commit. This skill will delete code written before tests exist.</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-green">🧪</div>
+    <div class="skill-meta">
+      <div class="skill-file">@test-driven-development · test-driven-development.mdc</div>
+      <div class="desc">Enforces RED → GREEN → REFACTOR. Auto-triggers during implementation. Will delete pre-test code.</div>
+      <div class="tag-row">
+        <span class="itag it-green">Auto-trigger during impl</span>
+        <span class="itag it-red">Deletes pre-test code</span>
+        <span class="itag it-green">RED GREEN REFACTOR</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>TDD 3-step flow</div>
+    <div class="g2">
+      <div class="prompt">
+        <div class="prompt-label">Step 1 — RED (write tests first)</div>
+        <div class="prompt-body">@test-driven-development
+
+Write FAILING tests for the
+login controller.
+
+Cover from spec:
+- 200 + JWT on valid creds
+- 401 on wrong password
+- 403 on locked account
+- 429 on rate limit exceeded
+
+File: src/auth/__tests__/login.test.js
+DO NOT write implementation yet.
+Run tests — confirm they FAIL.</div>
+      </div>
+      <div class="prompt">
+        <div class="prompt-label">Step 2 — GREEN (minimal code)</div>
+        <div class="prompt-body">Tests are written and FAILING ✓
+
+Now implement MINIMAL code
+to make all tests pass.
+
+File: src/auth/login.controller.js
+
+Rules:
+- Write minimum code to pass
+- Don't add extra features
+- Run tests after each change
+- Stop when all GREEN ✓</div>
+      </div>
+    </div>
+    <div class="prompt">
+      <div class="prompt-label">Step 3 — REFACTOR (after GREEN)</div>
+      <div class="prompt-body">All tests passing ✓
+
+Now REFACTOR the login controller:
+- Remove duplication
+- Improve naming
+- Extract helper functions if needed
+
+Rules: Tests must still pass after every change.
+Commit after refactor complete.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ SKILL 8: DEBUGGING ══ -->
+<div class="section" id="s-debug">
+  <div class="section-head">
+    <span class="tag tag-blue">Skill 8 — Core</span>
+    <h2>🐛 Systematic Debugging — 4-phase root cause process</h2>
+    <p>When there's a bug — don't guess, don't try random fixes. 4 phases: Reproduce → Hypothesis → Verify → Fix. Includes root-cause-tracing, defense-in-depth, condition-based-waiting.</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-red">🐛</div>
+    <div class="skill-meta">
+      <div class="skill-file">@systematic-debugging · systematic-debugging.mdc</div>
+      <div class="desc">4-phase debugging: Reproduce → Hypothesis → Verify → Fix root cause. Includes 3 specialized techniques.</div>
+      <div class="tag-row">
+        <span class="itag it-red">4-phase process</span>
+        <span class="itag it-red">Root cause only</span>
+        <span class="itag it-yellow">Defense-in-depth</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Debug template — Copy and fill in</div>
+    <div class="prompt">
+      <div class="prompt-label">Standard prompt — Systematic debug</div>
+      <div class="prompt-body">@systematic-debugging
+
+Bug report:
+- Expected: [describe expected behavior]
+- Actual:   [describe actual behavior]
+- When:     [conditions that trigger the bug]
+
+Error log:
+[paste full error + stack trace]
+
+Relevant files: [file 1], [file 2]
+
+Phase 1 (Reproduce): Confirm you can reproduce it
+Phase 2 (Hypothesis): List 3 possible root causes, ranked
+Phase 3 (Verify): Test each hypothesis — DO NOT fix yet
+Phase 4 (Fix): Fix only the confirmed root cause</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>3 specialized techniques in this skill</div>
+    <ul class="steps">
+      <li><div class="n">A</div><div class="txt"><strong>root-cause-tracing</strong><span>Trace the bug backwards through the call stack from symptom → actual source. Don't fix the symptom, fix the root.</span></div></li>
+      <li><div class="n">B</div><div class="txt"><strong>defense-in-depth</strong><span>After fixing, add validation at multiple layers so this entire class of bugs cannot occur again.</span></div></li>
+      <li><div class="n">C</div><div class="txt"><strong>condition-based-waiting</strong><span>Instead of setTimeout, poll actual conditions. Avoids race conditions and flaky tests.</span></div></li>
+    </ul>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ SKILL 9: VERIFICATION ══ -->
+<div class="section" id="s-verify">
+  <div class="section-head">
+    <span class="tag tag-green">Skill 9 — Core</span>
+    <h2>✅ Verification Before Completion — No premature "done" claims</h2>
+    <p>Runs all verification steps in the plan before claiming a task is done. Auto-triggers at the end of each task execution and before finishing-a-development-branch.</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-yellow">✅</div>
+    <div class="skill-meta">
+      <div class="skill-file">@verification-before-completion · verification-before-completion.mdc</div>
+      <div class="desc">Blocks premature "done" claims. Auto-triggers at end of every task execution before commit.</div>
+      <div class="tag-row">
+        <span class="itag it-green">Auto-trigger at task end</span>
+        <span class="itag it-green">Blocks premature done</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Prompt — Manual verification before commit</div>
+    <div class="prompt">
+      <div class="prompt-label">Prompt</div>
+      <div class="prompt-body">@verification-before-completion
+
+Review completed auth feature against original spec.
+
+Check ALL of the following — do not skip any:
+1. Every functional requirement in spec.md → implemented?
+2. Every edge case listed → has a test?
+3. npm test → all passing, no skipped?
+4. No hardcoded secrets or credentials?
+5. Error messages don't leak sensitive info?
+6. Rate limiting working correctly?
+
+Report: PASS / FAIL per item. Block completion if any FAIL.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ SKILL 10: REQUEST REVIEW ══ -->
+<div class="section" id="s-request-review">
+  <div class="section-head">
+    <span class="tag tag-yellow">Skill 10 — Git & Review</span>
+    <h2>👀 Requesting Code Review — Dispatch reviewer subagent</h2>
+    <p>Dispatch code-reviewer subagent to catch issues before they cascade. Mandatory after each task in the subagent-driven workflow.</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-yellow">👀</div>
+    <div class="skill-meta">
+      <div class="skill-file">@requesting-code-review · requesting-code-review.mdc</div>
+      <div class="desc">Dispatches the code-reviewer agent. Mandatory after each task in subagent-driven workflow, before any merge.</div>
+      <div class="tag-row">
+        <span class="itag it-yellow">Mandatory after each task</span>
+        <span class="itag it-yellow">Pre-review checklist</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Template — Standard code review request</div>
+    <div class="prompt">
+      <div class="prompt-label">Prompt — Request code review</div>
+      <div class="prompt-body">@requesting-code-review
+
+Request code review for completed task:
+
+WHAT_WAS_IMPLEMENTED:
+  Login controller with JWT auth and rate limiting
+
+PLAN_REFERENCE:
+  docs/plans/auth-plan.md — Task 3
+
+GIT_RANGE:
+  BASE_SHA: [before Task 3]
+  HEAD_SHA: HEAD
+
+Review checklist:
+- Clean separation of concerns?
+- Proper error handling?
+- DRY principle followed?
+- Security concerns (SQL injection, timing attacks)?</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Understanding severity levels in review output</div>
+    <div class="output">
+      <div class="output-top">Code review severity levels</div>
+      <div class="output-body">🔴 CRITICAL  → Fix before continuing anything — BLOCKED
+🟡 IMPORTANT → Should fix, not mandatory immediately but before merge
+⚪ MINOR     → Nice to have, can create a technical debt ticket
+
+Assessment:
+  APPROVED      → Continue to next task
+  BLOCKED       → Fix critical issue first</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ SKILL 11: RECEIVE REVIEW ══ -->
+<div class="section" id="s-receive-review">
+  <div class="section-head">
+    <span class="tag tag-yellow">Skill 11 — Git & Review</span>
+    <h2>💬 Receiving Code Review — Handle feedback properly</h2>
+    <p>Skill to respond to code review feedback in a structured way. Classify each issue, create an action plan, don't argue with the reviewer but address each point.</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-yellow">💬</div>
+    <div class="skill-meta">
+      <div class="skill-file">@receiving-code-review · receiving-code-review.mdc</div>
+      <div class="desc">Requires technical rigor and verification, not performative agreement or blind implementation of feedback.</div>
+      <div class="tag-row">
+        <span class="itag it-yellow">Structured response</span>
+        <span class="itag it-yellow">Per-issue action plan</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Prompt — Handle review feedback</div>
+    <div class="prompt">
+      <div class="prompt-label">Prompt</div>
+      <div class="prompt-body">@receiving-code-review
+
+I received this code review:
+[paste review output]
+
+For each issue:
+1. Acknowledge it (don't argue)
+2. Classify: Will Fix / Won't Fix + reason / Already addressed
+3. For "Will Fix": implement the fix now
+4. After all fixes: re-run tests to confirm nothing broke
+5. Summary: what was changed and why
+
+Start with CRITICAL issues first.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Sample output — Structured response</div>
+    <div class="output">
+      <div class="output-top">Review response</div>
+      <div class="output-body">Issue 1: SQL injection [CRITICAL] → WILL FIX
+  Current:  db.query(`SELECT * FROM users WHERE email = '${email}'`)
+  Fixed:    db.query('SELECT * FROM users WHERE email = $1', [email])
+  Status:   ✓ Fixed, test added for SQL injection attempt
+
+Issue 2: Missing Retry-After header [IMPORTANT] → WILL FIX
+  Added: res.set('Retry-After', 900) before 429 response
+  Status: ✓ Fixed, test updated
+
+Issue 3: Magic number 5 [MINOR] → WILL FIX
+  Moved to: config/auth.js → AUTH.MAX_ATTEMPTS = 5
+  Status: ✓ Fixed
+
+All fixes applied. npm test → 11/11 passing ✓
+Ready to proceed to Task 4.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ SKILL 12: FINISH BRANCH ══ -->
+<div class="section" id="s-finish">
+  <div class="section-head">
+    <span class="tag tag-green">Skill 12 — Git & Review</span>
+    <h2>🏁 Finishing a Development Branch — Merge / PR / Discard</h2>
+    <p>Activates when all tasks are complete. Verifies tests, presents 4 options (merge/PR/keep/discard), cleans up worktree. This is the final step of each feature cycle.</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-green">🏁</div>
+    <div class="skill-meta">
+      <div class="skill-file">@finishing-a-development-branch · finishing-a-development-branch.mdc</div>
+      <div class="desc">Guides completion of development work by presenting structured options for merge, PR, or cleanup.</div>
+      <div class="tag-row">
+        <span class="itag it-green">4 options: merge/PR/keep/discard</span>
+        <span class="itag it-green">Cleanup worktree</span>
+        <span class="itag it-green">Pre-flight check</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Prompt — Finish branch properly</div>
+    <div class="prompt">
+      <div class="prompt-label">Prompt</div>
+      <div class="prompt-body">@finishing-a-development-branch
+
+All tasks in auth feature are complete.
+
+Pre-flight check:
+1. Run full test suite — confirm all passing
+2. Check for uncommitted changes
+3. Review git log for this branch (last 10 commits)
+4. Present my options:
+   A) Merge to main directly
+   B) Create Pull Request (with PR description)
+   C) Keep branch open (more work needed)
+   D) Discard branch (not satisfied)
+
+I'll tell you which option to proceed with.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Sample output — 4 options presented</div>
+    <div class="output">
+      <div class="output-top">Branch completion options</div>
+      <div class="output-body">Pre-flight results:
+  ✓ 34 tests passing (was 23 before, +11 new)
+  ✓ No uncommitted changes
+  ✓ 8 clean commits on feature/user-auth
+
+Your options:
+  A) Merge to main directly
+     → git merge --no-ff feature/user-auth
+     → Removes worktree, branch stays for history
+
+  B) Create Pull Request
+     → PR title: "Auth: Add JWT login, rate limiting, TDD coverage"
+     → Assigns you as reviewer
+
+  C) Keep branch open → Worktree stays, continue work later
+
+  D) Discard branch → IRREVERSIBLE — use if feature is abandoned
+
+Which option? (A/B/C/D)</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ SKILL 13: USING SUPERPOWERS ══ -->
+<div class="section" id="s-using-superpowers">
+  <div class="section-head">
+    <span class="tag tag-pink">Skill 13 — Meta</span>
+    <h2>🧠 Using Superpowers — Meta-skill orchestrating the entire system</h2>
+    <p>The most important skill — teaches AI <em>how to use</em> all other skills. Establishes priority rules, when to invoke skills, and the mandatory mindset when working with Superpowers.</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-pink">🧠</div>
+    <div class="skill-meta">
+      <div class="skill-file">@using-superpowers · using-superpowers.mdc</div>
+      <div class="desc">The meta-skill that governs HOW all other skills are used. Establishes mandatory discipline: if a skill applies, it MUST be used — no exceptions, no rationalizations.</div>
+      <div class="tag-row">
+        <span class="itag it-pink">Meta-skill</span>
+        <span class="itag it-pink">Governs all other skills</span>
+        <span class="itag it-orange">Non-negotiable</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-warn">
+    <div class="callout-icon">🚨</div>
+    <div><strong>Rule #1 — NO EXCEPTIONS:</strong> If a skill applies to your task, AI <strong>MUST</strong> use that skill. Cannot rationalize around it. Not optional. Not negotiable.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Priority order — Priority hierarchy</div>
+    <ul class="steps">
+      <li><div class="n" style="background:rgba(245,197,66,.2);color:var(--yellow)">1</div><div class="txt"><strong>User's explicit instructions (highest)</strong><span>CLAUDE.md, GEMINI.md, AGENTS.md, direct requests — always have absolute priority</span></div></li>
+      <li><div class="n" style="background:rgba(79,142,255,.2);color:var(--accent)">2</div><div class="txt"><strong>Superpowers skills</strong><span>Override default system behavior where there's a conflict — but never override user instructions</span></div></li>
+      <li><div class="n" style="background:rgba(107,122,153,.2);color:var(--muted)">3</div><div class="txt"><strong>Default system prompt (lowest)</strong><span>AI's default behavior — overridden by both skills and user instructions</span></div></li>
+    </ul>
+    <div class="callout callout-info" style="margin-top:4px">
+      <div class="callout-icon">💡</div>
+      <div><strong>Conflict example:</strong> If <code>CLAUDE.md</code> says "don't use TDD" and skill <code>test-driven-development</code> says "always use TDD" → <strong>follow user instructions</strong>. The user is always in control.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Decision flow — What AI does when receiving a message</div>
+    <div class="workflow">
+      <div class="wf-step wf-c1">
+        <div class="wf-left"><div class="wf-circle">?</div><div class="wf-line"></div></div>
+        <div class="wf-content">
+          <div class="wf-title">Receive message from user</div>
+          <div class="wf-desc">Before anything else — including clarifying questions</div>
+        </div>
+      </div>
+      <div class="wf-step wf-c2">
+        <div class="wf-left"><div class="wf-circle">1</div><div class="wf-line"></div></div>
+        <div class="wf-content">
+          <div class="wf-title">Verify: Does any skill apply?</div>
+          <div class="wf-desc">Even 1% chance → invoke skill to check. Skill check comes BEFORE clarifying questions.</div>
+          <div class="wf-skill" style="color:var(--accent)">Skill check → BEFORE any action</div>
+        </div>
+      </div>
+      <div class="wf-step wf-c3">
+        <div class="wf-left"><div class="wf-circle">2</div><div class="wf-line"></div></div>
+        <div class="wf-content">
+          <div class="wf-title">If skill applies → Invoke Skill tool</div>
+          <div class="wf-desc">Announce: "Using [skill] to [purpose]". If skill has a checklist → create TodoWrite todo per item.</div>
+          <div class="wf-skill" style="color:#a78bfa">Announce → Checklist → Follow exactly</div>
+        </div>
+      </div>
+      <div class="wf-step wf-c4 wf-last">
+        <div class="wf-left"><div class="wf-circle">3</div></div>
+        <div class="wf-content">
+          <div class="wf-title">Follow skill exactly → Respond</div>
+          <div class="wf-desc">Don't adapt away. Don't improvise. Follow skill → then respond to user.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>How to invoke skills per platform</div>
+    <div class="g2">
+      <div>
+        <div class="prompt">
+          <div class="prompt-label">Cursor (and Claude Code)</div>
+          <div class="prompt-body"><span class="cm"># Use Skill tool — DO NOT use Read tool</span>
+@brainstorming
+@test-driven-development
+@systematic-debugging
+
+<span class="cm"># Skill tool loads and presents content
+# Follow directly — no need to read the file manually</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="prompt">
+          <div class="prompt-label">Gemini CLI / Other</div>
+          <div class="prompt-body"><span class="cm"># Gemini CLI: activate_skill tool
+# Loads skill metadata at session start
+# Activates full content on demand
+
+# Other environments:
+# See platform documentation
+# Skills use Claude Code tool names</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Common reasons AI "skips" skills — ALL of them are wrong</div>
+    <div class="output">
+      <div class="output-top">Rationalizations to REJECT</div>
+      <div class="output-body">❌ "Questions are tasks" → Skill check BEFORE clarifying questions
+❌ "Skill check comes BEFORE clarifying questions" → Check first, ask later
+❌ "Skills tell you HOW to explore" → Check first, don't assume you know how
+❌ "Files lack conversation context" → Check for skills anyway
+❌ "Skills evolve. Read current version" → Run current version each time
+❌ "Simple things become complex. Use it" → Simple ≠ no skill needed
+❌ "Knowing the concept ≠ using the skill" → Invoke it, don't rely on training
+❌ "Undisciplined action wastes time. Skills prevent this" → No shortcuts
+
+Rigid skills (TDD, debugging): Follow exactly. Don't adapt away discipline.
+Flexible skills (patterns): Adapt principles to context.
+The skill itself tells you which type it is.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Trigger patterns — Which skill for which situation</div>
+    <div class="output">
+      <div class="output-top">Trigger examples</div>
+      <div class="output-body">"Let's build X"          → @brainstorming first → then implementation skills
+"Fix this bug"           → @systematic-debugging first → then domain-specific skills
+"I want to add feature"  → @brainstorming (MUST, even if seems obvious)
+"Run the tests"          → @test-driven-development (verify RED/GREEN/REFACTOR)
+"We're done with tasks"  → @finishing-a-development-branch automatically
+"Review this code"       → @requesting-code-review → code-reviewer agent</div>
+    </div>
+    <div class="callout callout-tip" style="margin-top:4px">
+      <div class="callout-icon">💡</div>
+      <div><strong>Golden rule:</strong> Instructions say <strong>WHAT</strong>, not HOW. Skills say HOW. If there's a skill for HOW → use it, don't invent your own.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ SKILL 14: WRITING SKILLS ══ -->
+<div class="section" id="s-writing-skills">
+  <div class="section-head">
+    <span class="tag tag-pink">Skill 14 — Meta</span>
+    <h2>✍️ Writing Skills — Create custom skills for your team</h2>
+    <p>Create custom skills following Superpowers best practices. New skills are tested by subagents before use. Build skills specific to your domain/team.</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-pink">✍️</div>
+    <div class="skill-meta">
+      <div class="skill-file">@writing-skills · writing-skills.mdc</div>
+      <div class="desc">Creates custom skills following Superpowers best practices. New skills are tested by subagents before use.</div>
+      <div class="tag-row">
+        <span class="itag it-pink">Create custom skills</span>
+        <span class="itag it-pink">Team-specific workflows</span>
+        <span class="itag it-pink">Subagent-tested</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Prompt — Create deploy workflow skill for team</div>
+    <div class="prompt">
+      <div class="prompt-label">Prompt — Create custom skill</div>
+      <div class="prompt-body">@writing-skills
+
+Create a new skill: "deploying-to-staging"
+
+This skill should activate when someone says they want to deploy.
+It should:
+1. Run full test suite first
+2. Build Docker image
+3. Run security scan (trivy)
+4. Deploy to staging via kubectl
+5. Run smoke tests against staging
+6. Report deployment URL
+
+Our stack: Docker + Kubernetes + GitHub Actions
+Staging URL pattern: https://staging-{branch}.our-domain.com
+
+Follow superpowers skill format.
+Save to: .cursor/rules/deploying-to-staging.mdc</div>
+    </div>
+    <div class="callout callout-tip" style="margin-top:4px">
+      <div class="callout-icon">💡</div>
+      <div><strong>Pro tip:</strong> After creating a skill, use <code>@writing-skills</code> again to test the new skill with a subagent before the team uses it. A tested skill = a reliable skill.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SUMMARY TABLE ══ -->
+<div class="section" id="summary">
+  <div class="section-head">
+    <span class="tag tag-blue">📊 Summary</span>
+    <h2>All Components — Summary Table</h2>
+    <p>All Skills, Hooks, Agents, and Commands of Superpowers in one table.</p>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-icon">🔗</div>
+    <div>Source: <a href="https://github.com/obra/superpowers" style="color:var(--accent);text-decoration:underline">github.com/obra/superpowers</a> · Marketplace: <a href="https://cursor.com/marketplace/superpowers" style="color:var(--accent);text-decoration:underline">cursor.com/marketplace/superpowers</a></div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px">
+    <div class="card-label"><div class="dot"></div>Skills (14)</div>
+    <div style="overflow-x:auto">
+    <table class="summary-table">
+      <thead>
+        <tr><th>#</th><th>Skill</th><th>Trigger</th><th>Category</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td><strong>brainstorming</strong><span class="file-mono">brainstorming.mdc</span></td><td><span class="itag it-blue">Auto / @</span></td><td><span class="itag it-blue">Core</span></td></tr>
+        <tr><td>2</td><td><strong>using-git-worktrees</strong><span class="file-mono">using-git-worktrees.mdc</span></td><td><span class="itag it-blue">Auto / @</span></td><td><span class="itag it-blue">Core</span></td></tr>
+        <tr><td>3</td><td><strong>writing-plans</strong><span class="file-mono">writing-plans.mdc</span></td><td><span class="itag it-blue">Auto / @</span></td><td><span class="itag it-blue">Core</span></td></tr>
+        <tr><td>4</td><td><strong>executing-plans</strong><span class="file-mono">executing-plans.mdc</span></td><td><span class="itag it-blue">@</span></td><td><span class="itag it-blue">Core</span></td></tr>
+        <tr><td>5</td><td><strong>subagent-driven-development</strong><span class="file-mono">subagent-driven-development.mdc</span></td><td><span class="itag it-blue">Auto / @</span></td><td><span class="itag it-blue">Core</span></td></tr>
+        <tr><td>6</td><td><strong>dispatching-parallel-agents</strong><span class="file-mono">dispatching-parallel-agents.mdc</span></td><td><span class="itag it-blue">@</span></td><td><span class="itag it-blue">Core</span></td></tr>
+        <tr><td>7</td><td><strong>test-driven-development</strong><span class="file-mono">test-driven-development.mdc</span></td><td><span class="itag it-green">Auto</span></td><td><span class="itag it-blue">Core</span></td></tr>
+        <tr><td>8</td><td><strong>systematic-debugging</strong><span class="file-mono">systematic-debugging.mdc</span></td><td><span class="itag it-blue">@</span></td><td><span class="itag it-blue">Core</span></td></tr>
+        <tr><td>9</td><td><strong>verification-before-completion</strong><span class="file-mono">verification-before-completion.mdc</span></td><td><span class="itag it-green">Auto</span></td><td><span class="itag it-blue">Core</span></td></tr>
+        <tr><td>10</td><td><strong>requesting-code-review</strong><span class="file-mono">requesting-code-review.mdc</span></td><td><span class="itag it-blue">@</span></td><td><span class="itag it-yellow">Git & Review</span></td></tr>
+        <tr><td>11</td><td><strong>receiving-code-review</strong><span class="file-mono">receiving-code-review.mdc</span></td><td><span class="itag it-blue">@</span></td><td><span class="itag it-yellow">Git & Review</span></td></tr>
+        <tr><td>12</td><td><strong>finishing-a-development-branch</strong><span class="file-mono">finishing-a-development-branch.mdc</span></td><td><span class="itag it-blue">Auto / @</span></td><td><span class="itag it-yellow">Git & Review</span></td></tr>
+        <tr><td>13</td><td><strong>using-superpowers</strong><span class="file-mono">using-superpowers.mdc</span></td><td><span class="itag it-green">Auto</span></td><td><span class="itag it-pink">Meta</span></td></tr>
+        <tr><td>14</td><td><strong>writing-skills</strong><span class="file-mono">writing-skills.mdc</span></td><td><span class="itag it-blue">@</span></td><td><span class="itag it-pink">Meta</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="g2" style="margin-bottom:14px">
+    <div class="card">
+      <div class="card-label"><div class="dot"></div>Agents (1)</div>
+      <table class="summary-table">
+        <thead><tr><th>Agent</th><th>Trigger</th></tr></thead>
+        <tbody>
+          <tr><td><strong>code-reviewer</strong><span class="file-mono">agents/code-reviewer.md</span></td><td><span class="itag it-pink">Auto</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-label"><div class="dot"></div>Hooks (1)</div>
+      <table class="summary-table">
+        <thead><tr><th>Hook</th><th>Event</th></tr></thead>
+        <tbody>
+          <tr><td><strong>SessionStart</strong><span class="file-mono">hooks/hooks.json</span></td><td><span class="itag it-cyan">onSessionStart</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Commands (3)</div>
+    <table class="summary-table">
+      <thead><tr><th>Command</th><th>Equivalent Skill</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><strong>/brainstorm</strong><span class="file-mono">commands/brainstorm.md</span></td><td><code>@brainstorming</code></td><td style="color:var(--muted2);font-size:12px">Explore requirements before implementation</td></tr>
+        <tr><td><strong>/write-plan</strong><span class="file-mono">commands/write-plan.md</span></td><td><code>@writing-plans</code></td><td style="color:var(--muted2);font-size:12px">Create detailed implementation plan</td></tr>
+        <tr><td><strong>/execute-plan</strong><span class="file-mono">commands/execute-plan.md</span></td><td><code>@executing-plans</code></td><td style="color:var(--muted2);font-size:12px">Execute plan in batches with checkpoints</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="height: 20px"></div>
+</div>
+
+</div><!-- /main -->
+
+<!-- Back to top -->
+<button id="backtop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// ─── Active nav link on click ───
+function setActive(el) {
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  el.classList.add('active');
+  // Close mobile sidebar
+  if (window.innerWidth < 768) toggleSidebar();
+}
+
+// ─── Mobile sidebar toggle ───
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('open');
+}
+
+// ─── Scroll-based active nav ───
+const sections = document.querySelectorAll('[id]');
+const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+      });
+    }
+  });
+}, {
+  rootMargin: '-20% 0px -70% 0px',
+  threshold: 0
+});
+
+sections.forEach(s => {
+  if (s.id) observer.observe(s);
+});
+
+// ─── Back to top button ───
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('backtop');
+  btn.classList.toggle('visible', window.scrollY > 400);
+});
+
+// ─── Smooth scroll for nav links ───
+navLinks.forEach(link => {
+  link.addEventListener('click', (e) => {
+    const href = link.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  });
+});
+
+// ─── Copy buttons ───
+const copyIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+const checkIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+
+function createCopyBtn(targetEl) {
+  const btn = document.createElement('button');
+  btn.className = 'copy-btn';
+  btn.innerHTML = copyIcon + '<span>Copy</span>';
+  btn.addEventListener('click', () => {
+    const text = targetEl.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.classList.add('copied');
+      btn.innerHTML = checkIcon + '<span>Copied!</span>';
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = copyIcon + '<span>Copy</span>';
+      }, 2000);
+    });
+  });
+  return btn;
+}
+
+// Add copy buttons to code blocks
+document.querySelectorAll('.code-wrap').forEach(wrap => {
+  const codeBody = wrap.querySelector('.code-body');
+  const codeTop = wrap.querySelector('.code-top');
+  if (codeBody && codeTop) {
+    codeTop.appendChild(createCopyBtn(codeBody));
+  }
+});
+
+// Add copy buttons to prompts
+document.querySelectorAll('.prompt').forEach(prompt => {
+  const promptBody = prompt.querySelector('.prompt-body');
+  const promptLabel = prompt.querySelector('.prompt-label');
+  if (promptBody && promptLabel) {
+    const btn = createCopyBtn(promptBody);
+    promptLabel.style.justifyContent = 'space-between';
+    promptLabel.appendChild(btn);
+  }
+});
+
+// ─── Fetch GitHub stars realtime ───
+(async function fetchGitHubStars() {
+  function formatStars(count) {
+    if (count >= 1000) {
+      const k = count / 1000;
+      return k % 1 === 0 ? k + 'k' : k.toFixed(1) + 'k';
+    }
+    return count.toString();
+  }
+
+  function updateStars(text) {
+    const pill = document.getElementById('stars-count-pill');
+    const txt = document.getElementById('stars-count-text');
+    if (pill) pill.textContent = text;
+    if (txt) txt.textContent = text;
+  }
+
+  try {
+    const res = await fetch('https://api.github.com/repos/obra/superpowers');
+    if (!res.ok) throw new Error('GitHub API error');
+    const data = await res.json();
+    updateStars(formatStars(data.stargazers_count));
+  } catch (e) {
+    // Fallback to cached value if API fails
+    updateStars('124k');
+  }
+})();
+</script>
+</body>
+</html>

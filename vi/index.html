@@ -1,0 +1,2234 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Cursor × Superpowers — Hướng dẫn đầy đủ</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap');
+
+:root {
+  --bg: #080a10;
+  --surface: #0d1017;
+  --card: #121620;
+  --card2: #161c28;
+  --border: #1e2535;
+  --border2: #252d40;
+  --accent: #4f8eff;
+  --accent2: #7c3aed;
+  --green: #22d3a5;
+  --yellow: #f5c542;
+  --red: #f87171;
+  --orange: #fb923c;
+  --pink: #ec4899;
+  --cyan: #22d3ee;
+  --text: #dde4f0;
+  --muted: #6b7a99;
+  --muted2: #8892a4;
+  --code-bg: #06080d;
+  --nav-h: 52px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: 'Plus Jakarta Sans', sans-serif; background: var(--bg); color: var(--text); line-height: 1.7; overflow-x: hidden; }
+a { color: inherit; text-decoration: none; }
+code { font-family: 'JetBrains Mono', monospace; font-size: .85em; background: rgba(79,142,255,.1); color: var(--accent); padding: 2px 6px; border-radius: 5px; }
+
+/* ─── SIDEBAR NAV ─── */
+#sidebar {
+  position: fixed; top: 0; left: 0; bottom: 0; width: 240px;
+  background: var(--surface); border-right: 1px solid var(--border);
+  display: flex; flex-direction: column;
+  z-index: 100; overflow-y: auto; overflow-x: hidden;
+  transition: transform .25s ease;
+}
+#sidebar-logo {
+  padding: 20px 20px 16px;
+  border-bottom: 1px solid var(--border);
+  flex-shrink: 0;
+}
+#sidebar-logo .brand {
+  font-size: 13px; font-weight: 800; letter-spacing: -.01em;
+  background: linear-gradient(135deg,#fff 30%,var(--accent));
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  display: block; margin-bottom: 2px;
+}
+#sidebar-logo .sub { font-size: 10px; color: var(--muted); letter-spacing: .06em; text-transform: uppercase; }
+
+.nav-section { padding: 14px 12px 4px; }
+.nav-section-label {
+  font-size: 9.5px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase;
+  color: var(--muted); padding: 0 8px; margin-bottom: 4px; display: block;
+}
+.nav-link {
+  display: flex; align-items: center; gap: 9px;
+  padding: 7px 10px; border-radius: 8px;
+  font-size: 12.5px; font-weight: 500; color: var(--muted2);
+  cursor: pointer; transition: all .15s; margin-bottom: 1px;
+  border: 1px solid transparent;
+}
+.nav-link:hover { background: var(--card); color: var(--text); }
+.nav-link.active {
+  background: rgba(79,142,255,.1); color: var(--accent);
+  border-color: rgba(79,142,255,.2);
+}
+.nav-link .icon { font-size: 14px; flex-shrink: 0; width: 18px; text-align: center; }
+.nav-link .badge {
+  margin-left: auto; font-size: 9px; font-weight: 700;
+  padding: 1px 6px; border-radius: 20px;
+}
+.badge-new { background: rgba(251,146,60,.2); color: var(--orange); }
+.badge-tip { background: rgba(34,211,165,.15); color: var(--green); }
+
+/* ─── MOBILE TOGGLE ─── */
+#menu-toggle {
+  display: none; position: fixed; top: 12px; left: 12px; z-index: 200;
+  width: 38px; height: 38px; border-radius: 10px;
+  background: var(--card); border: 1px solid var(--border);
+  align-items: center; justify-content: center;
+  cursor: pointer; font-size: 16px;
+}
+#overlay {
+  display: none; position: fixed; inset: 0;
+  background: rgba(0,0,0,.6); z-index: 90;
+}
+
+/* ─── MAIN CONTENT ─── */
+#main { margin-left: 240px; min-height: 100vh; }
+
+/* ─── HERO ─── */
+.hero {
+  padding: 64px 60px 56px;
+  background: radial-gradient(ellipse 70% 60% at 80% 20%, rgba(79,142,255,.06) 0%, transparent 70%),
+              radial-gradient(ellipse 50% 50% at 10% 80%, rgba(124,58,237,.05) 0%, transparent 70%);
+  border-bottom: 1px solid var(--border);
+  position: relative; overflow: hidden;
+}
+.hero::after {
+  content: '';
+  position: absolute; top: 0; right: 0; bottom: 0; left: 0;
+  background: url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 60L60 0' stroke='%23ffffff' stroke-width='.3' stroke-opacity='.025'/%3E%3C/svg%3E");
+  pointer-events: none;
+}
+.hero-eyebrow {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: rgba(79,142,255,.08); border: 1px solid rgba(79,142,255,.2);
+  border-radius: 20px; padding: 5px 14px;
+  font-size: 10.5px; font-weight: 700; letter-spacing: .1em;
+  color: var(--accent); text-transform: uppercase; margin-bottom: 22px;
+}
+.hero h1 {
+  font-size: clamp(28px, 4vw, 54px); font-weight: 800; letter-spacing: -.03em;
+  line-height: 1.08; margin-bottom: 18px;
+  background: linear-gradient(140deg, #fff 20%, #4f8eff 55%, #7c3aed 100%);
+  -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+  max-width: 680px;
+}
+.hero-desc { font-size: 16px; color: var(--muted2); max-width: 560px; margin-bottom: 36px; line-height: 1.75; }
+.hero-pills { display: flex; flex-wrap: wrap; gap: 10px; }
+.pill {
+  display: flex; align-items: center; gap: 8px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 10px; padding: 8px 16px;
+  font-size: 12px; font-weight: 600; color: var(--muted2);
+}
+.pill .dot { width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0; }
+
+/* ─── SECTION WRAPPER ─── */
+.section { max-width: 860px; padding: 0 60px 80px; }
+
+/* ─── SECTION HEADER ─── */
+.section-head {
+  padding-top: 56px; padding-bottom: 32px;
+  border-bottom: 1px solid var(--border); margin-bottom: 40px;
+}
+.section-head .tag {
+  font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  padding: 4px 12px; border-radius: 20px; display: inline-block; margin-bottom: 14px;
+}
+.tag-blue   { background: rgba(79,142,255,.12); color: var(--accent); border: 1px solid rgba(79,142,255,.25); }
+.tag-green  { background: rgba(34,211,165,.1);  color: var(--green);  border: 1px solid rgba(34,211,165,.25); }
+.tag-yellow { background: rgba(245,197,66,.1);  color: var(--yellow); border: 1px solid rgba(245,197,66,.25); }
+.tag-pink   { background: rgba(236,72,153,.1);  color: var(--pink);   border: 1px solid rgba(236,72,153,.25); }
+.tag-orange { background: rgba(251,146,60,.1);  color: var(--orange); border: 1px solid rgba(251,146,60,.25); }
+.tag-cyan   { background: rgba(34,211,238,.1);  color: var(--cyan);   border: 1px solid rgba(34,211,238,.25); }
+
+.section-head h2 {
+  font-size: clamp(22px, 3vw, 32px); font-weight: 800; letter-spacing: -.02em;
+  margin-bottom: 10px; line-height: 1.2;
+}
+.section-head p { color: var(--muted2); font-size: 14.5px; max-width: 600px; }
+
+/* ─── CARDS ─── */
+.card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 22px 24px; margin-bottom: 14px;
+}
+.card-label {
+  font-size: 9.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 14px; display: flex; align-items: center; gap: 7px;
+}
+.card-label .dot { width: 5px; height: 5px; border-radius: 50%; background: var(--accent); }
+
+/* ─── CODE BLOCKS ─── */
+.code-wrap {
+  background: var(--code-bg); border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden; margin-bottom: 12px;
+  position: relative;
+}
+.code-top {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 9px 16px; border-bottom: 1px solid var(--border);
+  background: rgba(255,255,255,.02);
+}
+.traffic-lights { display: flex; gap: 5px; }
+.traffic-lights span { width: 9px; height: 9px; border-radius: 50%; }
+.tl-r { background: #f87171; } .tl-y { background: #fbbf24; } .tl-g { background: #34d399; }
+.code-lang { font-family: 'JetBrains Mono', monospace; font-size: 10.5px; color: var(--muted); }
+.code-body {
+  padding: 16px 20px; font-family: 'JetBrains Mono', monospace;
+  font-size: 12px; line-height: 1.85; color: #c9d1d9; white-space: pre-wrap; word-break: break-word;
+}
+.cm { color: #8892a4; } .kw { color: #79c0ff; } .hl { color: var(--green); }
+.str { color: #f0a070; } .fn { color: #dbb8ff; }
+
+/* ─── COPY BUTTON ─── */
+.copy-btn {
+  display: flex; align-items: center; gap: 5px;
+  background: rgba(255,255,255,.05); border: 1px solid var(--border);
+  border-radius: 6px; padding: 4px 10px;
+  font-family: 'JetBrains Mono', monospace; font-size: 10px; font-weight: 600;
+  color: var(--muted); cursor: pointer;
+  transition: all .2s ease; position: relative;
+}
+.copy-btn:hover {
+  background: rgba(79,142,255,.12); color: var(--accent);
+  border-color: rgba(79,142,255,.3);
+}
+.copy-btn:active { transform: scale(.95); }
+.copy-btn.copied {
+  background: rgba(34,211,165,.12); color: var(--green);
+  border-color: rgba(34,211,165,.3);
+}
+.copy-btn svg { width: 12px; height: 12px; flex-shrink: 0; }
+
+/* ─── PROMPTS ─── */
+.prompt {
+  background: linear-gradient(135deg, rgba(79,142,255,.04), rgba(124,58,237,.04));
+  border: 1px solid rgba(79,142,255,.18); border-left: 3px solid var(--accent);
+  border-radius: 10px; padding: 16px 18px; margin-bottom: 12px;
+  position: relative;
+}
+.prompt-label {
+  font-size: 9.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--accent); margin-bottom: 10px; display: flex; align-items: center; gap: 6px;
+}
+.prompt-label::before { content: '▶'; font-size: 9px; }
+.prompt-body {
+  font-family: 'JetBrains Mono', monospace; font-size: 12px; line-height: 1.85;
+  color: #c9d1d9; white-space: pre-wrap;
+}
+
+/* ─── OUTPUT ─── */
+.output {
+  background: var(--code-bg); border: 1px solid var(--border);
+  border-radius: 10px; overflow: hidden; margin-bottom: 12px;
+}
+.output-top {
+  background: rgba(34,211,165,.06); border-bottom: 1px solid rgba(34,211,165,.15);
+  padding: 8px 16px; font-size: 10px; font-weight: 700; letter-spacing: .08em;
+  text-transform: uppercase; color: var(--green); display: flex; align-items: center; gap: 7px;
+}
+.output-top::before { content: '●'; font-size: 8px; }
+.output-body {
+  padding: 14px 18px; font-family: 'JetBrains Mono', monospace;
+  font-size: 11.5px; line-height: 1.9; color: #9aaccc; white-space: pre-wrap;
+}
+
+/* ─── CALLOUTS ─── */
+.callout {
+  display: flex; gap: 12px; align-items: flex-start;
+  border-radius: 10px; padding: 13px 16px; margin-bottom: 14px; font-size: 13px; line-height: 1.65;
+}
+.callout-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+.callout-warn  { background: rgba(245,197,66,.06);  border: 1px solid rgba(245,197,66,.2);  color: #d4c07a; }
+.callout-tip   { background: rgba(34,211,165,.06);  border: 1px solid rgba(34,211,165,.2);  color: #86e8cc; }
+.callout-info  { background: rgba(79,142,255,.06);  border: 1px solid rgba(79,142,255,.2);  color: #93b4e8; }
+.callout-new   { background: rgba(251,146,60,.06);  border: 1px solid rgba(251,146,60,.2);  color: #fbd08a; }
+.callout strong { font-weight: 700; }
+.callout-warn strong  { color: var(--yellow); }
+.callout-tip strong   { color: var(--green); }
+.callout-info strong  { color: var(--accent); }
+.callout-new strong   { color: var(--orange); }
+
+/* ─── STEP LIST ─── */
+.steps { list-style: none; display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+.steps li {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 10px 14px; background: var(--card2);
+  border: 1px solid var(--border); border-radius: 9px; font-size: 13px;
+}
+.steps li .n {
+  min-width: 24px; height: 24px; border-radius: 6px;
+  background: rgba(79,142,255,.15); color: var(--accent);
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; font-weight: 700;
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.steps li .txt strong { color: var(--text); display: block; font-size: 13px; margin-bottom: 2px; }
+.steps li .txt span   { color: var(--muted2); font-size: 12px; }
+
+/* ─── GRID ─── */
+.g2 { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+
+/* ─── SKILL CARD HEADER ─── */
+.skill-head {
+  display: flex; align-items: flex-start; gap: 16px;
+  margin-bottom: 26px; padding-bottom: 20px; border-bottom: 1px solid var(--border);
+}
+.skill-icon {
+  width: 50px; height: 50px; border-radius: 13px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 20px;
+}
+.ic-blue   { background: rgba(79,142,255,.1);  border: 1px solid rgba(79,142,255,.3); }
+.ic-purple { background: rgba(124,58,237,.1);  border: 1px solid rgba(124,58,237,.3); }
+.ic-green  { background: rgba(34,211,165,.08); border: 1px solid rgba(34,211,165,.3); }
+.ic-yellow { background: rgba(245,197,66,.08); border: 1px solid rgba(245,197,66,.3); }
+.ic-red    { background: rgba(248,113,113,.08);border: 1px solid rgba(248,113,113,.3); }
+.ic-orange { background: rgba(251,146,60,.08); border: 1px solid rgba(251,146,60,.3); }
+.ic-pink   { background: rgba(236,72,153,.08); border: 1px solid rgba(236,72,153,.3); }
+.ic-cyan   { background: rgba(34,211,238,.08); border: 1px solid rgba(34,211,238,.3); }
+
+.skill-meta h3 { font-size: 18px; font-weight: 700; letter-spacing: -.01em; margin-bottom: 4px; }
+.skill-meta .skill-file {
+  font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); margin-bottom: 6px;
+}
+.skill-meta .desc { color: var(--muted2); font-size: 13.5px; }
+
+/* ─── INLINE TAGS ─── */
+.tag-row { display: flex; flex-wrap: wrap; gap: 6px; margin-top: 12px; }
+.itag {
+  font-size: 10px; font-weight: 700; letter-spacing: .07em; text-transform: uppercase;
+  padding: 3px 10px; border-radius: 20px;
+}
+.it-blue   { background: rgba(79,142,255,.12);  color: var(--accent); }
+.it-green  { background: rgba(34,211,165,.1);   color: var(--green); }
+.it-yellow { background: rgba(245,197,66,.1);   color: var(--yellow); }
+.it-orange { background: rgba(251,146,60,.12);  color: var(--orange); border: 1px solid rgba(251,146,60,.3); }
+.it-red    { background: rgba(248,113,113,.1);  color: var(--red); }
+.it-pink   { background: rgba(236,72,153,.1);   color: var(--pink); }
+.it-cyan   { background: rgba(34,211,238,.1);   color: var(--cyan); }
+
+/* ─── DIVIDER ─── */
+.divider { border: none; border-top: 1px solid var(--border); margin: 40px 0; }
+
+/* ─── SUMMARY TABLE ─── */
+.summary-table { width: 100%; border-collapse: collapse; font-size: 12.5px; }
+.summary-table th {
+  text-align: left; padding: 10px 14px;
+  background: var(--card2); color: var(--muted);
+  font-size: 10px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  border-bottom: 1px solid var(--border);
+}
+.summary-table th:first-child { border-radius: 10px 0 0 0; }
+.summary-table th:last-child  { border-radius: 0 10px 0 0; }
+.summary-table td {
+  padding: 10px 14px; border-bottom: 1px solid var(--border); vertical-align: middle;
+}
+.summary-table tr:hover td { background: rgba(255,255,255,.015); }
+.file-mono { font-family: 'JetBrains Mono', monospace; font-size: 11px; color: var(--muted); display: block; margin-top: 2px; }
+
+/* ─── WORKFLOW DIAGRAM ─── */
+.workflow {
+  display: flex; flex-direction: column; gap: 0; margin-bottom: 14px;
+}
+.wf-step {
+  display: flex; align-items: stretch; gap: 0;
+}
+.wf-left {
+  display: flex; flex-direction: column; align-items: center; width: 42px; flex-shrink: 0;
+}
+.wf-circle {
+  width: 36px; height: 36px; border-radius: 50%; border: 2px solid;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800; flex-shrink: 0;
+}
+.wf-line { width: 2px; flex: 1; min-height: 16px; }
+.wf-content {
+  flex: 1; padding: 4px 0 20px 14px;
+}
+.wf-title { font-size: 13.5px; font-weight: 700; margin-bottom: 3px; }
+.wf-desc  { font-size: 12px; color: var(--muted2); }
+.wf-skill { font-family: 'JetBrains Mono', monospace; font-size: 11px; }
+
+/* color variants for workflow */
+.wf-c1 .wf-circle { color: var(--accent); border-color: var(--accent); background: rgba(79,142,255,.1); }
+.wf-c1 .wf-line   { background: linear-gradient(var(--accent), var(--green)); }
+.wf-c2 .wf-circle { color: var(--green); border-color: var(--green); background: rgba(34,211,165,.1); }
+.wf-c2 .wf-line   { background: linear-gradient(var(--green), var(--green)); }
+.wf-c3 .wf-circle { color: var(--purple,#a78bfa); border-color: #a78bfa; background: rgba(167,139,250,.1); }
+.wf-c3 .wf-line   { background: linear-gradient(#a78bfa, var(--orange)); }
+.wf-c4 .wf-circle { color: var(--orange); border-color: var(--orange); background: rgba(251,146,60,.1); }
+.wf-c4 .wf-line   { background: linear-gradient(var(--orange), var(--yellow)); }
+.wf-c5 .wf-circle { color: var(--yellow); border-color: var(--yellow); background: rgba(245,197,66,.1); }
+.wf-c5 .wf-line   { background: linear-gradient(var(--yellow), var(--red)); }
+.wf-c6 .wf-circle { color: var(--red); border-color: var(--red); background: rgba(248,113,113,.1); }
+.wf-c6 .wf-line   { background: linear-gradient(var(--red), var(--pink)); }
+.wf-c7 .wf-circle { color: var(--pink); border-color: var(--pink); background: rgba(236,72,153,.1); }
+.wf-c7 .wf-line   { background: linear-gradient(var(--pink), var(--cyan)); }
+.wf-c8 .wf-circle { color: var(--cyan); border-color: var(--cyan); background: rgba(34,211,238,.1); }
+.wf-c8 .wf-line   { background: linear-gradient(var(--cyan), var(--accent)); }
+.wf-last .wf-left  { align-items: center; }
+
+/* ─── AGENT / HOOK CARD ─── */
+.special-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: 14px; padding: 20px 22px; margin-bottom: 14px;
+  position: relative; overflow: hidden;
+}
+.special-card::before {
+  content: ''; position: absolute; top: 0; left: 0; right: 0; height: 2px;
+}
+.special-card.agent-card::before { background: linear-gradient(90deg, var(--pink), var(--accent2)); }
+.special-card.hook-card::before  { background: linear-gradient(90deg, var(--cyan), var(--green)); }
+.special-card.cmd-card::before   { background: linear-gradient(90deg, var(--orange), var(--yellow)); }
+
+.special-card h4 { font-size: 15px; font-weight: 700; margin-bottom: 6px; letter-spacing: -.01em; }
+.special-card .desc { font-size: 13px; color: var(--muted2); line-height: 1.6; margin-bottom: 14px; }
+.special-card .trigger-label {
+  font-size: 9.5px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase;
+  color: var(--muted); margin-bottom: 6px;
+}
+
+/* ─── RESPONSIVE ─── */
+@media (max-width: 768px) {
+  #sidebar { transform: translateX(-100%); }
+  #sidebar.open { transform: translateX(0); }
+  #menu-toggle { display: flex; }
+  #overlay.open { display: block; }
+  #main { margin-left: 0; }
+  .hero { padding: 56px 24px 40px; }
+  .section { padding: 0 24px 60px; }
+  .g2 { grid-template-columns: 1fr; }
+}
+
+/* ─── BACK TO TOP ─── */
+#backtop {
+  position: fixed; bottom: 24px; right: 24px; width: 40px; height: 40px;
+  border-radius: 10px; background: var(--card); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; font-size: 16px; z-index: 50;
+  opacity: 0; pointer-events: none; transition: opacity .2s;
+}
+#backtop.visible { opacity: 1; pointer-events: all; }
+#backtop:hover { background: var(--card2); }
+</style>
+</head>
+<body>
+
+<!-- ─── SIDEBAR ─── -->
+<nav id="sidebar">
+  <div id="sidebar-logo">
+    <span class="brand">Cursor × Superpowers</span>
+    <span class="sub">Hướng dẫn đầy đủ · 2026</span>
+  </div>
+
+  <div class="nav-section">
+    <span class="nav-section-label">Bắt đầu</span>
+    <a class="nav-link active" href="#overview" onclick="setActive(this)">
+      <span class="icon">🏠</span> Tổng quan
+    </a>
+    <a class="nav-link" href="#install" onclick="setActive(this)">
+      <span class="icon">⚙️</span> Cài đặt
+    </a>
+    <a class="nav-link" href="#workflow" onclick="setActive(this)">
+      <span class="icon">🗺️</span> Basic Workflow
+    </a>
+  </div>
+
+  <div class="nav-section">
+    <span class="nav-section-label">Thành phần</span>
+    <a class="nav-link" href="#skills" onclick="setActive(this)">
+      <span class="icon">⚡</span> Skills
+      <span class="badge badge-tip">14</span>
+    </a>
+    <a class="nav-link" href="#hooks" onclick="setActive(this)">
+      <span class="icon">🪝</span> Hooks
+    </a>
+    <a class="nav-link" href="#agents" onclick="setActive(this)">
+      <span class="icon">🤖</span> Agents
+    </a>
+    <a class="nav-link" href="#commands" onclick="setActive(this)">
+      <span class="icon">🛠️</span> Commands
+    </a>
+  </div>
+
+  <div class="nav-section">
+    <span class="nav-section-label">Skills — Core</span>
+    <a class="nav-link" href="#s-brainstorming" onclick="setActive(this)">
+      <span class="icon">💡</span> Brainstorming
+    </a>
+    <a class="nav-link" href="#s-worktrees" onclick="setActive(this)">
+      <span class="icon">🌿</span> Git Worktrees
+    </a>
+    <a class="nav-link" href="#s-plans" onclick="setActive(this)">
+      <span class="icon">📋</span> Writing Plans
+    </a>
+    <a class="nav-link" href="#s-executing" onclick="setActive(this)">
+      <span class="icon">▶️</span> Executing Plans
+    </a>
+    <a class="nav-link" href="#s-subagent" onclick="setActive(this)">
+      <span class="icon">🤖</span> Subagent-Driven
+    </a>
+    <a class="nav-link" href="#s-parallel" onclick="setActive(this)">
+      <span class="icon">⚡</span> Parallel Agents
+      <span class="badge badge-new">NEW</span>
+    </a>
+    <a class="nav-link" href="#s-tdd" onclick="setActive(this)">
+      <span class="icon">🧪</span> TDD
+    </a>
+    <a class="nav-link" href="#s-debug" onclick="setActive(this)">
+      <span class="icon">🐛</span> Debugging
+    </a>
+    <a class="nav-link" href="#s-verify" onclick="setActive(this)">
+      <span class="icon">✅</span> Verification
+    </a>
+  </div>
+
+  <div class="nav-section">
+    <span class="nav-section-label">Skills — Git & Review</span>
+    <a class="nav-link" href="#s-request-review" onclick="setActive(this)">
+      <span class="icon">👀</span> Request Review
+      <span class="badge badge-new">NEW</span>
+    </a>
+    <a class="nav-link" href="#s-receive-review" onclick="setActive(this)">
+      <span class="icon">💬</span> Receive Review
+      <span class="badge badge-new">NEW</span>
+    </a>
+    <a class="nav-link" href="#s-finish" onclick="setActive(this)">
+      <span class="icon">🏁</span> Finish Branch
+      <span class="badge badge-new">NEW</span>
+    </a>
+  </div>
+
+  <div class="nav-section">
+    <span class="nav-section-label">Skills — Meta</span>
+    <a class="nav-link" href="#s-using-superpowers" onclick="setActive(this)">
+      <span class="icon">🧠</span> Using Superpowers
+    </a>
+    <a class="nav-link" href="#s-writing-skills" onclick="setActive(this)">
+      <span class="icon">✍️</span> Writing Skills
+    </a>
+  </div>
+
+  <div class="nav-section" style="padding-bottom:20px;">
+    <span class="nav-section-label">Tham khảo</span>
+    <a class="nav-link" href="#summary" onclick="setActive(this)">
+      <span class="icon">📊</span> Bảng tổng hợp
+    </a>
+  </div>
+
+  <div class="nav-section" style="padding-bottom:20px; margin-top:auto; border-top:1px solid var(--border); padding-top:12px;">
+    <span class="nav-section-label">🌐 Language</span>
+    <a class="nav-link" href="../en/" style="color:var(--muted2)">
+      <span class="icon">🇬🇧</span> English
+    </a>
+    <a class="nav-link active" style="pointer-events:none">
+      <span class="icon">🇻🇳</span> Tiếng Việt
+      <span class="badge badge-tip">✓</span>
+    </a>
+  </div>
+</nav>
+
+<!-- Mobile toggle -->
+<button id="menu-toggle" onclick="toggleSidebar()">☰</button>
+<div id="overlay" onclick="toggleSidebar()"></div>
+
+<!-- ─── MAIN ─── -->
+<div id="main">
+
+<!-- ══ HERO ══ -->
+<div class="hero" id="overview">
+  <div class="hero-eyebrow">📘 Tài liệu đầy đủ · v5.0 · 2026</div>
+  <h1>Cursor × Superpowers<br>Hướng dẫn hoàn chỉnh</h1>
+  <p class="hero-desc">Framework agentic skills cho Cursor IDE — 14 Skills, 1 Agent, 1 Hook, 3 Commands. Từ brainstorm đến merge PR, tất cả có workflow chuẩn với prompt thực tế.</p>
+  <div class="hero-pills">
+    <div class="pill"><div class="dot" style="background:var(--accent)"></div>14 Skills</div>
+    <div class="pill"><div class="dot" style="background:var(--pink)"></div>1 Agent tự động review</div>
+    <div class="pill"><div class="dot" style="background:var(--cyan)"></div>1 Hook SessionStart</div>
+    <div class="pill"><div class="dot" style="background:var(--orange)"></div>3 Commands nhanh</div>
+    <div class="pill" id="github-stars-pill"><div class="dot" style="background:var(--green)"></div>⭐ <span id="stars-count-pill">...</span> GitHub stars</div>
+  </div>
+</div>
+
+<!-- ── TỔNG QUAN ── -->
+<div class="section">
+  <div class="section-head">
+    <span class="tag tag-blue">🏠 Tổng quan</span>
+    <h2>Superpowers là gì?</h2>
+    <p>Một bộ skills, hooks, agents và commands giúp Cursor IDE trở thành AI developer thực sự có quy trình — thay vì chỉ là autocomplete thông minh.</p>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-icon">ℹ️</div>
+    <div><strong>Nguồn gốc:</strong> Superpowers được tạo bởi Jesse Vincent (obra), có hơn <span id="stars-count-text">...</span> GitHub stars. Được phân phối qua Cursor Marketplace và có thể cài bằng <code>/add-plugin superpowers</code> trong Agent mode.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>4 thành phần chính của Superpowers</div>
+    <ul class="steps">
+      <li><div class="n">⚡</div><div class="txt"><strong>Skills (14 skills)</strong><span>Rules trong <code>.cursor/rules/*.mdc</code> — hướng dẫn AI cách làm từng việc. Gọi bằng <code>@skill-name</code> hoặc tự kích hoạt.</span></div></li>
+      <li><div class="n">🪝</div><div class="txt"><strong>Hooks (1 hook: SessionStart)</strong><span>Chạy tự động khi bắt đầu session mới — inject context, kiểm tra trạng thái project.</span></div></li>
+      <li><div class="n">🤖</div><div class="txt"><strong>Agents (1 agent: code-reviewer)</strong><span>Subagent chuyên biệt tự động review code sau mỗi bước hoàn thành quan trọng.</span></div></li>
+      <li><div class="n">🛠️</div><div class="txt"><strong>Commands (3 commands)</strong><span>Slash commands <code>/brainstorm</code>, <code>/write-plan</code>, <code>/execute-plan</code> — phím tắt cho 3 workflow phổ biến nhất.</span></div></li>
+    </ul>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Cấu trúc repo obra/superpowers</div>
+    <div class="code-wrap">
+      <div class="code-top"><div class="traffic-lights"><span class="tl-r"></span><span class="tl-y"></span><span class="tl-g"></span></div><div class="code-lang">file tree</div></div>
+      <div class="code-body"><span class="hl">superpowers/</span>
+├── <span class="kw">skills/</span>          <span class="cm"># 14 skill folders, mỗi folder có SKILL.md</span>
+│   ├── brainstorming/
+│   ├── writing-plans/
+│   ├── executing-plans/
+│   ├── ... (11 skills nữa)
+├── <span class="kw">agents/</span>          <span class="cm"># code-reviewer.md</span>
+├── <span class="kw">hooks/</span>           <span class="cm"># hooks.json (SessionStart)</span>
+├── <span class="kw">commands/</span>        <span class="cm"># brainstorm.md, write-plan.md, execute-plan.md</span>
+├── <span class="kw">.cursor-plugin/</span>  <span class="cm"># Plugin manifest cho Cursor</span>
+├── <span class="kw">.claude-plugin/</span>  <span class="cm"># Hỗ trợ Claude Code</span>
+└── <span class="kw">.codex/</span>          <span class="cm"># Hỗ trợ OpenAI Codex</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CÀI ĐẶT ══ -->
+<div class="section" id="install">
+  <div class="section-head">
+    <span class="tag tag-blue">⚙️ Cài đặt</span>
+    <h2>Cài đặt Superpowers</h2>
+    <p>Hai cách cài, mỗi cách có tùy chọn <strong>Global</strong> (tất cả dự án) hoặc <strong>Per-project</strong> (chỉ 1 dự án). Source code: <a href="https://github.com/obra/superpowers" target="_blank" style="color:var(--accent)">github.com/obra/superpowers</a></p>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-icon">ℹ️</div>
+    <div><strong>Global vs Per-project:</strong><br>• <strong>🌐 Global:</strong> Cài một lần, có hiệu lực ở <em>tất cả</em> dự án bạn mở bằng Cursor. File nằm trong <code>~/.cursor/</code><br>• <strong>📁 Per-project:</strong> Chỉ có hiệu lực trong <em>1 dự án</em> cụ thể. File nằm trong <code>&lt;project&gt;/.cursor/</code>. Thích hợp khi muốn mỗi project có config riêng hoặc chia sẻ qua Git.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Cách 1 — Cursor Marketplace (Khuyến nghị) · 🌐 Global hoặc 📁 Per-project</div>
+    <div class="callout callout-info" style="margin-bottom:8px">
+      <div class="callout-icon">💡</div>
+      <div><strong>Khi cài từ Marketplace, Cursor sẽ hỏi bạn chọn:</strong><br>• <strong>🌐 Add to Account:</strong> Cài cho tài khoản đang đăng nhập → có hiệu lực ở <em>tất cả dự án</em><br>• <strong>📁 Add to Project:</strong> Chỉ cài cho dự án đang mở → có hiệu lực ở <em>1 dự án</em> cụ thể</div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-top"><div class="traffic-lights"><span class="tl-r"></span><span class="tl-y"></span><span class="tl-g"></span></div><div class="code-lang">Cursor Agent Chat</div></div>
+      <div class="code-body"><span class="cm"># Cách A: Mở Cursor → Ctrl+L (hoặc Cmd+L) → chọn "Agent" mode → gõ:</span>
+/add-plugin superpowers
+<span class="cm"># → Chọn "Add to Account" (🌐 Global) hoặc "Add to Project" (📁 Per-project)</span>
+
+<span class="cm"># Cách B: Tìm trong Marketplace</span>
+<span class="cm"># Mở Cursor → tìm "superpowers" trong plugin marketplace</span>
+<span class="cm"># → Nhấn Install → chọn Account hoặc Project</span>
+
+<span class="cm"># Cách C: Cài từ web browser</span>
+<span class="kw">https://cursor.com/marketplace/superpowers</span>
+<span class="cm"># → Đăng nhập → Nhấn "Install"</span></div>
+    </div>
+    <div class="callout callout-tip" style="margin-top:4px">
+      <div class="callout-icon">✅</div>
+      <div><strong>Verify sau khi cài:</strong> Đóng và mở lại Cursor. Mở Agent chat, gõ <code>/</code> — phải thấy hiển thị 2 nhóm:<br>• <strong>Skills:</strong> <code>/brainstorming</code>, <code>/writing-plans</code>, <code>/executing-plans</code>,… (14 skills)<br>• <strong>Commands:</strong> <code>/brainstorm</code>, <code>/write-plan</code>, <code>/execute-plan</code> (3 commands)</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Cách 2 — Manual (clone từ GitHub) · 🌐 Global hoặc 📁 Per-project</div>
+    <div class="callout callout-warn" style="margin-bottom:12px">
+      <div class="callout-icon">⚠️</div>
+      <div><strong>Lưu ý:</strong> Cách này cần copy đủ <strong>4 thành phần</strong> (Skills, Agents, Hooks, Commands). Nếu chỉ copy skills thì sẽ thiếu agent review, hook tự động và slash commands.</div>
+    </div>
+
+    <div class="card-label"><div class="dot"></div>Bước 1 — Clone repo (chung cho cả 2 cách)</div>
+    <div class="code-wrap">
+      <div class="code-top"><div class="traffic-lights"><span class="tl-r"></span><span class="tl-y"></span><span class="tl-g"></span></div><div class="code-lang">bash</div></div>
+      <div class="code-body"><span class="cm"># Clone repo (chỉ cần làm 1 lần)</span>
+git clone https://github.com/obra/superpowers.git ~/superpowers
+
+<span class="cm"># Nếu đã clone rồi, pull bản mới nhất:</span>
+<span class="cm"># git -C ~/superpowers pull</span></div>
+    </div>
+
+    <div class="card-label" style="margin-top:16px"><div class="dot" style="background:var(--cyan)"></div>Bước 2A — Cài 🌐 Global (tất cả dự án)</div>
+    <div class="callout callout-info" style="margin-bottom:8px">
+      <div class="callout-icon">🌐</div>
+      <div>Copy vào <code>~/.cursor/</code> — Superpowers sẽ có ở <strong>tất cả dự án</strong> bạn mở bằng Cursor.</div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-top"><div class="traffic-lights"><span class="tl-r"></span><span class="tl-y"></span><span class="tl-g"></span></div><div class="code-lang">bash — Global install</div></div>
+      <div class="code-body"><span class="cm"># Tạo thư mục global</span>
+mkdir -p ~/.cursor/rules
+mkdir -p ~/.cursor/agents
+mkdir -p ~/.cursor/hooks
+mkdir -p ~/.cursor/commands
+
+<span class="cm"># Copy 14 skills</span>
+<span class="kw">for</span> dir <span class="kw">in</span> ~/superpowers/skills/*/; <span class="kw">do</span>
+  skill=$(<span class="hl">basename</span> "$dir")
+  <span class="kw">if</span> [ -f "$dir/SKILL.md" ]; <span class="kw">then</span>
+    cp "$dir/SKILL.md" "$HOME/.cursor/rules/$skill.mdc"
+  <span class="kw">fi</span>
+<span class="kw">done</span>
+
+<span class="cm"># Copy agent, hooks, commands</span>
+cp ~/superpowers/agents/*.md ~/.cursor/agents/
+cp ~/superpowers/hooks/hooks.json ~/.cursor/hooks/
+cp ~/superpowers/commands/*.md ~/.cursor/commands/
+
+<span class="cm"># Kiểm tra</span>
+<span class="kw">echo</span> "Skills: $(ls ~/.cursor/rules/*.mdc 2>/dev/null | wc -l) files"
+<span class="kw">echo</span> "Agents: $(ls ~/.cursor/agents/*.md 2>/dev/null | wc -l) files"
+<span class="kw">echo</span> "Commands: $(ls ~/.cursor/commands/*.md 2>/dev/null | wc -l) files"</div>
+    </div>
+
+    <div class="card-label" style="margin-top:16px"><div class="dot" style="background:var(--orange)"></div>Bước 2B — Cài 📁 Per-project (chỉ 1 dự án)</div>
+    <div class="callout callout-new" style="margin-bottom:8px">
+      <div class="callout-icon">📁</div>
+      <div>Copy vào <code>&lt;project&gt;/.cursor/</code> — Superpowers chỉ có hiệu lực trong <strong>dự án này</strong>. Phù hợp khi muốn commit config vào Git để cả team dùng chung.</div>
+    </div>
+    <div class="code-wrap">
+      <div class="code-top"><div class="traffic-lights"><span class="tl-r"></span><span class="tl-y"></span><span class="tl-g"></span></div><div class="code-lang">bash — Per-project install</div></div>
+      <div class="code-body"><span class="cm"># Đổi ~/your-project thành đường dẫn dự án thực tế</span>
+<span class="kw">PROJECT</span>=~/your-project
+
+<span class="cm"># Tạo thư mục trong dự án</span>
+mkdir -p $PROJECT/.cursor/rules
+mkdir -p $PROJECT/.cursor/agents
+mkdir -p $PROJECT/.cursor/hooks
+mkdir -p $PROJECT/.cursor/commands
+
+<span class="cm"># Copy 14 skills</span>
+<span class="kw">for</span> dir <span class="kw">in</span> ~/superpowers/skills/*/; <span class="kw">do</span>
+  skill=$(<span class="hl">basename</span> "$dir")
+  <span class="kw">if</span> [ -f "$dir/SKILL.md" ]; <span class="kw">then</span>
+    cp "$dir/SKILL.md" "$PROJECT/.cursor/rules/$skill.mdc"
+  <span class="kw">fi</span>
+<span class="kw">done</span>
+
+<span class="cm"># Copy agent, hooks, commands</span>
+cp ~/superpowers/agents/*.md $PROJECT/.cursor/agents/
+cp ~/superpowers/hooks/hooks.json $PROJECT/.cursor/hooks/
+cp ~/superpowers/commands/*.md $PROJECT/.cursor/commands/
+
+<span class="cm"># Kiểm tra</span>
+<span class="kw">echo</span> "Skills: $(ls $PROJECT/.cursor/rules/*.mdc 2>/dev/null | wc -l) files"
+<span class="kw">echo</span> "Agents: $(ls $PROJECT/.cursor/agents/*.md 2>/dev/null | wc -l) files"
+<span class="kw">echo</span> "Commands: $(ls $PROJECT/.cursor/commands/*.md 2>/dev/null | wc -l) files"</div>
+    </div>
+
+    <div class="card-label" style="margin-top:16px"><div class="dot"></div>Cấu trúc .cursor/ sau khi setup đúng (đủ 4 thành phần)</div>
+    <div class="code-wrap">
+      <div class="code-top"><div class="traffic-lights"><span class="tl-r"></span><span class="tl-y"></span><span class="tl-g"></span></div><div class="code-lang">file tree</div></div>
+      <div class="code-body"><span class="cm"># 🌐 Global:  ~/.cursor/         (tất cả dự án)</span>
+<span class="cm"># 📁 Project: &lt;project&gt;/.cursor/  (chỉ dự án này)</span>
+
+<span class="hl">.cursor/</span>
+├── <span class="kw">rules/</span>                              <span class="cm"># 14 Skills</span>
+│   ├── <span class="hl">brainstorming.mdc</span>
+│   ├── <span class="hl">writing-plans.mdc</span>
+│   ├── <span class="hl">executing-plans.mdc</span>
+│   ├── <span class="hl">subagent-driven-development.mdc</span>
+│   ├── <span class="hl">dispatching-parallel-agents.mdc</span>
+│   ├── <span class="hl">test-driven-development.mdc</span>
+│   ├── <span class="hl">systematic-debugging.mdc</span>
+│   ├── <span class="hl">verification-before-completion.mdc</span>
+│   ├── <span class="hl">using-git-worktrees.mdc</span>
+│   ├── <span class="hl">requesting-code-review.mdc</span>
+│   ├── <span class="hl">receiving-code-review.mdc</span>
+│   ├── <span class="hl">finishing-a-development-branch.mdc</span>
+│   ├── <span class="hl">using-superpowers.mdc</span>
+│   └── <span class="hl">writing-skills.mdc</span>
+├── <span class="kw">agents/</span>                             <span class="cm"># 1 Agent</span>
+│   └── <span class="hl">code-reviewer.md</span>
+├── <span class="kw">hooks/</span>                              <span class="cm"># 1 Hook</span>
+│   └── <span class="hl">hooks.json</span>
+└── <span class="kw">commands/</span>                           <span class="cm"># 3 Commands</span>
+    ├── <span class="hl">brainstorm.md</span>
+    ├── <span class="hl">write-plan.md</span>
+    └── <span class="hl">execute-plan.md</span></div>
+    </div>
+    <div class="callout callout-tip" style="margin-top:4px">
+      <div class="callout-icon">✅</div>
+      <div><strong>Verify sau khi copy:</strong> Đóng và mở lại Cursor. Mở Agent chat, gõ <code>/</code> — phải thấy hiển thị 2 nhóm:<br>• <strong>Skills:</strong> <code>/brainstorming</code>, <code>/writing-plans</code>, <code>/executing-plans</code>,… (14 skills)<br>• <strong>Commands:</strong> <code>/brainstorm</code>, <code>/write-plan</code>, <code>/execute-plan</code> (3 commands)<br>Nếu không thấy, kiểm tra lại đường dẫn thư mục <code>.cursor/</code>.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ BASIC WORKFLOW ══ -->
+<div class="section" id="workflow">
+  <div class="section-head">
+    <span class="tag tag-green">🗺️ Basic Workflow</span>
+    <h2>Quy trình phát triển chuẩn</h2>
+    <p>Superpowers định nghĩa một vòng lặp phát triển rõ ràng từ đầu đến cuối. Mỗi bước sử dụng đúng skill, agent hoặc command tương ứng.</p>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-icon">💡</div>
+    <div><strong>Bắt đầu mỗi session:</strong> Hook <code>SessionStart</code> tự động chạy — inject project context và kiểm tra trạng thái trước khi bạn gõ lệnh đầu tiên.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Vòng lặp đầy đủ từ idea → merged PR</div>
+    <div class="workflow">
+      <div class="wf-step wf-c1">
+        <div class="wf-left"><div class="wf-circle">1</div><div class="wf-line"></div></div>
+        <div class="wf-content">
+          <div class="wf-title">💡 Brainstorm — Tinh chỉnh ý tưởng</div>
+          <div class="wf-desc">Mô tả feature → AI hỏi Socratic → approve design doc</div>
+          <div class="wf-skill" style="color:var(--accent)">@brainstorming · hoặc /brainstorm</div>
+        </div>
+      </div>
+      <div class="wf-step wf-c2">
+        <div class="wf-left"><div class="wf-circle">2</div><div class="wf-line"></div></div>
+        <div class="wf-content">
+          <div class="wf-title">🌿 Git Worktree — Tạo workspace riêng</div>
+          <div class="wf-desc">Branch mới + worktree riêng + verify test baseline sạch</div>
+          <div class="wf-skill" style="color:var(--green)">@using-git-worktrees</div>
+        </div>
+      </div>
+      <div class="wf-step wf-c3">
+        <div class="wf-left"><div class="wf-circle">3</div><div class="wf-line"></div></div>
+        <div class="wf-content">
+          <div class="wf-title">📋 Write Plan — Blueprint chi tiết</div>
+          <div class="wf-desc">Phân tách design → tasks 2–5 phút với exact paths + tests</div>
+          <div class="wf-skill" style="color:#a78bfa">@writing-plans · hoặc /write-plan</div>
+        </div>
+      </div>
+      <div class="wf-step wf-c4">
+        <div class="wf-left"><div class="wf-circle">4</div><div class="wf-line"></div></div>
+        <div class="wf-content">
+          <div class="wf-title">⚡ Execute — Chạy plan (chọn 1 trong 2)</div>
+          <div class="wf-desc"><strong>Có control:</strong> @executing-plans — review từng batch · <strong>Tự động:</strong> @subagent-driven-development — 2-tầng review</div>
+          <div class="wf-skill" style="color:var(--orange)">@executing-plans · /execute-plan · hoặc @subagent-driven-development</div>
+        </div>
+      </div>
+      <div class="wf-step wf-c5">
+        <div class="wf-left"><div class="wf-circle">5</div><div class="wf-line"></div></div>
+        <div class="wf-content">
+          <div class="wf-title">🧪 TDD — Trong suốt quá trình implement</div>
+          <div class="wf-desc">RED (test fail) → GREEN (minimal code) → REFACTOR — tự kích hoạt</div>
+          <div class="wf-skill" style="color:var(--yellow)">@test-driven-development · auto-trigger</div>
+        </div>
+      </div>
+      <div class="wf-step wf-c6">
+        <div class="wf-left"><div class="wf-circle">6</div><div class="wf-line"></div></div>
+        <div class="wf-content">
+          <div class="wf-title">👀 Code Review — Sau mỗi task hoàn thành</div>
+          <div class="wf-desc">Dispatch code-reviewer agent → nhận feedback → xử lý có cấu trúc</div>
+          <div class="wf-skill" style="color:var(--red)">@requesting-code-review → agent: code-reviewer → @receiving-code-review</div>
+        </div>
+      </div>
+      <div class="wf-step wf-c7">
+        <div class="wf-left"><div class="wf-circle">7</div><div class="wf-line"></div></div>
+        <div class="wf-content">
+          <div class="wf-title">✅ Verification — Trước khi claim "done"</div>
+          <div class="wf-desc">Check tất cả requirements, tests, security — không skip</div>
+          <div class="wf-skill" style="color:var(--pink)">@verification-before-completion · auto-trigger</div>
+        </div>
+      </div>
+      <div class="wf-step wf-c8 wf-last">
+        <div class="wf-left"><div class="wf-circle">8</div></div>
+        <div class="wf-content">
+          <div class="wf-title">🏁 Finish Branch — Merge / PR / Discard</div>
+          <div class="wf-desc">Pre-flight check → chọn option → clean up worktree</div>
+          <div class="wf-skill" style="color:var(--cyan)">@finishing-a-development-branch</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-new">
+    <div class="callout-icon">🔀</div>
+    <div><strong>Parallel mode:</strong> Nếu plan có các tasks độc lập nhau, thêm bước sau #3: dùng <code>@dispatching-parallel-agents</code> để chạy nhiều task đồng thời — tăng tốc 3–5x.</div>
+  </div>
+</div>
+
+<!-- ══ HOOKS ══ -->
+<div class="section" id="hooks">
+  <div class="section-head">
+    <span class="tag tag-cyan">🪝 Hooks</span>
+    <h2>Hooks — Tự động chạy khi bắt đầu session</h2>
+    <p>Hooks là code chạy tự động theo trigger event trong Cursor — không cần gọi thủ công. Superpowers hiện có 1 hook: <strong>SessionStart</strong>.</p>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-icon">ℹ️</div>
+    <div><strong>Hooks khác Skills:</strong> Skills cần bạn gọi (<code>@skill-name</code>) hoặc auto-trigger theo pattern. Hooks chạy tự động theo event hệ thống — như middleware trong web framework.</div>
+  </div>
+
+  <div class="special-card hook-card">
+    <div class="tag-row" style="margin-bottom:10px"><span class="itag it-cyan">SessionStart</span><span class="itag it-green">Auto-trigger</span></div>
+    <h4>🪝 SessionStart Hook</h4>
+    <p class="desc">Chạy ngay khi bạn mở Cursor Agent session mới. Hook này inject project context vào đầu conversation — AI biết project của bạn là gì trước khi bạn hỏi gì.</p>
+    <div class="trigger-label">Định nghĩa trong</div>
+    <div class="code-wrap">
+      <div class="code-top"><div class="traffic-lights"><span class="tl-r"></span><span class="tl-y"></span><span class="tl-g"></span></div><div class="code-lang">hooks/hooks.json</div></div>
+      <div class="code-body">{
+  "<span class="hl">hooks</span>": [
+    {
+      "<span class="kw">name</span>": "SessionStart",
+      "<span class="kw">trigger</span>": "onSessionStart",
+      "<span class="kw">description</span>": "Hook: SessionStart",
+      "<span class="kw">action</span>": "injectProjectContext"
+    }
+  ]
+}</div>
+    </div>
+    <div class="card-label"><div class="dot"></div>Hook SessionStart làm gì?</div>
+    <ul class="steps">
+      <li><div class="n">1</div><div class="txt"><strong>Đọc project context</strong><span>Tìm README, package.json, .cursorrules để hiểu project</span></div></li>
+      <li><div class="n">2</div><div class="txt"><strong>Inject vào conversation</strong><span>AI "nhớ" tech stack, conventions và coding standards ngay từ đầu</span></div></li>
+      <li><div class="n">3</div><div class="txt"><strong>Kiểm tra skills có sẵn</strong><span>Báo cáo skills nào đang active trong <code>.cursor/rules/</code></span></div></li>
+    </ul>
+    <div class="callout callout-tip" style="margin-top:4px">
+      <div class="callout-icon">💡</div>
+      <div><strong>Tối ưu hook:</strong> Thêm file <code>.cursorrules</code> hoặc <code>docs/project-context.md</code> vào root project — SessionStart sẽ tự inject vào đầu mọi conversation.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ AGENTS ══ -->
+<div class="section" id="agents">
+  <div class="section-head">
+    <span class="tag tag-pink">🤖 Agents</span>
+    <h2>Agents — Subagents chuyên biệt</h2>
+    <p>Agents là AI subagents được định nghĩa sẵn với vai trò cụ thể. Superpowers có 1 agent: <strong>code-reviewer</strong> — tự động được gọi khi hoàn thành một bước quan trọng.</p>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-icon">ℹ️</div>
+    <div><strong>Agent vs Skill:</strong> Skill hướng dẫn AI hiện tại làm gì. Agent spawn một AI mới độc lập với vai trò chuyên biệt — reviewer này không bị bias bởi conversation lịch sử của implementer.</div>
+  </div>
+
+  <div class="special-card agent-card">
+    <div class="tag-row" style="margin-bottom:10px"><span class="itag it-pink">code-reviewer</span><span class="itag it-pink">Auto-triggered</span></div>
+    <h4>🤖 Agent: code-reviewer</h4>
+    <p class="desc">Agent này tự động được gọi khi một bước lớn trong project hoàn thành. Nó review code đã viết so với plan gốc và coding standards — không phải rubber-stamp, mà là genuine review.</p>
+    <div class="trigger-label">Khi nào agent này được gọi?</div>
+    <ul class="steps">
+      <li><div class="n">▶</div><div class="txt"><strong>Sau khi hoàn thành một major step</strong><span>"I've finished implementing the user authentication system as outlined in step 3 of our plan"</span></div></li>
+      <li><div class="n">▶</div><div class="txt"><strong>Sau khi hoàn thành một feature implementation</strong><span>"The API endpoints for the task management system are now complete — that covers step 2 from our architecture document"</span></div></li>
+    </ul>
+    <div class="trigger-label" style="margin-top:14px">Prompt mẫu để kích hoạt code-reviewer agent</div>
+    <div class="prompt">
+      <div class="prompt-label">Dùng kết hợp với @requesting-code-review</div>
+      <div class="prompt-body">@requesting-code-review
+
+I've finished implementing the auth feature — Task 3 from docs/plans/auth-plan.md
+
+WHAT_WAS_IMPLEMENTED:
+  Login controller with JWT auth and bcrypt + rate limiting
+
+GIT_RANGE:
+  BASE_SHA: abc123  (before Task 3)
+  HEAD_SHA: HEAD
+
+Please dispatch code-reviewer agent to review against:
+- Original plan requirements
+- Coding standards in .cursorrules
+- Security best practices</div>
+    </div>
+    <div class="callout callout-tip">
+      <div class="callout-icon">💡</div>
+      <div><strong>Tại sao dùng agent riêng?</strong> Reviewer agent có context window sạch — không bị ảnh hưởng bởi lịch sử "tôi vừa mới viết code này" của implementer. Review khách quan hơn đáng kể.</div>
+    </div>
+    <div class="card-label"><div class="dot"></div>Output mẫu từ code-reviewer agent</div>
+    <div class="output">
+      <div class="output-top">code-reviewer agent output</div>
+      <div class="output-body">Reviewing: Task 3 — Login Controller
+Against: docs/plans/auth-plan.md + .cursorrules
+
+✓ Strengths:
+  - Clean separation: controller → service → utils
+  - Real tests (not just mocks) — 8 tests covering all edge cases
+  - bcrypt timing-safe comparison implemented correctly
+
+⚠ Issues Found:
+  🔴 CRITICAL [auth/login.controller.js:47]
+     SQL string interpolation — use parameterized queries
+     Fix: db.query('SELECT * FROM users WHERE email = $1', [email])
+
+  🟡 IMPORTANT [auth/login.controller.js:89]
+     Missing Retry-After header on 429 response
+     Add: res.set('Retry-After', 900)
+
+  ⚪ MINOR: Magic number 5 (max attempts) — move to config
+
+Assessment: BLOCKED — fix CRITICAL before proceeding</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ COMMANDS ══ -->
+<div class="section" id="commands">
+  <div class="section-head">
+    <span class="tag tag-orange">🛠️ Commands</span>
+    <h2>Commands — Slash commands nhanh</h2>
+    <p>3 slash commands là phím tắt cho 3 workflow phổ biến nhất. Dùng trong Cursor Agent Chat với dấu <code>/</code>.</p>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-icon">ℹ️</div>
+    <div><strong>Commands vs Skills:</strong> <code>/brainstorm</code> tương đương <code>@brainstorming</code>. Commands ngắn gọn hơn, Skills có thể có thêm context. Chọn cái nào cũng được — kết quả tương đương.</div>
+  </div>
+
+  <div class="g2">
+    <div class="special-card cmd-card">
+      <div class="tag-row" style="margin-bottom:8px"><span class="itag it-orange">/brainstorm</span></div>
+      <h4>💡 /brainstorm</h4>
+      <p class="desc">Tương đương <code>@brainstorming</code>. Explore requirements và design trước khi implementation. <strong>BẮT BUỘC</strong> dùng trước bất kỳ creative work nào.</p>
+      <div class="prompt">
+        <div class="prompt-label">Usage</div>
+        <div class="prompt-body">/brainstorm
+I want to build a notification system
+with email + push + in-app channels.</div>
+      </div>
+    </div>
+
+    <div class="special-card cmd-card">
+      <div class="tag-row" style="margin-bottom:8px"><span class="itag it-orange">/write-plan</span></div>
+      <h4>📋 /write-plan</h4>
+      <p class="desc">Tương đương <code>@writing-plans</code>. Tạo detailed implementation plan từ design doc đã approved — tasks 2–5 phút với exact file paths.</p>
+      <div class="prompt">
+        <div class="prompt-label">Usage</div>
+        <div class="prompt-body">/write-plan
+[paste approved design doc]
+
+Stack: Node.js + PostgreSQL + Jest</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="special-card cmd-card">
+    <div class="tag-row" style="margin-bottom:8px"><span class="itag it-orange">/execute-plan</span></div>
+    <h4>▶️ /execute-plan</h4>
+    <p class="desc">Tương đương <code>@executing-plans</code>. Execute plan theo batches với review checkpoints. Dùng khi muốn giữ control — review thủ công sau mỗi batch.</p>
+    <div class="prompt">
+      <div class="prompt-label">Usage</div>
+      <div class="prompt-body">/execute-plan
+[read: docs/plans/auth-plan.md]
+
+Execute Tasks 1-3 first.
+Wait for my approval before continuing.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SKILLS SECTION ══ -->
+<div class="section" id="skills">
+  <div class="section-head">
+    <span class="tag tag-blue">⚡ Skills</span>
+    <h2>14 Skills — Tổng quan</h2>
+    <p>Mỗi skill là một file <code>.mdc</code> trong <code>.cursor/rules/</code>. Skills nói với Cursor AI cách thực hiện từng loại task. Gọi bằng <code>@skill-name</code> hoặc một số skill tự kích hoạt.</p>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-icon">💡</div>
+    <div><strong>Hai cách kích hoạt skill:</strong> (1) <strong>Auto-trigger:</strong> Skill nhận biết context và tự inject — ví dụ <code>brainstorming</code> kích hoạt khi bạn mô tả feature mới. (2) <strong>Manual:</strong> Gọi thủ công <code>@skill-name</code> ở đầu prompt.</div>
+  </div>
+
+  <div style="overflow-x:auto; margin-bottom:14px;">
+    <table class="summary-table">
+      <thead>
+        <tr><th>Skill</th><th>File</th><th>Trigger</th><th>Khi nào dùng</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><strong>brainstorming</strong></td><td><span class="file-mono">brainstorming.mdc</span></td><td><span class="itag it-blue">Auto / @</span></td><td style="color:var(--muted2);font-size:12px">Trước bất kỳ feature mới nào</td></tr>
+        <tr><td><strong>using-git-worktrees</strong></td><td><span class="file-mono">using-git-worktrees.mdc</span></td><td><span class="itag it-blue">Auto / @</span></td><td style="color:var(--muted2);font-size:12px">Sau khi design approved</td></tr>
+        <tr><td><strong>writing-plans</strong></td><td><span class="file-mono">writing-plans.mdc</span></td><td><span class="itag it-blue">Auto / @</span></td><td style="color:var(--muted2);font-size:12px">Sau khi có design doc</td></tr>
+        <tr><td><strong>executing-plans</strong></td><td><span class="file-mono">executing-plans.mdc</span></td><td><span class="itag it-blue">@</span></td><td style="color:var(--muted2);font-size:12px">Chạy plan thủ công, có control</td></tr>
+        <tr><td><strong>subagent-driven-development</strong></td><td><span class="file-mono">subagent-driven-development.mdc</span></td><td><span class="itag it-blue">Auto / @</span></td><td style="color:var(--muted2);font-size:12px">Chạy plan nhanh, auto-review</td></tr>
+        <tr><td><strong>dispatching-parallel-agents</strong></td><td><span class="file-mono">dispatching-parallel-agents.mdc</span></td><td><span class="itag it-blue">@</span></td><td style="color:var(--muted2);font-size:12px">Tasks độc lập, chạy song song</td></tr>
+        <tr><td><strong>test-driven-development</strong></td><td><span class="file-mono">test-driven-development.mdc</span></td><td><span class="itag it-green">Auto</span></td><td style="color:var(--muted2);font-size:12px">Trong suốt quá trình implement</td></tr>
+        <tr><td><strong>systematic-debugging</strong></td><td><span class="file-mono">systematic-debugging.mdc</span></td><td><span class="itag it-blue">@</span></td><td style="color:var(--muted2);font-size:12px">Khi có bug cần debug</td></tr>
+        <tr><td><strong>verification-before-completion</strong></td><td><span class="file-mono">verification-before-completion.mdc</span></td><td><span class="itag it-green">Auto</span></td><td style="color:var(--muted2);font-size:12px">Cuối mỗi task, trước commit</td></tr>
+        <tr><td><strong>requesting-code-review</strong></td><td><span class="file-mono">requesting-code-review.mdc</span></td><td><span class="itag it-blue">@</span></td><td style="color:var(--muted2);font-size:12px">Sau mỗi task, trước merge</td></tr>
+        <tr><td><strong>receiving-code-review</strong></td><td><span class="file-mono">receiving-code-review.mdc</span></td><td><span class="itag it-blue">@</span></td><td style="color:var(--muted2);font-size:12px">Khi nhận feedback từ review</td></tr>
+        <tr><td><strong>finishing-a-development-branch</strong></td><td><span class="file-mono">finishing-a-development-branch.mdc</span></td><td><span class="itag it-blue">Auto / @</span></td><td style="color:var(--muted2);font-size:12px">Khi tất cả tasks xong</td></tr>
+        <tr><td><strong>writing-skills</strong></td><td><span class="file-mono">writing-skills.mdc</span></td><td><span class="itag it-blue">@</span></td><td style="color:var(--muted2);font-size:12px">Khi muốn tạo skill tùy chỉnh</td></tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- ══ SKILL 1: BRAINSTORMING ══ -->
+<div class="section" id="s-brainstorming">
+  <div class="section-head">
+    <span class="tag tag-blue">Skill 1 — Core</span>
+    <h2>💡 Brainstorming — Tinh chỉnh ý tưởng thành spec</h2>
+    <p>Skill đầu tiên và bắt buộc. Kích hoạt trước bất kỳ creative work nào. AI đặt câu hỏi Socratic theo từng chunk để làm rõ yêu cầu và tạo design document.</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-blue">💡</div>
+    <div class="skill-meta">
+      <div class="skill-file">@brainstorming · brainstorming.mdc · /brainstorm</div>
+      <div class="desc">Explores user intent, requirements and design before implementation. MUST USE before any creative work.</div>
+      <div class="tag-row">
+        <span class="itag it-blue">Auto-trigger</span>
+        <span class="itag it-green">Saves design doc</span>
+        <span class="itag it-blue">Socratic questions</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-warn">
+    <div class="callout-icon">⚠️</div>
+    <div><strong>Trigger tự động:</strong> Skill này kích hoạt ngay khi bạn mô tả feature muốn build. Chỉ cần nói "Tôi muốn build X" là Superpowers bắt đầu hỏi — không cần gọi thủ công.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Prompt mẫu</div>
+    <div class="prompt">
+      <div class="prompt-label">Khởi động brainstorm với DOCX</div>
+      <div class="prompt-body">@brainstorming
+
+I have a DOCX with requirements for a user authentication system.
+[attach file / paste nội dung]
+
+Help me refine this into a clear design. Ask me questions about:
+- What I'm NOT sure about
+- Edge cases I might have missed
+- Alternative approaches worth considering
+
+Present the design in small chunks for me to validate.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Output mẫu — AI hỏi từng chunk</div>
+    <div class="output">
+      <div class="output-top">Brainstorm session</div>
+      <div class="output-body">== CHUNK 1: Core Authentication ==
+
+I understand you want email/password login returning JWT.
+Before I continue, let me clarify:
+
+Q1: Should users be able to have multiple active sessions
+    (e.g., logged in on phone + laptop simultaneously)?
+    → Option A: Yes, multiple sessions
+    → Option B: Single session (new login invalidates old token)
+
+Q2: Do you need "Remember me" functionality (extended token expiry)?
+
+Q3: Is social login (Google/GitHub) in scope now or future?
+
+[Waiting for your answers before proceeding to Chunk 2...]</div>
+    </div>
+    <div class="callout callout-tip" style="margin-top:4px">
+      <div class="callout-icon">💡</div>
+      <div><strong>Sau khi trả lời xong:</strong> AI lưu design document vào <code>docs/design/feature-name.md</code>. File này là input cho <code>@writing-plans</code> ở bước tiếp theo.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ SKILL 2: GIT WORKTREES ══ -->
+<div class="section" id="s-worktrees">
+  <div class="section-head">
+    <span class="tag tag-green">Skill 2 — Core</span>
+    <h2>🌿 Git Worktrees — Workspace tách biệt cho mỗi feature</h2>
+    <p>Kích hoạt ngay sau khi design được approve. Tạo workspace tách biệt trên branch mới, chạy project setup, verify test baseline sạch trước khi bắt đầu code.</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-green">🌿</div>
+    <div class="skill-meta">
+      <div class="skill-file">@using-git-worktrees · using-git-worktrees.mdc</div>
+      <div class="desc">Creates an isolated workspace on a new branch. Run after design approval, before writing any code.</div>
+      <div class="tag-row">
+        <span class="itag it-orange">After design approval</span>
+        <span class="itag it-green">Isolated workspace</span>
+        <span class="itag it-green">Baseline verify</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-new">
+    <div class="callout-icon">🆕</div>
+    <div><strong>Tại sao cần git worktrees?</strong> Worktrees cho phép làm nhiều feature song song trên cùng 1 repo mà không clobber nhau. Subagents cũng chạy trong worktree riêng để tránh conflict khi dùng parallel agents.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Prompt — Setup worktree sau khi approve design</div>
+    <div class="prompt">
+      <div class="prompt-label">Prompt</div>
+      <div class="prompt-body">@using-git-worktrees
+
+Design for auth feature has been approved.
+Create an isolated workspace for implementation.
+
+Branch name: feature/user-auth
+Base branch: main
+
+After setup:
+1. Run npm install (or yarn)
+2. Run npm test to verify baseline is clean
+3. Report what tests exist and their current status</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Output mẫu</div>
+    <div class="output">
+      <div class="output-top">Worktree setup complete</div>
+      <div class="output-body">✓ Created worktree at: ../your-project-auth/
+✓ Branch: feature/user-auth (from main @ a3f821c)
+✓ npm install — 847 packages installed
+✓ npm test baseline:
+  - 23 tests passing ✓
+  - 0 failing
+  - 0 skipped
+
+Clean baseline confirmed. Ready to implement.</div>
+    </div>
+    <div class="callout callout-tip" style="margin-top:4px">
+      <div class="callout-icon">💡</div>
+      <div><strong>Lợi ích:</strong> Nếu implementation thất bại, bạn discard worktree mà không ảnh hưởng main branch. Dùng kết hợp với <code>@finishing-a-development-branch</code> ở cuối.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ SKILL 3: WRITING PLANS ══ -->
+<div class="section" id="s-plans">
+  <div class="section-head">
+    <span class="tag tag-blue">Skill 3 — Core</span>
+    <h2>📋 Writing Plans — Blueprint implementation chi tiết</h2>
+    <p>Phân tách design thành tasks 2–5 phút mỗi cái. Mỗi task có exact file paths, code cần viết, và verification steps. Rõ đến mức "junior engineer thiếu context vẫn làm được".</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-purple">📋</div>
+    <div class="skill-meta">
+      <div class="skill-file">@writing-plans · writing-plans.mdc · /write-plan</div>
+      <div class="desc">Decomposes design into 2–5 minute tasks with exact file paths, complete code, and verification steps.</div>
+      <div class="tag-row">
+        <span class="itag it-blue">2-5 min per task</span>
+        <span class="itag it-blue">Exact file paths</span>
+        <span class="itag it-green">Verification per step</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Prompt — Tạo plan từ design doc</div>
+    <div class="prompt">
+      <div class="prompt-label">Prompt</div>
+      <div class="prompt-body">@writing-plans
+
+Create implementation plan from this approved design:
+[paste nội dung docs/design/auth.md]
+
+Requirements for each task:
+- Max 2-5 minutes to implement
+- Exact file path to create/modify
+- What tests to write (RED phase)
+- What code to write (GREEN phase)
+- How to verify it works
+
+Tech stack: Node.js + Express + PostgreSQL + Jest</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Output mẫu — Plan chuẩn</div>
+    <div class="output">
+      <div class="output-top">docs/plans/auth-plan.md</div>
+      <div class="output-body">## Task 1: Password hashing utility [5 min]
+File: src/utils/password.js
+RED:  Test hash() returns different string from input
+      Test verify() returns true for matching pair
+GREEN: Implement using bcrypt, saltRounds=12
+VERIFY: npm test src/utils/password.test.js → 2 passing
+
+## Task 2: JWT service [5 min]
+File: src/utils/jwt.js
+RED:  Test generateToken() returns string
+      Test verifyToken() returns payload or null
+GREEN: Implement using jsonwebtoken, 24h expiry
+VERIFY: npm test src/utils/jwt.test.js → 3 passing
+
+## Task 3: Login controller [5 min]
+File: src/auth/login.controller.js
+RED:  Test 200 on valid credentials
+      Test 401 on wrong password
+GREEN: Implement controller using password.verify + jwt.generate
+VERIFY: npm test src/auth/ → 5 passing</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ SKILL 4: EXECUTING PLANS ══ -->
+<div class="section" id="s-executing">
+  <div class="section-head">
+    <span class="tag tag-blue">Skill 4 — Core</span>
+    <h2>▶️ Executing Plans — Thực thi plan theo batch</h2>
+    <p>Chạy plan theo từng batch có human checkpoints. Dùng khi muốn giữ control — review từng nhóm task trước khi tiếp. Phù hợp với project nhỏ–vừa.</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-blue">▶️</div>
+    <div class="skill-meta">
+      <div class="skill-file">@executing-plans · executing-plans.mdc · /execute-plan</div>
+      <div class="desc">Executes implementation plan in batches with human review checkpoints between each batch.</div>
+      <div class="tag-row">
+        <span class="itag it-blue">Human checkpoints</span>
+        <span class="itag it-blue">Batch execution</span>
+        <span class="itag it-yellow">Control > Speed</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-icon">ℹ️</div>
+    <div><strong>executing-plans vs subagent-driven-development:</strong> Dùng <code>executing-plans</code> khi muốn review thủ công sau mỗi batch. Dùng <code>subagent-driven-development</code> khi muốn AI tự review liên tục — nhanh hơn nhưng ít control hơn.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Prompt — Execute từng batch</div>
+    <div class="g2">
+      <div class="prompt">
+        <div class="prompt-label">Bước 1 — Bắt đầu execute</div>
+        <div class="prompt-body">@executing-plans
+
+Execute Tasks 1 and 2 from:
+docs/plans/auth-plan.md
+
+After each task:
+- Run its tests
+- Show me the result
+- Wait for my approval
+before moving to next task.</div>
+      </div>
+      <div class="prompt">
+        <div class="prompt-label">Bước 2 — Approve và tiếp tục</div>
+        <div class="prompt-body">Task 1 ✓ looks good.
+Task 2 ✓ approved.
+
+Continue to Task 3.
+Remember: write failing
+test first (RED phase),
+then implement (GREEN).</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ SKILL 5: SUBAGENT-DRIVEN ══ -->
+<div class="section" id="s-subagent">
+  <div class="section-head">
+    <span class="tag tag-blue">Skill 5 — Core</span>
+    <h2>🤖 Subagent-Driven Development — Auto review 2 tầng</h2>
+    <p>Mỗi task được dispatch cho 1 subagent mới. Sau khi xong, tự động dispatch 2 reviewer độc lập: spec compliance và code quality. Cực kỳ nhanh cho project lớn.</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-purple">🤖</div>
+    <div class="skill-meta">
+      <div class="skill-file">@subagent-driven-development · subagent-driven-development.mdc</div>
+      <div class="desc">Each task gets a fresh implementer subagent. Two reviewer subagents auto-review each completed task.</div>
+      <div class="tag-row">
+        <span class="itag it-blue">Fresh subagent per task</span>
+        <span class="itag it-green">2-stage auto review</span>
+        <span class="itag it-green">Best for large projects</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Cách hoạt động — 4 bước per task</div>
+    <ul class="steps">
+      <li><div class="n">1</div><div class="txt"><strong>Dispatch implementer subagent</strong><span>Subagent nhận task text + context, implement + tự review, commit</span></div></li>
+      <li><div class="n">2</div><div class="txt"><strong>Dispatch spec-compliance reviewer</strong><span>Reviewer riêng check: code có đúng spec không? Missing requirements?</span></div></li>
+      <li><div class="n">3</div><div class="txt"><strong>Dispatch code-quality reviewer</strong><span>Reviewer thứ 2 check: DRY, error handling, security, performance</span></div></li>
+      <li><div class="n">4</div><div class="txt"><strong>Continue hoặc fix</strong><span>Nếu có issue → implementer fix. Nếu pass → chuyển task tiếp theo</span></div></li>
+    </ul>
+    <div class="prompt">
+      <div class="prompt-label">Prompt — Khởi động subagent-driven</div>
+      <div class="prompt-body">@subagent-driven-development
+
+Execute this implementation plan using subagent-driven development:
+[read file: docs/plans/auth-plan.md]
+
+For each task:
+1. Dispatch fresh implementer subagent with task text + context
+2. After implementation: dispatch spec-compliance reviewer
+3. After spec review: dispatch code-quality reviewer
+4. Only proceed to next task when both reviewers approve
+
+Report status after each task completes.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Status codes — Hiểu kết quả trả về</div>
+    <div class="output">
+      <div class="output-top">Subagent status protocol</div>
+      <div class="output-body">DONE              → Task hoàn thành, cả 2 reviewer approve ✓
+DONE_WITH_CONCERNS → Done nhưng có minor issues — bạn quyết định tiếp hay fix
+BLOCKED           → Subagent cần thêm context từ bạn
+NEEDS_CONTEXT     → Missing info (API key, config, clarification về spec)</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ SKILL 6: PARALLEL AGENTS ══ -->
+<div class="section" id="s-parallel">
+  <div class="section-head">
+    <span class="tag tag-orange">Skill 6 — Core</span>
+    <h2>⚡ Dispatching Parallel Agents — Chạy nhiều task đồng thời</h2>
+    <p>Dispatch nhiều subagents làm các task độc lập song song. Tăng tốc 3–5x khi có nhiều module không phụ thuộc nhau. Cần dùng cùng git worktrees để tránh conflict.</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-orange">⚡</div>
+    <div class="skill-meta">
+      <div class="skill-file">@dispatching-parallel-agents · dispatching-parallel-agents.mdc</div>
+      <div class="desc">Use when facing 2+ independent tasks that can be worked on without shared state or sequential dependencies.</div>
+      <div class="tag-row">
+        <span class="itag it-orange">3-5x faster</span>
+        <span class="itag it-yellow">Independent tasks only</span>
+        <span class="itag it-green">Each in own worktree</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-warn">
+    <div class="callout-icon">⚠️</div>
+    <div><strong>Điều kiện bắt buộc:</strong> Tasks phải <strong>độc lập nhau</strong> — không có dependency. Ví dụ: viết <code>password.js</code> và <code>jwt.js</code> có thể song song. Nhưng <code>login.controller.js</code> phụ thuộc cả hai → phải chạy sau.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Prompt — Dispatch parallel agents</div>
+    <div class="prompt">
+      <div class="prompt-label">Prompt</div>
+      <div class="prompt-body">@dispatching-parallel-agents
+
+These tasks are independent — dispatch them in parallel:
+
+Agent 1 — Password utility:
+  Task: Implement src/utils/password.js
+  Tests: src/utils/password.test.js
+  Spec: [paste task 1 từ plan]
+
+Agent 2 — JWT service:
+  Task: Implement src/utils/jwt.js
+  Tests: src/utils/jwt.test.js
+  Spec: [paste task 2 từ plan]
+
+Agent 3 — DB schema:
+  Task: Create migrations/001_users.sql
+  Spec: [paste task 3 từ plan]
+
+Each agent works in its own git worktree.
+Report when ALL agents complete.</div>
+    </div>
+    <div class="callout callout-info" style="margin-top:4px">
+      <div class="callout-icon">ℹ️</div>
+      <div><strong>Context isolation:</strong> Mỗi subagent chỉ nhận đúng context nó cần — không share session history. Giúp tránh context pollution và subagent focused hơn.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ SKILL 7: TDD ══ -->
+<div class="section" id="s-tdd">
+  <div class="section-head">
+    <span class="tag tag-green">Skill 7 — Core</span>
+    <h2>🧪 Test-Driven Development — RED → GREEN → REFACTOR</h2>
+    <p>Bắt buộc viết test thất bại trước. Watch it fail. Viết minimal code để pass. Watch it pass. Commit. Skill này sẽ xóa code được viết trước khi có test.</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-green">🧪</div>
+    <div class="skill-meta">
+      <div class="skill-file">@test-driven-development · test-driven-development.mdc</div>
+      <div class="desc">Enforces RED → GREEN → REFACTOR. Auto-triggers during implementation. Will delete pre-test code.</div>
+      <div class="tag-row">
+        <span class="itag it-green">Auto-trigger during impl</span>
+        <span class="itag it-red">Deletes pre-test code</span>
+        <span class="itag it-green">RED GREEN REFACTOR</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Flow TDD 3 bước</div>
+    <div class="g2">
+      <div class="prompt">
+        <div class="prompt-label">Bước 1 — RED (viết test trước)</div>
+        <div class="prompt-body">@test-driven-development
+
+Write FAILING tests for the
+login controller.
+
+Cover from spec:
+- 200 + JWT on valid creds
+- 401 on wrong password
+- 403 on locked account
+- 429 on rate limit exceeded
+
+File: src/auth/__tests__/login.test.js
+DO NOT write implementation yet.
+Run tests — confirm they FAIL.</div>
+      </div>
+      <div class="prompt">
+        <div class="prompt-label">Bước 2 — GREEN (minimal code)</div>
+        <div class="prompt-body">Tests are written and FAILING ✓
+
+Now implement MINIMAL code
+to make all tests pass.
+
+File: src/auth/login.controller.js
+
+Rules:
+- Write minimum code to pass
+- Don't add extra features
+- Run tests after each change
+- Stop when all GREEN ✓</div>
+      </div>
+    </div>
+    <div class="prompt">
+      <div class="prompt-label">Bước 3 — REFACTOR (sau khi GREEN)</div>
+      <div class="prompt-body">All tests passing ✓
+
+Now REFACTOR the login controller:
+- Remove duplication
+- Improve naming
+- Extract helper functions if needed
+
+Rules: Tests must still pass after every change.
+Commit after refactor complete.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ SKILL 8: DEBUGGING ══ -->
+<div class="section" id="s-debug">
+  <div class="section-head">
+    <span class="tag tag-blue">Skill 8 — Core</span>
+    <h2>🐛 Systematic Debugging — 4-phase root cause process</h2>
+    <p>Khi có bug — không đoán, không thử bừa. 4 phase: Reproduce → Hypothesis → Verify → Fix. Bao gồm root-cause-tracing, defense-in-depth, condition-based-waiting.</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-red">🐛</div>
+    <div class="skill-meta">
+      <div class="skill-file">@systematic-debugging · systematic-debugging.mdc</div>
+      <div class="desc">4-phase debugging: Reproduce → Hypothesis → Verify → Fix root cause. Includes 3 specialized techniques.</div>
+      <div class="tag-row">
+        <span class="itag it-red">4-phase process</span>
+        <span class="itag it-red">Root cause only</span>
+        <span class="itag it-yellow">Defense-in-depth</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Template debug — Copy và điền vào</div>
+    <div class="prompt">
+      <div class="prompt-label">Prompt chuẩn — Systematic debug</div>
+      <div class="prompt-body">@systematic-debugging
+
+Bug report:
+- Expected: [mô tả behavior mong muốn]
+- Actual:   [mô tả behavior thực tế]
+- When:     [điều kiện trigger bug]
+
+Error log:
+[paste full error + stack trace]
+
+Relevant files: [file 1], [file 2]
+
+Phase 1 (Reproduce): Confirm you can reproduce it
+Phase 2 (Hypothesis): List 3 possible root causes, ranked
+Phase 3 (Verify): Test each hypothesis — DO NOT fix yet
+Phase 4 (Fix): Fix only the confirmed root cause</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>3 kỹ thuật đặc biệt trong skill này</div>
+    <ul class="steps">
+      <li><div class="n">A</div><div class="txt"><strong>root-cause-tracing</strong><span>Trace bug ngược qua call stack từ symptom → actual source. Không fix symptom, fix root.</span></div></li>
+      <li><div class="n">B</div><div class="txt"><strong>defense-in-depth</strong><span>Sau khi fix, thêm validation ở nhiều layer để cả class bug này không xảy ra nữa.</span></div></li>
+      <li><div class="n">C</div><div class="txt"><strong>condition-based-waiting</strong><span>Thay vì setTimeout, poll condition thực tế. Tránh race condition và flaky tests.</span></div></li>
+    </ul>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ SKILL 9: VERIFICATION ══ -->
+<div class="section" id="s-verify">
+  <div class="section-head">
+    <span class="tag tag-green">Skill 9 — Core</span>
+    <h2>✅ Verification Before Completion — Không claim "done" sớm</h2>
+    <p>Chạy tất cả verification steps trong plan trước khi claim task là xong. Kích hoạt tự động ở cuối mỗi task execution và trước khi finishing-a-development-branch.</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-yellow">✅</div>
+    <div class="skill-meta">
+      <div class="skill-file">@verification-before-completion · verification-before-completion.mdc</div>
+      <div class="desc">Blocks premature "done" claims. Auto-triggers at end of every task execution before commit.</div>
+      <div class="tag-row">
+        <span class="itag it-green">Auto-trigger at task end</span>
+        <span class="itag it-green">Blocks premature done</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Prompt — Manual verification trước khi commit</div>
+    <div class="prompt">
+      <div class="prompt-label">Prompt</div>
+      <div class="prompt-body">@verification-before-completion
+
+Review completed auth feature against original spec.
+
+Check ALL of the following — do not skip any:
+1. Every functional requirement in spec.md → implemented?
+2. Every edge case listed → has a test?
+3. npm test → all passing, no skipped?
+4. No hardcoded secrets or credentials?
+5. Error messages don't leak sensitive info?
+6. Rate limiting working correctly?
+
+Report: PASS / FAIL per item. Block completion if any FAIL.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ SKILL 10: REQUEST REVIEW ══ -->
+<div class="section" id="s-request-review">
+  <div class="section-head">
+    <span class="tag tag-yellow">Skill 10 — Git & Review</span>
+    <h2>👀 Requesting Code Review — Dispatch reviewer subagent</h2>
+    <p>Dispatch code-reviewer subagent để catch issues trước khi chúng cascade. Bắt buộc sau mỗi task trong subagent-driven workflow.</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-yellow">👀</div>
+    <div class="skill-meta">
+      <div class="skill-file">@requesting-code-review · requesting-code-review.mdc</div>
+      <div class="desc">Dispatches the code-reviewer agent. Mandatory after each task in subagent-driven workflow, before any merge.</div>
+      <div class="tag-row">
+        <span class="itag it-yellow">Mandatory after each task</span>
+        <span class="itag it-yellow">Pre-review checklist</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Template — Code review request chuẩn</div>
+    <div class="prompt">
+      <div class="prompt-label">Prompt — Request code review</div>
+      <div class="prompt-body">@requesting-code-review
+
+Request code review for completed task:
+
+WHAT_WAS_IMPLEMENTED:
+  Login controller with JWT auth and rate limiting
+
+PLAN_REFERENCE:
+  docs/plans/auth-plan.md — Task 3
+
+GIT_RANGE:
+  BASE_SHA: [before Task 3]
+  HEAD_SHA: HEAD
+
+Review checklist:
+- Clean separation of concerns?
+- Proper error handling?
+- DRY principle followed?
+- Security concerns (SQL injection, timing attacks)?</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Hiểu severity levels trong review output</div>
+    <div class="output">
+      <div class="output-top">Code review severity levels</div>
+      <div class="output-body">🔴 CRITICAL  → Fix trước khi tiếp tục bất cứ gì — BLOCKED
+🟡 IMPORTANT → Nên fix, không bắt buộc ngay nhưng trước khi merge
+⚪ MINOR     → Nice to have, có thể để technical debt ticket
+
+Assessment:
+  APPROVED      → Tiếp tục task tiếp theo
+  BLOCKED       → Fix critical issue trước</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ SKILL 11: RECEIVE REVIEW ══ -->
+<div class="section" id="s-receive-review">
+  <div class="section-head">
+    <span class="tag tag-yellow">Skill 11 — Git & Review</span>
+    <h2>💬 Receiving Code Review — Xử lý feedback đúng cách</h2>
+    <p>Skill để respond to code review feedback một cách có cấu trúc. Phân loại từng issue, tạo action plan, không argue với reviewer mà address từng điểm.</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-yellow">💬</div>
+    <div class="skill-meta">
+      <div class="skill-file">@receiving-code-review · receiving-code-review.mdc</div>
+      <div class="desc">Requires technical rigor and verification, not performative agreement or blind implementation of feedback.</div>
+      <div class="tag-row">
+        <span class="itag it-yellow">Structured response</span>
+        <span class="itag it-yellow">Per-issue action plan</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Prompt — Xử lý review feedback</div>
+    <div class="prompt">
+      <div class="prompt-label">Prompt</div>
+      <div class="prompt-body">@receiving-code-review
+
+I received this code review:
+[paste review output]
+
+For each issue:
+1. Acknowledge it (không argue)
+2. Classify: Will Fix / Won't Fix + reason / Already addressed
+3. For "Will Fix": implement the fix now
+4. After all fixes: re-run tests to confirm nothing broke
+5. Summary: what was changed and why
+
+Start with CRITICAL issues first.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Output mẫu — Structured response</div>
+    <div class="output">
+      <div class="output-top">Review response</div>
+      <div class="output-body">Issue 1: SQL injection [CRITICAL] → WILL FIX
+  Current:  db.query(`SELECT * FROM users WHERE email = '${email}'`)
+  Fixed:    db.query('SELECT * FROM users WHERE email = $1', [email])
+  Status:   ✓ Fixed, test added for SQL injection attempt
+
+Issue 2: Missing Retry-After header [IMPORTANT] → WILL FIX
+  Added: res.set('Retry-After', 900) before 429 response
+  Status: ✓ Fixed, test updated
+
+Issue 3: Magic number 5 [MINOR] → WILL FIX
+  Moved to: config/auth.js → AUTH.MAX_ATTEMPTS = 5
+  Status: ✓ Fixed
+
+All fixes applied. npm test → 11/11 passing ✓
+Ready to proceed to Task 4.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ SKILL 12: FINISH BRANCH ══ -->
+<div class="section" id="s-finish">
+  <div class="section-head">
+    <span class="tag tag-green">Skill 12 — Git & Review</span>
+    <h2>🏁 Finishing a Development Branch — Merge / PR / Discard</h2>
+    <p>Kích hoạt khi tất cả tasks complete. Verify tests, present 4 options (merge/PR/keep/discard), clean up worktree. Đây là bước cuối của mỗi feature cycle.</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-green">🏁</div>
+    <div class="skill-meta">
+      <div class="skill-file">@finishing-a-development-branch · finishing-a-development-branch.mdc</div>
+      <div class="desc">Guides completion of development work by presenting structured options for merge, PR, or cleanup.</div>
+      <div class="tag-row">
+        <span class="itag it-green">4 options: merge/PR/keep/discard</span>
+        <span class="itag it-green">Cleanup worktree</span>
+        <span class="itag it-green">Pre-flight check</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Prompt — Kết thúc branch đúng cách</div>
+    <div class="prompt">
+      <div class="prompt-label">Prompt</div>
+      <div class="prompt-body">@finishing-a-development-branch
+
+All tasks in auth feature are complete.
+
+Pre-flight check:
+1. Run full test suite — confirm all passing
+2. Check for uncommitted changes
+3. Review git log for this branch (last 10 commits)
+4. Present my options:
+   A) Merge to main directly
+   B) Create Pull Request (with PR description)
+   C) Keep branch open (more work needed)
+   D) Discard branch (not satisfied)
+
+I'll tell you which option to proceed with.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Output mẫu — 4 options presented</div>
+    <div class="output">
+      <div class="output-top">Branch completion options</div>
+      <div class="output-body">Pre-flight results:
+  ✓ 34 tests passing (was 23 before, +11 new)
+  ✓ No uncommitted changes
+  ✓ 8 clean commits on feature/user-auth
+
+Your options:
+  A) Merge to main directly
+     → git merge --no-ff feature/user-auth
+     → Removes worktree, branch stays for history
+
+  B) Create Pull Request
+     → PR title: "Auth: Add JWT login, rate limiting, TDD coverage"
+     → Assigns you as reviewer
+
+  C) Keep branch open → Worktree stays, continue work later
+
+  D) Discard branch → IRREVERSIBLE — use if feature is abandoned
+
+Which option? (A/B/C/D)</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ SKILL 13: USING SUPERPOWERS ══ -->
+<div class="section" id="s-using-superpowers">
+  <div class="section-head">
+    <span class="tag tag-pink">Skill 13 — Meta</span>
+    <h2>🧠 Using Superpowers — Meta-skill điều phối toàn bộ hệ thống</h2>
+    <p>Skill quan trọng nhất — dạy AI <em>cách sử dụng</em> tất cả skills khác. Thiết lập quy tắc ưu tiên, thời điểm invoke skill, và mindset bắt buộc khi làm việc với Superpowers.</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-pink">🧠</div>
+    <div class="skill-meta">
+      <div class="skill-file">@using-superpowers · using-superpowers.mdc</div>
+      <div class="desc">The meta-skill that governs HOW all other skills are used. Establishes mandatory discipline: if a skill applies, it MUST be used — no exceptions, no rationalizations.</div>
+      <div class="tag-row">
+        <span class="itag it-pink">Meta-skill</span>
+        <span class="itag it-pink">Governs all other skills</span>
+        <span class="itag it-orange">Non-negotiable</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="callout callout-warn">
+    <div class="callout-icon">🚨</div>
+    <div><strong>Quy tắc số 1 — KHÔNG CÓ NGOẠI LỆ:</strong> Nếu một skill áp dụng cho task của bạn, AI <strong>PHẢI</strong> dùng skill đó. Không thể lý luận xung quanh. Không tùy chọn. Không thương lượng.</div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Thứ tự ưu tiên — Priority hierarchy</div>
+    <ul class="steps">
+      <li><div class="n" style="background:rgba(245,197,66,.2);color:var(--yellow)">1</div><div class="txt"><strong>User's explicit instructions (cao nhất)</strong><span>CLAUDE.md, GEMINI.md, AGENTS.md, direct requests — luôn được ưu tiên tuyệt đối</span></div></li>
+      <li><div class="n" style="background:rgba(79,142,255,.2);color:var(--accent)">2</div><div class="txt"><strong>Superpowers skills</strong><span>Override default system behavior nơi có xung đột — nhưng không bao giờ vượt qua user instructions</span></div></li>
+      <li><div class="n" style="background:rgba(107,122,153,.2);color:var(--muted)">3</div><div class="txt"><strong>Default system prompt (thấp nhất)</strong><span>Hành vi mặc định của AI — bị override bởi cả skills và user instructions</span></div></li>
+    </ul>
+    <div class="callout callout-info" style="margin-top:4px">
+      <div class="callout-icon">💡</div>
+      <div><strong>Ví dụ xung đột:</strong> Nếu <code>CLAUDE.md</code> ghi "don't use TDD" và skill <code>test-driven-development</code> nói "always use TDD" → <strong>follow user instructions</strong>. User luôn là người kiểm soát.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Decision flow — AI làm gì khi nhận message</div>
+    <div class="workflow">
+      <div class="wf-step wf-c1">
+        <div class="wf-left"><div class="wf-circle">?</div><div class="wf-line"></div></div>
+        <div class="wf-content">
+          <div class="wf-title">Nhận message từ user</div>
+          <div class="wf-desc">Trước bất cứ điều gì — kể cả câu hỏi làm rõ</div>
+        </div>
+      </div>
+      <div class="wf-step wf-c2">
+        <div class="wf-left"><div class="wf-circle">1</div><div class="wf-line"></div></div>
+        <div class="wf-content">
+          <div class="wf-title">Kiểm tra: Có skill nào áp dụng không?</div>
+          <div class="wf-desc">Ngay cả 1% khả năng → invoke skill để kiểm tra. Skill check đến TRƯỚC câu hỏi làm rõ.</div>
+          <div class="wf-skill" style="color:var(--accent)">Skill check → TRƯỚC mọi hành động</div>
+        </div>
+      </div>
+      <div class="wf-step wf-c3">
+        <div class="wf-left"><div class="wf-circle">2</div><div class="wf-line"></div></div>
+        <div class="wf-content">
+          <div class="wf-title">Nếu có skill → Invoke Skill tool</div>
+          <div class="wf-desc">Thông báo: "Using [skill] to [purpose]". Nếu skill có checklist → tạo TodoWrite todo per item.</div>
+          <div class="wf-skill" style="color:#a78bfa">Announce → Checklist → Follow exactly</div>
+        </div>
+      </div>
+      <div class="wf-step wf-c4 wf-last">
+        <div class="wf-left"><div class="wf-circle">3</div></div>
+        <div class="wf-content">
+          <div class="wf-title">Follow skill chính xác → Respond</div>
+          <div class="wf-desc">Không adapt away. Không improvise. Follow skill → sau đó respond cho user.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Cách invoke skill theo platform</div>
+    <div class="g2">
+      <div>
+        <div class="prompt">
+          <div class="prompt-label">Cursor (và Claude Code)</div>
+          <div class="prompt-body"><span class="cm"># Dùng Skill tool — KHÔNG dùng Read tool</span>
+@brainstorming
+@test-driven-development
+@systematic-debugging
+
+<span class="cm"># Skill tool load và present content
+# Follow directly — không cần đọc file thủ công</span></div>
+        </div>
+      </div>
+      <div>
+        <div class="prompt">
+          <div class="prompt-label">Gemini CLI / Other</div>
+          <div class="prompt-body"><span class="cm"># Gemini CLI: activate_skill tool
+# Loads skill metadata at session start
+# Activates full content on demand
+
+# Other environments:
+# Xem platform documentation
+# Skills dùng Claude Code tool names</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Các lý do phổ biến AI "bỏ qua" skill — TẤT CẢ đều sai</div>
+    <div class="output">
+      <div class="output-top">Rationalizations to REJECT</div>
+      <div class="output-body">❌ "Questions are tasks" → Skill check BEFORE clarifying questions
+❌ "Skill check comes BEFORE clarifying questions" → Check first, ask later
+❌ "Skills tell you HOW to explore" → Check first, don't assume you know how
+❌ "Files lack conversation context" → Check for skills anyway
+❌ "Skills evolve. Read current version" → Run current version each time
+❌ "Simple things become complex. Use it" → Simple ≠ no skill needed
+❌ "Knowing the concept ≠ using the skill" → Invoke it, don't rely on training
+❌ "Undisciplined action wastes time. Skills prevent this" → No shortcuts
+
+Rigid skills (TDD, debugging): Follow exactly. Don't adapt away discipline.
+Flexible skills (patterns): Adapt principles to context.
+The skill itself tells you which type it is.</div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Trigger patterns — Skill nào cho situation nào</div>
+    <div class="output">
+      <div class="output-top">Trigger examples</div>
+      <div class="output-body">"Let's build X"          → @brainstorming first → then implementation skills
+"Fix this bug"           → @systematic-debugging first → then domain-specific skills
+"I want to add feature"  → @brainstorming (MUST, even if seems obvious)
+"Run the tests"          → @test-driven-development (verify RED/GREEN/REFACTOR)
+"We're done with tasks"  → @finishing-a-development-branch automatically
+"Review this code"       → @requesting-code-review → code-reviewer agent</div>
+    </div>
+    <div class="callout callout-tip" style="margin-top:4px">
+      <div class="callout-icon">💡</div>
+      <div><strong>Nguyên tắc vàng:</strong> Instructions say <strong>WHAT</strong>, not HOW. Skills nói HOW. Nếu có skill cho HOW → dùng nó, không tự invention.</div>
+    </div>
+  </div>
+</div>
+
+<hr class="divider">
+
+<!-- ══ SKILL 14: WRITING SKILLS ══ -->
+<div class="section" id="s-writing-skills">
+  <div class="section-head">
+    <span class="tag tag-pink">Skill 14 — Meta</span>
+    <h2>✍️ Writing Skills — Tự tạo skill mới cho team</h2>
+    <p>Tạo custom skills theo best practices của Superpowers. Skill mới được test bằng subagents trước khi dùng. Build skill riêng cho domain/team của bạn.</p>
+  </div>
+
+  <div class="skill-head">
+    <div class="skill-icon ic-pink">✍️</div>
+    <div class="skill-meta">
+      <div class="skill-file">@writing-skills · writing-skills.mdc</div>
+      <div class="desc">Creates custom skills following Superpowers best practices. New skills are tested by subagents before use.</div>
+      <div class="tag-row">
+        <span class="itag it-pink">Create custom skills</span>
+        <span class="itag it-pink">Team-specific workflows</span>
+        <span class="itag it-pink">Subagent-tested</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Prompt — Tạo skill deploy workflow cho team</div>
+    <div class="prompt">
+      <div class="prompt-label">Prompt — Tạo custom skill</div>
+      <div class="prompt-body">@writing-skills
+
+Create a new skill: "deploying-to-staging"
+
+This skill should activate when someone says they want to deploy.
+It should:
+1. Run full test suite first
+2. Build Docker image
+3. Run security scan (trivy)
+4. Deploy to staging via kubectl
+5. Run smoke tests against staging
+6. Report deployment URL
+
+Our stack: Docker + Kubernetes + GitHub Actions
+Staging URL pattern: https://staging-{branch}.our-domain.com
+
+Follow superpowers skill format.
+Save to: .cursor/rules/deploying-to-staging.mdc</div>
+    </div>
+    <div class="callout callout-tip" style="margin-top:4px">
+      <div class="callout-icon">💡</div>
+      <div><strong>Pro tip:</strong> Sau khi tạo skill, dùng <code>@writing-skills</code> lần nữa để test skill mới bằng subagent trước khi team dùng. Skill được test = skill đáng tin cậy.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ SUMMARY TABLE ══ -->
+<div class="section" id="summary">
+  <div class="section-head">
+    <span class="tag tag-blue">📊 Tổng hợp</span>
+    <h2>Toàn bộ thành phần — Bảng tổng hợp</h2>
+    <p>Tất cả Skills, Hooks, Agents, Commands của Superpowers trong một bảng.</p>
+  </div>
+
+  <div class="callout callout-info">
+    <div class="callout-icon">🔗</div>
+    <div>Source: <a href="https://github.com/obra/superpowers" style="color:var(--accent);text-decoration:underline">github.com/obra/superpowers</a> · Marketplace: <a href="https://cursor.com/marketplace/superpowers" style="color:var(--accent);text-decoration:underline">cursor.com/marketplace/superpowers</a></div>
+  </div>
+
+  <div class="card" style="margin-bottom:20px">
+    <div class="card-label"><div class="dot"></div>Skills (14)</div>
+    <div style="overflow-x:auto">
+    <table class="summary-table">
+      <thead>
+        <tr><th>#</th><th>Skill</th><th>Trigger</th><th>Category</th></tr>
+      </thead>
+      <tbody>
+        <tr><td>1</td><td><strong>brainstorming</strong><span class="file-mono">brainstorming.mdc</span></td><td><span class="itag it-blue">Auto / @</span></td><td><span class="itag it-blue">Core</span></td></tr>
+        <tr><td>2</td><td><strong>using-git-worktrees</strong><span class="file-mono">using-git-worktrees.mdc</span></td><td><span class="itag it-blue">Auto / @</span></td><td><span class="itag it-blue">Core</span></td></tr>
+        <tr><td>3</td><td><strong>writing-plans</strong><span class="file-mono">writing-plans.mdc</span></td><td><span class="itag it-blue">Auto / @</span></td><td><span class="itag it-blue">Core</span></td></tr>
+        <tr><td>4</td><td><strong>executing-plans</strong><span class="file-mono">executing-plans.mdc</span></td><td><span class="itag it-blue">@</span></td><td><span class="itag it-blue">Core</span></td></tr>
+        <tr><td>5</td><td><strong>subagent-driven-development</strong><span class="file-mono">subagent-driven-development.mdc</span></td><td><span class="itag it-blue">Auto / @</span></td><td><span class="itag it-blue">Core</span></td></tr>
+        <tr><td>6</td><td><strong>dispatching-parallel-agents</strong><span class="file-mono">dispatching-parallel-agents.mdc</span></td><td><span class="itag it-blue">@</span></td><td><span class="itag it-blue">Core</span></td></tr>
+        <tr><td>7</td><td><strong>test-driven-development</strong><span class="file-mono">test-driven-development.mdc</span></td><td><span class="itag it-green">Auto</span></td><td><span class="itag it-blue">Core</span></td></tr>
+        <tr><td>8</td><td><strong>systematic-debugging</strong><span class="file-mono">systematic-debugging.mdc</span></td><td><span class="itag it-blue">@</span></td><td><span class="itag it-blue">Core</span></td></tr>
+        <tr><td>9</td><td><strong>verification-before-completion</strong><span class="file-mono">verification-before-completion.mdc</span></td><td><span class="itag it-green">Auto</span></td><td><span class="itag it-blue">Core</span></td></tr>
+        <tr><td>10</td><td><strong>requesting-code-review</strong><span class="file-mono">requesting-code-review.mdc</span></td><td><span class="itag it-blue">@</span></td><td><span class="itag it-yellow">Git & Review</span></td></tr>
+        <tr><td>11</td><td><strong>receiving-code-review</strong><span class="file-mono">receiving-code-review.mdc</span></td><td><span class="itag it-blue">@</span></td><td><span class="itag it-yellow">Git & Review</span></td></tr>
+        <tr><td>12</td><td><strong>finishing-a-development-branch</strong><span class="file-mono">finishing-a-development-branch.mdc</span></td><td><span class="itag it-blue">Auto / @</span></td><td><span class="itag it-yellow">Git & Review</span></td></tr>
+        <tr><td>13</td><td><strong>using-superpowers</strong><span class="file-mono">using-superpowers.mdc</span></td><td><span class="itag it-green">Auto</span></td><td><span class="itag it-pink">Meta</span></td></tr>
+        <tr><td>14</td><td><strong>writing-skills</strong><span class="file-mono">writing-skills.mdc</span></td><td><span class="itag it-blue">@</span></td><td><span class="itag it-pink">Meta</span></td></tr>
+      </tbody>
+    </table>
+    </div>
+  </div>
+
+  <div class="g2" style="margin-bottom:14px">
+    <div class="card">
+      <div class="card-label"><div class="dot"></div>Agents (1)</div>
+      <table class="summary-table">
+        <thead><tr><th>Agent</th><th>Trigger</th></tr></thead>
+        <tbody>
+          <tr><td><strong>code-reviewer</strong><span class="file-mono">agents/code-reviewer.md</span></td><td><span class="itag it-pink">Auto</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div class="card">
+      <div class="card-label"><div class="dot"></div>Hooks (1)</div>
+      <table class="summary-table">
+        <thead><tr><th>Hook</th><th>Event</th></tr></thead>
+        <tbody>
+          <tr><td><strong>SessionStart</strong><span class="file-mono">hooks/hooks.json</span></td><td><span class="itag it-cyan">onSessionStart</span></td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-label"><div class="dot"></div>Commands (3)</div>
+    <table class="summary-table">
+      <thead><tr><th>Command</th><th>Equivalent Skill</th><th>Description</th></tr></thead>
+      <tbody>
+        <tr><td><strong>/brainstorm</strong><span class="file-mono">commands/brainstorm.md</span></td><td><code>@brainstorming</code></td><td style="color:var(--muted2);font-size:12px">Explore requirements before implementation</td></tr>
+        <tr><td><strong>/write-plan</strong><span class="file-mono">commands/write-plan.md</span></td><td><code>@writing-plans</code></td><td style="color:var(--muted2);font-size:12px">Create detailed implementation plan</td></tr>
+        <tr><td><strong>/execute-plan</strong><span class="file-mono">commands/execute-plan.md</span></td><td><code>@executing-plans</code></td><td style="color:var(--muted2);font-size:12px">Execute plan in batches with checkpoints</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div style="height: 20px"></div>
+</div>
+
+</div><!-- /main -->
+
+<!-- Back to top -->
+<button id="backtop" onclick="window.scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<script>
+// ─── Active nav link on click ───
+function setActive(el) {
+  document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
+  el.classList.add('active');
+  // Close mobile sidebar
+  if (window.innerWidth < 768) toggleSidebar();
+}
+
+// ─── Mobile sidebar toggle ───
+function toggleSidebar() {
+  const sidebar = document.getElementById('sidebar');
+  const overlay = document.getElementById('overlay');
+  sidebar.classList.toggle('open');
+  overlay.classList.toggle('open');
+}
+
+// ─── Scroll-based active nav ───
+const sections = document.querySelectorAll('[id]');
+const navLinks = document.querySelectorAll('.nav-link[href^="#"]');
+
+const observer = new IntersectionObserver((entries) => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      navLinks.forEach(link => {
+        link.classList.toggle('active', link.getAttribute('href') === `#${id}`);
+      });
+    }
+  });
+}, {
+  rootMargin: '-20% 0px -70% 0px',
+  threshold: 0
+});
+
+sections.forEach(s => {
+  if (s.id) observer.observe(s);
+});
+
+// ─── Back to top button ───
+window.addEventListener('scroll', () => {
+  const btn = document.getElementById('backtop');
+  btn.classList.toggle('visible', window.scrollY > 400);
+});
+
+// ─── Smooth scroll for nav links ───
+navLinks.forEach(link => {
+  link.addEventListener('click', (e) => {
+    const href = link.getAttribute('href');
+    if (href && href.startsWith('#')) {
+      e.preventDefault();
+      const target = document.querySelector(href);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
+  });
+});
+
+// ─── Copy buttons ───
+const copyIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="13" height="13" rx="2" ry="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>`;
+const checkIcon = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="20 6 9 17 4 12"/></svg>`;
+
+function createCopyBtn(targetEl) {
+  const btn = document.createElement('button');
+  btn.className = 'copy-btn';
+  btn.innerHTML = copyIcon + '<span>Copy</span>';
+  btn.addEventListener('click', () => {
+    const text = targetEl.innerText;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.classList.add('copied');
+      btn.innerHTML = checkIcon + '<span>Copied!</span>';
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = copyIcon + '<span>Copy</span>';
+      }, 2000);
+    });
+  });
+  return btn;
+}
+
+// Add copy buttons to code blocks
+document.querySelectorAll('.code-wrap').forEach(wrap => {
+  const codeBody = wrap.querySelector('.code-body');
+  const codeTop = wrap.querySelector('.code-top');
+  if (codeBody && codeTop) {
+    codeTop.appendChild(createCopyBtn(codeBody));
+  }
+});
+
+// Add copy buttons to prompts
+document.querySelectorAll('.prompt').forEach(prompt => {
+  const promptBody = prompt.querySelector('.prompt-body');
+  const promptLabel = prompt.querySelector('.prompt-label');
+  if (promptBody && promptLabel) {
+    const btn = createCopyBtn(promptBody);
+    promptLabel.style.justifyContent = 'space-between';
+    promptLabel.appendChild(btn);
+  }
+});
+
+// ─── Fetch GitHub stars realtime ───
+(async function fetchGitHubStars() {
+  function formatStars(count) {
+    if (count >= 1000) {
+      const k = count / 1000;
+      return k % 1 === 0 ? k + 'k' : k.toFixed(1) + 'k';
+    }
+    return count.toString();
+  }
+
+  function updateStars(text) {
+    const pill = document.getElementById('stars-count-pill');
+    const txt = document.getElementById('stars-count-text');
+    if (pill) pill.textContent = text;
+    if (txt) txt.textContent = text;
+  }
+
+  try {
+    const res = await fetch('https://api.github.com/repos/obra/superpowers');
+    if (!res.ok) throw new Error('GitHub API error');
+    const data = await res.json();
+    updateStars(formatStars(data.stargazers_count));
+  } catch (e) {
+    // Fallback to cached value if API fails
+    updateStars('124k');
+  }
+})();
+</script>
+</body>
+</html>
