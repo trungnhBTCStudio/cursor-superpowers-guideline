@@ -549,7 +549,7 @@ code { font-family: 'JetBrains Mono', monospace; font-size: .85em; background: r
 
 <!-- ══ HERO ══ -->
 <div class="hero" id="overview">
-  <div class="hero-eyebrow">📘 Complete Guide · v5.0 · 2026</div>
+  <div class="hero-eyebrow">📘 Complete Guide · v5.0.6 · 2026</div>
   <h1>Cursor × Superpowers<br>Complete Guide</h1>
   <p class="hero-desc">Agentic skills framework for Cursor IDE — 14 Skills, 1 Agent, 1 Hook, 3 Commands. From brainstorm to merged PR, all with standard workflows and real prompts.</p>
   <div class="hero-pills">
@@ -595,7 +595,7 @@ code { font-family: 'JetBrains Mono', monospace; font-size: .85em; background: r
 │   ├── executing-plans/
 │   ├── ... (11 more skills)
 ├── <span class="kw">agents/</span>          <span class="cm"># code-reviewer.md</span>
-├── <span class="kw">hooks/</span>           <span class="cm"># hooks.json (SessionStart)</span>
+├── <span class="kw">hooks/</span>           <span class="cm"># hooks-cursor.json (SessionStart)</span>
 ├── <span class="kw">commands/</span>        <span class="cm"># brainstorm.md, write-plan.md, execute-plan.md</span>
 ├── <span class="kw">.cursor-plugin/</span>  <span class="cm"># Plugin manifest for Cursor</span>
 ├── <span class="kw">.claude-plugin/</span>  <span class="cm"># Claude Code support</span>
@@ -683,7 +683,7 @@ mkdir -p ~/.cursor/commands
 
 <span class="cm"># Copy agent, hooks, commands</span>
 cp ~/superpowers/agents/*.md ~/.cursor/agents/
-cp ~/superpowers/hooks/hooks.json ~/.cursor/hooks/
+cp ~/superpowers/hooks/hooks-cursor.json ~/.cursor/hooks/
 cp ~/superpowers/commands/*.md ~/.cursor/commands/
 
 <span class="cm"># Verify</span>
@@ -718,7 +718,7 @@ mkdir -p $PROJECT/.cursor/commands
 
 <span class="cm"># Copy agent, hooks, commands</span>
 cp ~/superpowers/agents/*.md $PROJECT/.cursor/agents/
-cp ~/superpowers/hooks/hooks.json $PROJECT/.cursor/hooks/
+cp ~/superpowers/hooks/hooks-cursor.json $PROJECT/.cursor/hooks/
 cp ~/superpowers/commands/*.md $PROJECT/.cursor/commands/
 
 <span class="cm"># Verify</span>
@@ -752,7 +752,7 @@ cp ~/superpowers/commands/*.md $PROJECT/.cursor/commands/
 ├── <span class="kw">agents/</span>                             <span class="cm"># 1 Agent</span>
 │   └── <span class="hl">code-reviewer.md</span>
 ├── <span class="kw">hooks/</span>                              <span class="cm"># 1 Hook</span>
-│   └── <span class="hl">hooks.json</span>
+│   └── <span class="hl">hooks-cursor.json</span>
 └── <span class="kw">commands/</span>                           <span class="cm"># 3 Commands</span>
     ├── <span class="hl">brainstorm.md</span>
     ├── <span class="hl">write-plan.md</span>
@@ -873,7 +873,7 @@ cp ~/superpowers/commands/*.md $PROJECT/.cursor/commands/
     <p class="desc">Runs immediately when you open a new Cursor Agent session. This hook injects project context at the start of the conversation — AI knows your project before you ask anything.</p>
     <div class="trigger-label">Defined in</div>
     <div class="code-wrap">
-      <div class="code-top"><div class="traffic-lights"><span class="tl-r"></span><span class="tl-y"></span><span class="tl-g"></span></div><div class="code-lang">hooks/hooks.json</div></div>
+      <div class="code-top"><div class="traffic-lights"><span class="tl-r"></span><span class="tl-y"></span><span class="tl-g"></span></div><div class="code-lang">hooks/hooks-cursor.json</div></div>
       <div class="code-body">{
   "<span class="hl">hooks</span>": [
     {
@@ -2030,7 +2030,12 @@ Save to: .cursor/rules/deploying-to-staging.mdc</div>
 
   <div class="callout callout-info">
     <div class="callout-icon">🔗</div>
-    <div>Source: <a href="https://github.com/obra/superpowers" style="color:var(--accent);text-decoration:underline">github.com/obra/superpowers</a> · Marketplace: <a href="https://cursor.com/marketplace/superpowers" style="color:var(--accent);text-decoration:underline">cursor.com/marketplace/superpowers</a></div>
+    <div>
+      Source: <a href="https://github.com/obra/superpowers" style="color:var(--accent);text-decoration:underline">github.com/obra/superpowers</a> · 
+      Marketplace: <a href="https://cursor.com/marketplace/superpowers" style="color:var(--accent);text-decoration:underline">cursor.com/marketplace/superpowers</a><br>
+      Community: <a href="https://discord.gg/Jd8Vphy9jq" style="color:var(--accent);text-decoration:underline">discord.gg/Jd8Vphy9jq</a> · 
+      Sponsorship: <a href="https://github.com/sponsors/obra" style="color:var(--accent);text-decoration:underline">github.com/sponsors/obra</a>
+    </div>
   </div>
 
   <div class="card" style="margin-bottom:20px">
@@ -2075,7 +2080,7 @@ Save to: .cursor/rules/deploying-to-staging.mdc</div>
       <table class="summary-table">
         <thead><tr><th>Hook</th><th>Event</th></tr></thead>
         <tbody>
-          <tr><td><strong>SessionStart</strong><span class="file-mono">hooks/hooks.json</span></td><td><span class="itag it-cyan">onSessionStart</span></td></tr>
+          <tr><td><strong>SessionStart</strong><span class="file-mono">hooks/hooks-cursor.json</span></td><td><span class="itag it-cyan">onSessionStart</span></td></tr>
         </tbody>
       </table>
     </div>
