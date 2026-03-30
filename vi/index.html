@@ -1137,7 +1137,7 @@ Q3: Is social login (Google/GitHub) in scope now or future?
     </div>
     <div class="callout callout-tip" style="margin-top:4px">
       <div class="callout-icon">💡</div>
-      <div><strong>Sau khi trả lời xong:</strong> AI lưu design document vào <code>docs/design/feature-name.md</code>. File này là input cho <code>@writing-plans</code> ở bước tiếp theo.</div>
+      <div><strong>Sau khi trả lời xong:</strong> AI lưu design document vào <code>docs/superpowers/specs/YYYY-MM-DD-&lt;topic&gt;-design.md</code>. File này là input cho <code>@writing-plans</code> ở bước tiếp theo.</div>
     </div>
   </div>
 </div>
@@ -1240,7 +1240,7 @@ Clean baseline confirmed. Ready to implement.</div>
       <div class="prompt-body">@writing-plans
 
 Create implementation plan from this approved design:
-[paste nội dung docs/design/auth.md]
+[paste nội dung docs/superpowers/specs/YYYY-MM-DD-&lt;topic&gt;-design.md]
 
 Requirements for each task:
 - Max 2-5 minutes to implement
@@ -1256,7 +1256,7 @@ Tech stack: Node.js + Express + PostgreSQL + Jest</div>
   <div class="card">
     <div class="card-label"><div class="dot"></div>Output mẫu — Plan chuẩn</div>
     <div class="output">
-      <div class="output-top">docs/plans/auth-plan.md</div>
+      <div class="output-top">docs/superpowers/plans/YYYY-MM-DD-&lt;feature-name&gt;.md</div>
       <div class="output-body">## Task 1: Password hashing utility [5 min]
 File: src/utils/password.js
 RED:  Test hash() returns different string from input
@@ -1317,7 +1317,7 @@ VERIFY: npm test src/auth/ → 5 passing</div>
         <div class="prompt-body">@executing-plans
 
 Execute Tasks 1 and 2 from:
-docs/plans/auth-plan.md
+docs/superpowers/plans/YYYY-MM-DD-&lt;feature-name&gt;.md
 
 After each task:
 - Run its tests
@@ -1375,7 +1375,7 @@ then implement (GREEN).</div>
       <div class="prompt-body">@subagent-driven-development
 
 Execute this implementation plan using subagent-driven development:
-[read file: docs/plans/auth-plan.md]
+[read file: docs/superpowers/plans/YYYY-MM-DD-&lt;feature-name&gt;.md]
 
 For each task:
 1. Dispatch fresh implementer subagent with task text + context
@@ -1666,7 +1666,7 @@ WHAT_WAS_IMPLEMENTED:
   Login controller with JWT auth and rate limiting
 
 PLAN_REFERENCE:
-  docs/plans/auth-plan.md — Task 3
+  docs/superpowers/plans/YYYY-MM-DD-&lt;feature-name&gt;.md — Task 3
 
 GIT_RANGE:
   BASE_SHA: [before Task 3]

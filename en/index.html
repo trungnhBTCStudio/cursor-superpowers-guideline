@@ -934,7 +934,7 @@ cp ~/superpowers/commands/*.md $PROJECT/.cursor/commands/
       <div class="prompt-label">Use together with @requesting-code-review</div>
       <div class="prompt-body">@requesting-code-review
 
-I've finished implementing the auth feature — Task 3 from docs/plans/auth-plan.md
+I've finished implementing the auth feature — Task 3 from docs/superpowers/plans/YYYY-MM-DD-&lt;feature-name&gt;.md
 
 WHAT_WAS_IMPLEMENTED:
   Login controller with JWT auth and bcrypt + rate limiting
@@ -956,7 +956,7 @@ Please dispatch code-reviewer agent to review against:
     <div class="output">
       <div class="output-top">code-reviewer agent output</div>
       <div class="output-body">Reviewing: Task 3 — Login Controller
-Against: docs/plans/auth-plan.md + .cursorrules
+Against: docs/superpowers/plans/YYYY-MM-DD-&lt;feature-name&gt;.md + .cursorrules
 
 ✓ Strengths:
   - Clean separation: controller → service → utils
@@ -1026,7 +1026,7 @@ Stack: Node.js + PostgreSQL + Jest</div>
     <div class="prompt">
       <div class="prompt-label">Usage</div>
       <div class="prompt-body">/execute-plan
-[read: docs/plans/auth-plan.md]
+[read: docs/superpowers/plans/YYYY-MM-DD-&lt;feature-name&gt;.md]
 
 Execute Tasks 1-3 first.
 Wait for my approval before continuing.</div>
@@ -1137,7 +1137,7 @@ Q3: Is social login (Google/GitHub) in scope now or future?
     </div>
     <div class="callout callout-tip" style="margin-top:4px">
       <div class="callout-icon">💡</div>
-      <div><strong>After answering all questions:</strong> AI saves the design document to <code>docs/design/feature-name.md</code>. This file is the input for <code>@writing-plans</code> in the next step.</div>
+      <div><strong>After answering all questions:</strong> AI saves the design document to <code>docs/superpowers/specs/YYYY-MM-DD-&lt;topic&gt;-design.md</code>. This file is the input for <code>@writing-plans</code> in the next step.</div>
     </div>
   </div>
 </div>
@@ -1240,7 +1240,7 @@ Clean baseline confirmed. Ready to implement.</div>
       <div class="prompt-body">@writing-plans
 
 Create implementation plan from this approved design:
-[paste content of docs/design/auth.md]
+[paste content of docs/superpowers/specs/YYYY-MM-DD-&lt;topic&gt;-design.md]
 
 Requirements for each task:
 - Max 2-5 minutes to implement
@@ -1256,7 +1256,7 @@ Tech stack: Node.js + Express + PostgreSQL + Jest</div>
   <div class="card">
     <div class="card-label"><div class="dot"></div>Sample output — Standard plan</div>
     <div class="output">
-      <div class="output-top">docs/plans/auth-plan.md</div>
+      <div class="output-top">docs/superpowers/plans/YYYY-MM-DD-&lt;feature-name&gt;.md</div>
       <div class="output-body">## Task 1: Password hashing utility [5 min]
 File: src/utils/password.js
 RED:  Test hash() returns different string from input
@@ -1317,7 +1317,7 @@ VERIFY: npm test src/auth/ → 5 passing</div>
         <div class="prompt-body">@executing-plans
 
 Execute Tasks 1 and 2 from:
-docs/plans/auth-plan.md
+docs/superpowers/plans/YYYY-MM-DD-&lt;feature-name&gt;.md
 
 After each task:
 - Run its tests
@@ -1375,7 +1375,7 @@ then implement (GREEN).</div>
       <div class="prompt-body">@subagent-driven-development
 
 Execute this implementation plan using subagent-driven development:
-[read file: docs/plans/auth-plan.md]
+[read file: docs/superpowers/plans/YYYY-MM-DD-&lt;feature-name&gt;.md]
 
 For each task:
 1. Dispatch fresh implementer subagent with task text + context
@@ -1666,7 +1666,7 @@ WHAT_WAS_IMPLEMENTED:
   Login controller with JWT auth and rate limiting
 
 PLAN_REFERENCE:
-  docs/plans/auth-plan.md — Task 3
+  docs/superpowers/plans/YYYY-MM-DD-&lt;feature-name&gt;.md — Task 3
 
 GIT_RANGE:
   BASE_SHA: [before Task 3]
