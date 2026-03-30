@@ -795,7 +795,7 @@ cp ~/superpowers/commands/*.md $PROJECT/.cursor/commands/
         <div class="wf-content">
           <div class="wf-title">💡 Brainstorm — Tinh chỉnh ý tưởng</div>
           <div class="wf-desc">Mô tả feature → AI hỏi Socratic → approve design doc</div>
-          <div class="wf-skill" style="color:var(--accent)">@brainstorming · hoặc /brainstorm</div>
+          <div class="wf-skill" style="color:var(--accent)">@brainstorming · hoặc /brainstorming</div>
         </div>
       </div>
       <div class="wf-step wf-c2">
@@ -803,7 +803,7 @@ cp ~/superpowers/commands/*.md $PROJECT/.cursor/commands/
         <div class="wf-content">
           <div class="wf-title">🌿 Git Worktree — Tạo workspace riêng</div>
           <div class="wf-desc">Branch mới + worktree riêng + verify test baseline sạch</div>
-          <div class="wf-skill" style="color:var(--green)">@using-git-worktrees</div>
+          <div class="wf-skill" style="color:var(--green)">@using-git-worktrees or /using-git-worktrees</div>
         </div>
       </div>
       <div class="wf-step wf-c3">
@@ -811,7 +811,7 @@ cp ~/superpowers/commands/*.md $PROJECT/.cursor/commands/
         <div class="wf-content">
           <div class="wf-title">📋 Write Plan — Blueprint chi tiết</div>
           <div class="wf-desc">Phân tách design → tasks 2–5 phút với exact paths + tests</div>
-          <div class="wf-skill" style="color:#a78bfa">@writing-plans · hoặc /write-plan</div>
+          <div class="wf-skill" style="color:#a78bfa">@writing-plans · hoặc /writing-plans</div>
         </div>
       </div>
       <div class="wf-step wf-c4">
@@ -819,7 +819,7 @@ cp ~/superpowers/commands/*.md $PROJECT/.cursor/commands/
         <div class="wf-content">
           <div class="wf-title">⚡ Execute — Chạy plan (chọn 1 trong 2)</div>
           <div class="wf-desc"><strong>Có control:</strong> @executing-plans — review từng batch · <strong>Tự động:</strong> @subagent-driven-development — 2-tầng review</div>
-          <div class="wf-skill" style="color:var(--orange)">@executing-plans · /execute-plan · hoặc @subagent-driven-development</div>
+          <div class="wf-skill" style="color:var(--orange)">@executing-plans hoặc /executing-plans · hoặc @subagent-driven-development</div>
         </div>
       </div>
       <div class="wf-step wf-c5">
@@ -835,7 +835,7 @@ cp ~/superpowers/commands/*.md $PROJECT/.cursor/commands/
         <div class="wf-content">
           <div class="wf-title">👀 Code Review — Sau mỗi task hoàn thành</div>
           <div class="wf-desc">Dispatch code-reviewer agent → nhận feedback → xử lý có cấu trúc</div>
-          <div class="wf-skill" style="color:var(--red)">@requesting-code-review → agent: code-reviewer → @receiving-code-review</div>
+          <div class="wf-skill" style="color:var(--red)">/requesting-code-review  hoặc @requesting-code-review → agent: code-reviewer → @receiving-code-review</div>
         </div>
       </div>
       <div class="wf-step wf-c7">
@@ -934,7 +934,7 @@ cp ~/superpowers/commands/*.md $PROJECT/.cursor/commands/
       <div class="prompt-label">Dùng kết hợp với @requesting-code-review</div>
       <div class="prompt-body">@requesting-code-review
 
-I've finished implementing the auth feature — Task 3 from docs/plans/auth-plan.md
+I've finished implementing the auth feature — Task 3 from docs/superpowers/plans/YYYY-MM-DD-&lt;feature-name&gt;.md
 
 WHAT_WAS_IMPLEMENTED:
   Login controller with JWT auth and bcrypt + rate limiting
@@ -956,7 +956,7 @@ Please dispatch code-reviewer agent to review against:
     <div class="output">
       <div class="output-top">code-reviewer agent output</div>
       <div class="output-body">Reviewing: Task 3 — Login Controller
-Against: docs/plans/auth-plan.md + .cursorrules
+Against: docs/superpowers/plans/YYYY-MM-DD-&lt;feature-name&gt;.md + .cursorrules
 
 ✓ Strengths:
   - Clean separation: controller → service → utils
@@ -1026,7 +1026,7 @@ Stack: Node.js + PostgreSQL + Jest</div>
     <div class="prompt">
       <div class="prompt-label">Usage</div>
       <div class="prompt-body">/execute-plan
-[read: docs/plans/auth-plan.md]
+[read: docs/superpowers/plans/YYYY-MM-DD-&lt;feature-name&gt;.md]
 
 Execute Tasks 1-3 first.
 Wait for my approval before continuing.</div>
