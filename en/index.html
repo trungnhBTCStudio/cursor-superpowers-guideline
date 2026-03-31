@@ -653,123 +653,98 @@ code { font-family: 'JetBrains Mono', monospace; font-size: .85em; background: r
   </div>
 
   <div class="card">
-    <div class="card-label"><div class="dot"></div>Method 2 — Manual (clone from GitHub) · 🌐 Global or 📁 Per-project</div>
-    <div class="callout callout-warn" style="margin-bottom:12px">
-      <div class="callout-icon">⚠️</div>
-      <div><strong>Note:</strong> This method requires copying all <strong>4 components</strong> (Skills, Agents, Hooks, Commands). If you only copy skills, you will miss the agent review, auto hook, and slash commands.</div>
+    <div class="card-label"><div class="dot"></div>Method 2 — Manual Bootstrap (Recommended for Advanced Users) · 🌐 Global or 📁 Per-project</div>
+    <div class="callout callout-tip" style="margin-bottom:12px">
+      <div class="callout-icon">🚀</div>
+      <div><strong>Why use this method?</strong><br>• <strong>Easy Updates:</strong> Just <code>git pull</code> in the skills directory.<br>• <strong>Clean:</strong> No need to copy 14-15 files into rules; just one single bootstrap rule.</div>
     </div>
 
-    <div class="card-label"><div class="dot"></div>Step 1 — Clone repo (shared for both methods)</div>
+    <!-- ── OPTION A: GLOBAL ── -->
+    <div class="card-label" style="margin-top:16px"><div class="dot" style="background:var(--cyan)"></div>Option A — Install 🌐 Global (All Projects)</div>
     <div class="code-wrap">
-      <div class="code-top"><div class="traffic-lights"><span class="tl-r"></span><span class="tl-y"></span><span class="tl-g"></span></div><div class="code-lang">bash</div></div>
-      <div class="code-body"><span class="cm"># Clone repo (only need to do this once)</span>
-git clone https://github.com/obra/superpowers.git ~/superpowers
+      <div class="code-top"><div class="traffic-lights"><span class="tl-r"></span><span class="tl-y"></span><span class="tl-g"></span></div><div class="code-lang">Terminal — Global Install</div></div>
+      <div class="code-body"><span class="cm"># 1. Create directories and clone repo</span>
+mkdir -p ~/.cursor/skills ~/.cursor/rules
+git clone https://github.com/obra/superpowers.git ~/.cursor/skills/superpowers
 
-<span class="cm"># If already cloned, pull latest:</span>
-<span class="cm"># git -C ~/superpowers pull</span></div>
+<span class="cm"># 2. Create the bootstrap rule file</span>
+cat > ~/.cursor/rules/superpowers-bootstrap.mdc << 'EOF'
+# Superpowers Bootstrap
+
+You have superpowers. 
+
+**IMPORTANT: The using-superpowers skill content is included below. It is ALREADY LOADED - you are currently following it. Do NOT read "using-superpowers" again - that would be redundant.**
+
+## How to Access Skills in Cursor
+Use the `Read` tool on skill files located at `~/.cursor/skills/superpowers/skills/{skill-name}/SKILL.md`.
+
+**Available skills:**
+- `brainstorming`
+- `test-driven-development`
+- `systematic-debugging`
+- `writing-plans`
+- `executing-plans`
+- `subagent-driven-development`
+- `using-git-worktrees`
+- `finishing-a-development-branch`
+- `dispatching-parallel-agents`
+- `requesting-code-review`
+- `receiving-code-review`
+- `verification-before-completion`
+- `writing-skills`
+
+**To load a skill:** `Read ~/.cursor/skills/superpowers/skills/{skill-name}/SKILL.md`
+
+## Tool Mapping for Cursor
+- `Skill` tool → Use `Read` tool on `~/.cursor/skills/superpowers/skills/{skill-name}/SKILL.md`
+- `TodoWrite` → `TodoWrite` (identical)
+- `Task` with subagents → `Task` tool with `subagent_type` parameter
+- `Read`, `Write`, `Edit` → `Read`, `Write`, `StrReplace`
+- `Bash` → `Shell`
+
+---
+
+# Using Skills
+<EXTREMELY-IMPORTANT>
+If you think there is even a 1% chance a skill might apply to what you are doing, you ABSOLUTELY MUST read and follow the skill. 
+IF A SKILL APPLIES TO YOUR TASK, YOU DO NOT HAVE A CHOICE. YOU MUST USE IT.
+This is not negotiable. This is not optional. You cannot rationalize your way out of this.
+</EXTREMELY-IMPORTANT>
+
+## The Rule
+**Read and follow relevant skills BEFORE any response or action.**
+
+## Workflow
+1. User message received
+2. Ask: "Might any skill apply?"
+3. Announce: "Using [skill] to [purpose]"
+4. Follow skill exactly
+EOF</span></div>
     </div>
 
-    <div class="card-label" style="margin-top:16px"><div class="dot" style="background:var(--cyan)"></div>Step 2A — Install 🌐 Global (all projects)</div>
-    <div class="callout callout-info" style="margin-bottom:8px">
-      <div class="callout-icon">🌐</div>
-      <div>Copy to <code>~/.cursor/</code> — Superpowers will be available in <strong>all projects</strong> you open with Cursor.</div>
-    </div>
+    <!-- ── OPTION B: PROJECT ── -->
+    <div class="card-label" style="margin-top:24px"><div class="dot" style="background:var(--orange)"></div>Option B — Install 📁 Per-project (This Project Only)</div>
     <div class="code-wrap">
-      <div class="code-top"><div class="traffic-lights"><span class="tl-r"></span><span class="tl-y"></span><span class="tl-g"></span></div><div class="code-lang">bash — Global install</div></div>
-      <div class="code-body"><span class="cm"># Create global directories</span>
-mkdir -p ~/.cursor/rules
-mkdir -p ~/.cursor/agents
-mkdir -p ~/.cursor/hooks
-mkdir -p ~/.cursor/commands
+      <div class="code-top"><div class="traffic-lights"><span class="tl-r"></span><span class="tl-y"></span><span class="tl-g"></span></div><div class="code-lang">Terminal — Project Root</div></div>
+      <div class="code-body"><span class="cm"># 1. Create directories and clone repo into project</span>
+mkdir -p .cursor/skills .cursor/rules
+git clone https://github.com/obra/superpowers.git .cursor/skills/superpowers
 
-<span class="cm"># Copy 14 skills</span>
-<span class="kw">for</span> dir <span class="kw">in</span> ~/superpowers/skills/*/; <span class="kw">do</span>
-  skill=$(<span class="hl">basename</span> "$dir")
-  <span class="kw">if</span> [ -f "$dir/SKILL.md" ]; <span class="kw">then</span>
-    cp "$dir/SKILL.md" "$HOME/.cursor/rules/$skill.mdc"
-  <span class="kw">fi</span>
-<span class="kw">done</span>
+<span class="cm"># 2. Create the bootstrap rule file (pointing to local project paths)</span>
+cat > .cursor/rules/superpowers-bootstrap.mdc << 'EOF'
+# Superpowers Bootstrap
 
-<span class="cm"># Copy agent, hooks, commands</span>
-cp ~/superpowers/agents/*.md ~/.cursor/agents/
-cp ~/superpowers/hooks/hooks-cursor.json ~/.cursor/hooks/
-cp ~/superpowers/commands/*.md ~/.cursor/commands/
+You have superpowers. Access skills from `.cursor/skills/superpowers/skills/{skill-name}/SKILL.md`.
 
-<span class="cm"># Verify</span>
-<span class="kw">echo</span> "Skills: $(ls ~/.cursor/rules/*.mdc 2>/dev/null | wc -l) files"
-<span class="kw">echo</span> "Agents: $(ls ~/.cursor/agents/*.md 2>/dev/null | wc -l) files"
-<span class="kw">echo</span> "Commands: $(ls ~/.cursor/commands/*.md 2>/dev/null | wc -l) files"</div>
+**Available skills:** [brainstorming, writing-plans, executing-plans, test-driven-development, systematic-debugging, subagent-driven-development, ..., writing-skills]
+
+**Rule:** Read the relevant skill BEFORE acting.
+EOF</span></div>
     </div>
 
-    <div class="card-label" style="margin-top:16px"><div class="dot" style="background:var(--orange)"></div>Step 2B — Install 📁 Per-project (single project)</div>
-    <div class="callout callout-new" style="margin-bottom:8px">
-      <div class="callout-icon">📁</div>
-      <div>Copy to <code>&lt;project&gt;/.cursor/</code> — Superpowers only applies to <strong>this project</strong>. Great for committing config to Git so the whole team can use it.</div>
-    </div>
-    <div class="code-wrap">
-      <div class="code-top"><div class="traffic-lights"><span class="tl-r"></span><span class="tl-y"></span><span class="tl-g"></span></div><div class="code-lang">bash — Per-project install</div></div>
-      <div class="code-body"><span class="cm"># Change ~/your-project to your actual project path</span>
-<span class="kw">PROJECT</span>=~/your-project
-
-<span class="cm"># Create directories in project</span>
-mkdir -p $PROJECT/.cursor/rules
-mkdir -p $PROJECT/.cursor/agents
-mkdir -p $PROJECT/.cursor/hooks
-mkdir -p $PROJECT/.cursor/commands
-
-<span class="cm"># Copy 14 skills</span>
-<span class="kw">for</span> dir <span class="kw">in</span> ~/superpowers/skills/*/; <span class="kw">do</span>
-  skill=$(<span class="hl">basename</span> "$dir")
-  <span class="kw">if</span> [ -f "$dir/SKILL.md" ]; <span class="kw">then</span>
-    cp "$dir/SKILL.md" "$PROJECT/.cursor/rules/$skill.mdc"
-  <span class="kw">fi</span>
-<span class="kw">done</span>
-
-<span class="cm"># Copy agent, hooks, commands</span>
-cp ~/superpowers/agents/*.md $PROJECT/.cursor/agents/
-cp ~/superpowers/hooks/hooks-cursor.json $PROJECT/.cursor/hooks/
-cp ~/superpowers/commands/*.md $PROJECT/.cursor/commands/
-
-<span class="cm"># Verify</span>
-<span class="kw">echo</span> "Skills: $(ls $PROJECT/.cursor/rules/*.mdc 2>/dev/null | wc -l) files"
-<span class="kw">echo</span> "Agents: $(ls $PROJECT/.cursor/agents/*.md 2>/dev/null | wc -l) files"
-<span class="kw">echo</span> "Commands: $(ls $PROJECT/.cursor/commands/*.md 2>/dev/null | wc -l) files"</div>
-    </div>
-
-    <div class="card-label" style="margin-top:16px"><div class="dot"></div>.cursor/ structure after correct setup (all 4 components)</div>
-    <div class="code-wrap">
-      <div class="code-top"><div class="traffic-lights"><span class="tl-r"></span><span class="tl-y"></span><span class="tl-g"></span></div><div class="code-lang">file tree</div></div>
-      <div class="code-body"><span class="cm"># 🌐 Global:  ~/.cursor/         (all projects)</span>
-<span class="cm"># 📁 Project: &lt;project&gt;/.cursor/  (this project only)</span>
-
-<span class="hl">.cursor/</span>
-├── <span class="kw">rules/</span>                              <span class="cm"># 14 Skills</span>
-│   ├── <span class="hl">brainstorming.mdc</span>
-│   ├── <span class="hl">writing-plans.mdc</span>
-│   ├── <span class="hl">executing-plans.mdc</span>
-│   ├── <span class="hl">subagent-driven-development.mdc</span>
-│   ├── <span class="hl">dispatching-parallel-agents.mdc</span>
-│   ├── <span class="hl">test-driven-development.mdc</span>
-│   ├── <span class="hl">systematic-debugging.mdc</span>
-│   ├── <span class="hl">verification-before-completion.mdc</span>
-│   ├── <span class="hl">using-git-worktrees.mdc</span>
-│   ├── <span class="hl">requesting-code-review.mdc</span>
-│   ├── <span class="hl">receiving-code-review.mdc</span>
-│   ├── <span class="hl">finishing-a-development-branch.mdc</span>
-│   ├── <span class="hl">using-superpowers.mdc</span>
-│   └── <span class="hl">writing-skills.mdc</span>
-├── <span class="kw">agents/</span>                             <span class="cm"># 1 Agent</span>
-│   └── <span class="hl">code-reviewer.md</span>
-├── <span class="kw">hooks/</span>                              <span class="cm"># 1 Hook</span>
-│   └── <span class="hl">hooks-cursor.json</span>
-└── <span class="kw">commands/</span>                           <span class="cm"># 3 Commands</span>
-    ├── <span class="hl">brainstorm.md</span>
-    ├── <span class="hl">write-plan.md</span>
-    └── <span class="hl">execute-plan.md</span></div>
-    </div>
-    <div class="callout callout-tip" style="margin-top:4px">
-      <div class="callout-icon">✅</div>
-      <div><strong>Verify after copying:</strong> Close and reopen Cursor. Open Agent chat, type <code>/</code> — you should see 2 groups:<br>• <strong>Skills:</strong> <code>/brainstorming</code>, <code>/writing-plans</code>, <code>/executing-plans</code>,… (14 skills)<br>• <strong>Commands:</strong> <code>/brainstorm</code>, <code>/write-plan</code>, <code>/execute-plan</code> (3 commands)<br>If not visible, check the directory path of <code>.cursor/</code>.</div>
+    <div class="callout callout-info" style="margin-top:12px">
+      <div class="callout-icon">💡</div>
+      <div><strong>Note:</strong> After installation, restart Cursor or open a new conversation and ask: <em>"Do you have superpowers?"</em> to verify.</div>
     </div>
   </div>
 </div>
