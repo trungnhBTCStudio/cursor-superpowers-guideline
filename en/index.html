@@ -1378,31 +1378,52 @@ VERIFY: npm test src/auth/ → 5 passing</div>
 
   <div class="card">
     <div class="card-label"><div class="dot"></div>Prompt — Execute each batch</div>
-    <div class="g2">
-      <div class="prompt">
-        <div class="prompt-label">Step 1 — Start execution</div>
-        <div class="prompt-body">@executing-plans
+    <div class="prompt">
+      <div class="prompt-label">Standard Execution Prompt</div>
+      <div class="prompt-body">@executing-plans 
 
-Execute Tasks 1 and 2 from:
-docs/superpowers/plans/YYYY-MM-DD-&lt;feature-name&gt;.md
+Execute Task 1 and Task 2 from the implementation plan: 
+docs/superpowers/plans/YYYY-MM-DD-[feature-name].md
 
-After each task:
-- Run its tests
-- Show me the result
-- Wait for my approval
-before moving to next task.</div>
-      </div>
-      <div class="prompt">
-        <div class="prompt-label">Step 2 — Approve and continue</div>
-        <div class="prompt-body">Task 1 ✓ looks good.
-Task 2 ✓ approved.
+---
 
-Continue to Task 3.
-Remember: write failing
-test first (RED phase),
-then implement (GREEN).</div>
-      </div>
-    </div>
+## Step 1: Critical Review
+Before taking any coding action:
+- Read the entire plan document carefully.
+- Identify any ambiguities, contradictions, or gaps in the TDD steps.
+- If everything looks correct, announce: "I'm using the executing-plans skill to implement this plan" and wait for my confirmation to begin Task 1.
+
+## Step 2: Execution Rules
+
+1. **Strict Task Execution:**
+   - Execute ONLY the specified tasks.
+   - Do NOT skip, combine, or reorder steps.
+
+2. **TDD Workflow (MANDATORY):**
+   Follow the 3-stage process for each task:
+   - **RED:** Write the failing test first and run it.
+   - **GREEN:** Implement minimal code to pass the test.
+   - **VERIFY:** Re-run all relevant tests to confirm success.
+
+3. **Scope Control:**
+   - ONLY modify files listed in the task.
+   - Do NOT refactor existing code or add features outside the spec.
+
+4. **Monitoring & Checkpoints:**
+   After EACH task, provide a report in this format:
+   - **Task ID:**
+   - **Changes:** (Summary of files created/modified)
+   - **Test Results:** (Command used and pass/fail status)
+   - **Status:** (PASS / FAIL / BLOCKED)
+   - **STOP** and wait for my approval before proceeding to the next task.
+
+5. **Failure Handling:**
+   - If tests fail in the GREEN or VERIFY phase, attempt a minimal fix within the task scope.
+   - If still failing, STOP and report the issue — do NOT proceed to the next task.
+
+---
+
+**Important:** Do NOT jump ahead or optimize beyond the current task scope.</div>
   </div>
 </div>
 
