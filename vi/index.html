@@ -1276,19 +1276,47 @@ Clean baseline confirmed. Ready to implement.</div>
     <div class="card-label"><div class="dot"></div>Prompt — Tạo plan từ design doc</div>
     <div class="prompt">
       <div class="prompt-label">Prompt</div>
-      <div class="prompt-body">@writing-plans
+      <div class="prompt-body">@writing-plans 
 
-Create implementation plan from this approved design:
-[paste nội dung docs/superpowers/specs/YYYY-MM-DD-&lt;topic&gt;-design.md]
+Create a detailed implementation plan from this approved design:
+[paste content of docs/superpowers/specs/YYYY-MM-DD-<topic>-design.md]
 
-Requirements for each task:
-- Max 2-5 minutes to implement
-- Exact file path to create/modify
-- What tests to write (RED phase)
-- What code to write (GREEN phase)
-- How to verify it works
+Tech stack: Node.js + Express + PostgreSQL + Jest
 
-Tech stack: Node.js + Express + PostgreSQL + Jest</div>
+Goal: Produce a step-by-step, AI-executable plan using strict TDD (RED → GREEN → VERIFY) and checkbox syntax.
+
+---
+
+## Plan Structure Requirements:
+
+1. **Header:** 
+   Start the plan document with a standard header (Feature Name, Goal, Architecture, Tech Stack).
+
+2. **Task Granularity:** 
+   - Each task MUST be completable in 2–5 minutes.
+   - Each task should modify ONLY 1–2 files max.
+
+3. **Task Format (MANDATORY):**
+   For each task, use the standard Superpowers format:
+   
+   ### Task N: [Component Name]
+   **Files:**
+   - Create/Modify: `path/to/file.js`
+   - Test: `path/to/test.js`
+
+   - [ ] **Step 1: Write the failing test** (Include code block)
+   - [ ] **Step 2: Run test to verify it fails** (Command + expected FAIL)
+   - [ ] **Step 3: Write minimal implementation** (Include code block)
+   - [ ] **Step 4: Run test to verify it passes** (Command + expected PASS)
+   - [ ] **Step 5: Commit** (Git command with conventional message)
+
+4. **No Placeholders:**
+   - No "TBD", "TODO", or vague logic.
+   - Every step must be fully documented and ready for execution.
+
+**Output:**
+- Save the plan to `docs/superpowers/plans/YYYY-MM-DD-[feature-name].md`.
+- Ensure it is ready for `subagent-driven-development`.</div>
     </div>
   </div>
 
