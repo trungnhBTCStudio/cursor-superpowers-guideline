@@ -1192,18 +1192,39 @@ Q3: Is social login (Google/GitHub) in scope now or future?
     <div class="card-label"><div class="dot"></div>Prompt — Setup worktree sau khi approve design</div>
     <div class="prompt">
       <div class="prompt-label">Prompt</div>
-      <div class="prompt-body">@using-git-worktrees
+      <div class="prompt-body">@using-git-worktrees 
 
-Design for auth feature has been approved.
-Create an isolated workspace for implementation.
+Design for [Feature Name] has been approved. Please set up an isolated workspace to begin implementation.
 
-Branch name: feature/user-auth
-Base branch: main
+**Configuration:**
+- Branch name: [e.g., feature/feature-name]
+- Base branch: [e.g., main]
 
-After setup:
-1. Run npm install (or yarn)
-2. Run npm test to verify baseline is clean
-3. Report what tests exist and their current status</div>
+**Workflow (Strict Skill Compliance):**
+
+1. **Safety Verification:** 
+   - Verify if the worktree directory (prefer `.worktrees/`) is properly ignored by git.
+   - If not, add it to `.gitignore` and commit the change before proceeding.
+
+2. **Prepare Base Branch:** 
+   - Ensure [Base branch] is up to date (fetch + pull latest).
+
+3. **Worktree Creation:**
+   - Create a new worktree for branch [Branch name] at path `.worktrees/[Dir Name]`.
+   - If the branch or worktree already exists, reuse it instead of creating a new one.
+
+4. **Project Setup & Baseline:**
+   - Navigate into the worktree directory.
+   - Auto-detect and run setup commands (npm install/yarn/etc.).
+   - Run the test suite to verify a clean baseline.
+
+5. **Report Status:**
+   Provide a structured report with:
+   - Full worktree path.
+   - Test results summary (Passing/Failing).
+   - Confirmation: "Ready to implement [Feature Name]".
+
+**Important:** Do NOT modify any code or start implementation during this turn. Only prepare and validate the development environment.</div>
     </div>
   </div>
 
