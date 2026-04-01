@@ -1519,26 +1519,44 @@ NEEDS_CONTEXT     → Missing info (API key, config, clarification về spec)</d
     <div class="card-label"><div class="dot"></div>Prompt — Dispatch parallel agents</div>
     <div class="prompt">
       <div class="prompt-label">Prompt</div>
-      <div class="prompt-body">@dispatching-parallel-agents
+      <div class="prompt-body">@dispatching-parallel-agents 
 
-These tasks are independent — dispatch them in parallel:
+The following tasks are entirely independent — please dispatch them in parallel to specialized agents:
 
-Agent 1 — Password utility:
-  Task: Implement src/utils/password.js
-  Tests: src/utils/password.test.js
-  Spec: [paste task 1 từ plan]
+**Agent 1 — Password Utility**
+- Task: Implement `src/utils/password.js` and its corresponding test `src/utils/password.test.js`.
+- Requirements: 
+  - `hashPassword(password)` and `comparePassword(password, hash)` as async functions.
+  - Use the `bcrypt` library.
+  - Export as a standard module.
+- Required Output: A brief summary of exported functions and test results.
 
-Agent 2 — JWT service:
-  Task: Implement src/utils/jwt.js
-  Tests: src/utils/jwt.test.js
-  Spec: [paste task 2 từ plan]
+**Agent 2 — JWT Service**
+- Task: Implement `src/utils/jwt.js` and its corresponding test `src/utils/jwt.test.js`.
+- Requirements:
+  - `sign(payload)` and `verify(token)` functions.
+  - Use the `jsonwebtoken` library.
+  - Use the secret key from `process.env.JWT_SECRET`.
+- Required Output: A brief summary of implemented functions and confirmation of env mocking in tests.
 
-Agent 3 — DB schema:
-  Task: Create migrations/001_users.sql
-  Spec: [paste task 3 từ plan]
+**Agent 3 — DB Schema**
+- Task: Create the migration file `migrations/001_users.sql`.
+- Requirements:
+  - `users` table: id (UUID primary key), email (unique), password_hash, created_at.
+- Required Output: Confirmation that the schema aligns with PostgreSQL standards.
 
-Each agent works in its own git worktree.
-Report when ALL agents complete.</div>
+**General Constraints:**
+- Each agent must work in its own **git worktree** for total isolation.
+- Runtime: Node.js 18+.
+- **Dependencies:** If any libraries are added (bcrypt, jwt), clearly report them for future `package.json` merging.
+- All agents MUST pass their own test suites before reporting back.
+
+**Completion Format:**
+- Agent 1: [DONE/FAILED] + [Brief summary of implementation]
+- Agent 2: [DONE/FAILED] + [Brief summary of implementation]
+- Agent 3: [DONE/FAILED] + [Schema confirmation]
+
+STOP and report back to me once ALL agents have completed their tasks.</div>
     </div>
     <div class="callout callout-info" style="margin-top:4px">
       <div class="callout-icon">ℹ️</div>
