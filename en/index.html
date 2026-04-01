@@ -1075,18 +1075,61 @@ Wait for my approval before continuing.</div>
   <div class="card">
     <div class="card-label"><div class="dot"></div>Sample prompt</div>
     <div class="prompt">
-      <div class="prompt-label">Start brainstorm with DOCX</div>
+      <div class="prompt-label">Start brainstorm with spec</div>
       <div class="prompt-body">@brainstorming
 
-I have a DOCX with requirements for a user authentication system.
-[attach file / paste content]
+I have a spec for [System Name].
+[Attach file or paste spec content]
 
-Help me refine this into a clear design. Ask me questions about:
-- What I'm NOT sure about
-- Edge cases I might have missed
-- Alternative approaches worth considering
+Goal: Refine this into a production-ready design that is clear, unambiguous, and can later be implemented by AI.
 
-Present the design in small chunks for me to validate.</div>
+Follow this process strictly:
+
+1. **Explore & Understand:**
+   - Ask questions ONE AT A TIME to clarify:
+     - System goals
+     - Scale (users, traffic, growth expectations)
+     - Constraints (technology, infrastructure, cost, security)
+   - Identify any missing assumptions
+   - If visualization would help (architecture diagrams, UI), suggest using a Visual Companion
+
+2. **Challenge the Design:**
+   - Identify blind spots in the spec
+   - List real-world edge cases (race conditions, retries, partial failures, etc.)
+   - Analyze potential failure scenarios (downtime, data inconsistency, scaling bottlenecks)
+
+3. **Propose Approaches:**
+   - Suggest 2–3 different approaches
+   - For each approach, include:
+     - High-level architecture
+     - Pros
+     - Cons
+     - When it should be chosen
+
+4. **Iterative Design:**
+   - Break the design into small sections:
+     - Architecture
+     - Data model
+     - API design
+     - Data flow
+     - Error handling
+   - For each section, include:
+     - Problem
+     - Proposed solution
+     - Trade-offs
+   - STOP and wait for my confirmation before moving to the next section
+
+5. **Final Output:**
+   - Produce a complete, refined spec in Markdown format
+   - The spec must be:
+     - Clear and unambiguous
+     - Well-structured
+     - Ready for AI-driven implementation
+
+**Important:**
+- DO NOT write code or implementation
+- DO NOT assume missing details without confirmation
+- Prioritize robustness, scalability, and real-world reliability over simplicity</div>
     </div>
   </div>
 
